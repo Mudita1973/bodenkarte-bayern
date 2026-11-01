@@ -668,10 +668,10 @@ async function osmLoad(force){
   try{
     let js=null;
     let code="";
-    for(const srv of ["https://overpass-api.de/api/interpreter","https://maps.mail.ru/osm/tools/overpass/api/interpreter"]){
-      try{ const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),25000);
+    for(const [srv,ms] of [["https://overpass-api.de/api/interpreter",12000],["https://maps.mail.ru/osm/tools/overpass/api/interpreter",12000],["https://overpass.openstreetmap.fr/api/interpreter",30000]]){
+      try{ const ctl=new AbortController(), t=setTimeout(()=>ctl.abort(),ms);
         const r=await fetch(srv,{method:"POST",signal:ctl.signal,body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}}); clearTimeout(t);
-        if(r.ok){ js=await r.json(); break; } code=r.status; }catch(e){ code="Zeitüberschreitung"; } osmMsg("Server ausgelastet, versuche den zweiten …"); }
+        if(r.ok){ js=await r.json(); break; } code=r.status; }catch(e){ code="Zeitüberschreitung"; } osmMsg("Server ausgelastet, versuche den nächsten …"); }
     if(!js) throw new Error(String(code));
     OSM.meadow.grp.clearLayers(); OSM.pasture.grp.clearLayers(); const n={meadow:0,pasture:0};
     for(const el of js.elements||[]){
