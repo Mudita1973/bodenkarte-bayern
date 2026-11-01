@@ -1,5 +1,5 @@
 import json, gzip, base64, re, shutil, os
-t=open("template8.html").read()
+t=open("template9.html").read()
 css=re.sub(r"url\([^)]*\)","none",open("package/dist/leaflet.css").read())
 js=open("package/dist/leaflet.js").read()
 d=json.load(open("data4.json")); d["kreise"]=json.load(open("kreise.json")); d["ov"]=json.load(open("ov.json"))
