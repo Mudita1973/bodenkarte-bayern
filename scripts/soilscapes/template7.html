@@ -882,7 +882,7 @@ const hlRenderer=L.canvas({padding:0.3, pane:"hlPane"});
 const hlHov=L.polygon([],{renderer:hlRenderer,fill:false,interactive:false,weight:1.2,opacity:.8});
 const hlSel=L.polygon([],{renderer:hlRenderer,fill:false,interactive:false,weight:2.4,opacity:1});
 // Teilfläche (ein Polygon samt Löchern) einer Mehrfachfläche am Punkt
-function partAt(l,ll){ const g=l.getLatLngs(); if(g.length&&L.LineUtil.isFlat(g[0])) return g;
+function partAt(l,ll){ if(!ll) return null; const g=l.getLatLngs(); if(g.length&&L.LineUtil.isFlat(g[0])) return g;
   if(!l._pbb) l._pbb=g.map(rings=>L.latLngBounds(rings[0]));
   for(let i=0;i<g.length;i++){ if(!l._pbb[i].contains(ll)) continue; let ins=false; for(const r of g[i]) if(pipLL(ll.lat,ll.lng,r)) ins=!ins; if(ins) return g[i]; }
   return null; }
