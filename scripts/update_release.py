@@ -6,11 +6,14 @@ for original,versioned in [('loader.js','loader-3.1.js'),('mobile.js','mobile-3.
 ph_name='ph-'+hashlib.sha256((dist/'ph.js').read_bytes()).hexdigest()[:12]+'.js'
 (dist/ph_name).write_bytes((dist/'ph.js').read_bytes())
 index=dist/'index.html';index.write_text(re.sub(r'<script src="ph(?:-[^"]+)?\.js"></script>', '<script src="'+ph_name+'"></script>',index.read_text()))
+interpret_name='interpretation-'+hashlib.sha256((dist/'interpretation.js').read_bytes()).hexdigest()[:12]+'.js'
+(dist/interpret_name).write_bytes((dist/'interpretation.js').read_bytes())
+index.write_text(re.sub(r'<script src="interpretation(?:-[^"]+)?\.js"></script>', '<script src="'+interpret_name+'"></script>',index.read_text()))
 p=dist/'offline-assets.json';manifest=json.loads(p.read_text())
 for name in ['loader-3.1.js','mobile-3.1.js','interpretation.js','spatial.js','ph.js']:
     if name not in manifest['assets']:manifest['assets'].append(name)
 p.write_text(json.dumps(manifest,separators=(',',':')))
-manifest['assets']=[p for p in manifest['assets'] if not re.fullmatch(r'ph-[a-f0-9]+\.js',p)]+[ph_name]
+manifest['assets']=[p for p in manifest['assets'] if not re.fullmatch(r'(?:ph|interpretation)-[a-f0-9]+\.js',p)]+[ph_name,interpret_name]
 p.write_text(json.dumps(manifest,separators=(',',':')))
 assets=manifest['assets'];digest=hashlib.sha256()
 for name in assets:

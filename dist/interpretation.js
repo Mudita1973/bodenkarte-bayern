@@ -8,13 +8,13 @@ function interpretSoilLegends(data){
   const wet=/pseudogley|stagnogley|gley|staunass|stauwasser|vernäss|moor|torf/i.test(l.text);
   if(wet)l.comparison.matches=l.comparison.matches.filter(n=>![6,13,14].includes(n));
   const clay=/lehm|schluff|\bton\b/i.test(l.first_substrate||'');
-  if(clay&&/pseudogley|stagnogley|stauwasser/i.test(l.text)&&!l.comparison.matches.includes(8))l.comparison.matches.push(8);
+  if(clay&&/pseudogley|pseudovergley|stagnogley|stauwasser/i.test(l.text)&&!l.comparison.matches.includes(8))l.comparison.matches.push(8);
   l.comparison.matches.sort((a,b)=>a-b);
  }
 }
 function soilHydrology(l){
  const text=l.text,main=text.split(/gering verbreitet|selten/i)[0];
- const stau=/pseudogley|stagnogley|staunass|stauwasser/i;
+ const stau=/pseudogley|pseudovergley|stagnogley|staunass|stauwasser/i;
  if(stau.test(text))return {value:stau.test(main)?'Hinweis auf zeitweisen Wasserstau':'Zeitweiser Wasserstau in Nebenböden möglich',status:'Abgeleitet / Indiz',reason:(stau.test(main)?'Stauwassergeprägter Bodentyp in der Hauptbeschreibung.':'Pseudogley-/Stauwasserhinweis nur in Nebenböden; nicht auf jeden Punkt der Fläche übertragbar.')+' Deshalb kein Nachweis guter Durchlässigkeit. Die aktuelle Wasserleitfähigkeit ist nicht gemessen.'};
  if(/gley|grundwasser|vega|moor|torf/i.test(text))return {value:'Grundwasser-, Auen- oder Moorhinweis',status:'Abgeleitet / Indiz',reason:'Die Legende beschreibt wassergeprägte Böden. Daraus ergibt sich keine gemessene Durchlässigkeitsklasse und keine heutige Feuchte.'};
  return {value:'Keine Durchlässigkeitsklasse ableitbar',status:'Nicht ableitbar',reason:'Die Legende nennt hier keinen Vernässungshinweis. Auch lehmige Böden können dicht gelagert sein; Bodenstruktur, Unterboden und aktuelle Nutzung müssen gesondert geprüft werden.'};

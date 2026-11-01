@@ -9,7 +9,7 @@ function phUncertainty(lo,hi){return lo<7&&hi>7?'Die Modellspanne umfasst saure 
 function phUrl(point,depth,quantile){
  if(!PH_DEPTHS.includes(depth)||!['Q0.05','Q0.5','Q0.95'].includes(quantile))throw Error('Ungültige pH-Abfrage.');
  const layer='phh2o_'+depth+'_'+quantile,u=new URL(PH_SERVICE),d=.005;
- u.search=new URLSearchParams({map:'/map/phh2o.map',SERVICE:'WMS',VERSION:'1.3.0',REQUEST:'GetFeatureInfo',CRS:'EPSG:4326',BBOX:[point.lat-d,point.lon-d,point.lat+d,point.lon+d].join(','),WIDTH:'3',HEIGHT:'3',I:'1',J:'1',LAYERS:layer,QUERY_LAYERS:layer,STYLES:'',FORMAT:'image/png',INFO_FORMAT:'text/html',FEATURE_COUNT:'1'});
+ u.search=new URLSearchParams({map:'/map/phh2o.map',SERVICE:'WMS',VERSION:'1.3.0',REQUEST:'GetFeatureInfo',CRS:'EPSG:4326',BBOX:[point.lat-d,point.lon-d,point.lat+d,point.lon+d].join(','),WIDTH:'3',HEIGHT:'3',I:'1',J:'1',LAYERS:layer,QUERY_LAYERS:layer,STYLES:'',FORMAT:'image/png',INFO_FORMAT:'text/html',FEATURE_COUNT:'100'});
  return u.href;
 }
 function parsePhResponse(html,layer){
@@ -30,6 +30,15 @@ function phSamplePoint(html,point){
  if(!Number.isFinite(distance)||distance>250)throw Error('Kein ausreichend naher pH-Rasterwert am gewählten Punkt.');
  return {lat,lon,distance_m:Math.round(distance)};
 }
+function nearestPhSample(html,layer,point){
+ const candidates=[];
+ for(const block of html.split(/(?=<span\s+id=["']latitude["'])/i)){
+  try{candidates.push({value:parsePhResponse(block,layer),point:phSamplePoint(block,point)})}catch{}
+ }
+ candidates.sort((a,b)=>a.point.distance_m-b.point.distance_m);
+ if(!candidates.length)throw Error('Kein pH-Modellwert im Rasterumfeld dieses Punkts verfügbar (maximal 250 m zum Rasterzentrum).');
+ return candidates[0];
+}
 function validPhRecord(raw,point=null){
  if(!raw||raw.source!=='ISRIC SoilGrids250m 2.0'||raw.method!=='pH(H2O)'||!PH_DEPTHS.includes(raw.depth)||!raw.point||!Number.isFinite(raw.point.lat)||!Number.isFinite(raw.point.lon)||raw.point.lat<47||raw.point.lat>51||raw.point.lon<8||raw.point.lon>15||![raw.low,raw.median,raw.high].every(n=>Number.isFinite(n)&&n>=0&&n<=14)||raw.low>raw.median||raw.median>raw.high||typeof raw.retrievedAt!=='string'||raw.retrievedAt.length>50||point&&(Math.abs(raw.point.lat-point.lat)>.000001||Math.abs(raw.point.lon-point.lon)>.000001))throw Error('Ungültiger pH-Modell-Datensatz.');
  if(raw.gridPoint&&(![raw.gridPoint.lat,raw.gridPoint.lon,raw.gridPoint.distance_m].every(Number.isFinite)||raw.gridPoint.lat<47||raw.gridPoint.lat>51||raw.gridPoint.lon<8||raw.gridPoint.lon>15||raw.gridPoint.distance_m<0||raw.gridPoint.distance_m>250))throw Error('Ungültige pH-Rasterposition.');
@@ -37,7 +46,7 @@ function validPhRecord(raw,point=null){
 }
 function phRecordsForPoint(point){if(!point)return [];return PH_DEPTHS.map(d=>phCache.get(phKey(point,d))).filter(Boolean)}
 async function fetchPh(point,depth,signal){
- const samples=await Promise.all(['Q0.05','Q0.5','Q0.95'].map(async q=>{const r=await fetch(phUrl(point,depth,q),{signal,mode:'cors',credentials:'omit'});if(!r.ok||r.redirected)throw Error('pH-Dienst antwortet mit HTTP '+r.status);const html=await r.text();return {value:parsePhResponse(html,'phh2o_'+depth+'_'+q),point:phSamplePoint(html,point)}}));
+ const samples=await Promise.all(['Q0.05','Q0.5','Q0.95'].map(async q=>{const r=await fetch(phUrl(point,depth,q),{signal,mode:'cors',credentials:'omit'});if(!r.ok||r.redirected)throw Error('pH-Dienst antwortet mit HTTP '+r.status);const html=await r.text();return nearestPhSample(html,'phh2o_'+depth+'_'+q,point)}));
  if(samples.some(s=>Math.abs(s.point.lat-samples[0].point.lat)>.00001||Math.abs(s.point.lon-samples[0].point.lon)>.00001))throw Error('pH-Quantile beziehen sich auf unterschiedliche Rasterzellen.');
  const numbers=samples.map(s=>s.value);
  return validPhRecord({source:'ISRIC SoilGrids250m 2.0',method:'pH(H2O)',depth,resolution_m:250,point,gridPoint:samples[0].point,low:numbers[0],median:numbers[1],high:numbers[2],retrievedAt:new Date().toISOString()});

@@ -7,6 +7,7 @@
     "separate_layer_per_quantile",
     "WMS_latitude_longitude_axis_order",
     "query_grid_and_sample_distance_validated",
+    "closest_valid_sample_not_first_returned_pixel",
     "median_acid_neutral_basic",
     "uncertainty_crossing_neutral_flagged",
     "no_data_rejected",

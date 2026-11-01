@@ -24,6 +24,7 @@ const wait=async(predicate,label)=>{for(let i=0;i<4000;i++){if(predicate())retur
  assert(count>0&&count<total/2,'Region benötigt nur einen Teil Bayerns');
  assert(run('DATA.features.length<DATA.feature_count'));
  const selected=run("DATA.legends.find(l=>l.code==='426b')");
+ assert(run("soilHydrology(DATA.legends.find(l=>l.code==='422b')).value").includes('Wasserstau'),'Pseudovergleyung ist Stauwasser, nicht Grundwasser');
  assert(!selected.comparison.matches.includes(6),'426b ist kein Profil-6-Treffer');
  assert(selected.comparison.matches.includes(8),'Stauwasserhinweis wird gefunden');
  assert.equal(run('DATA.legends.filter(l=>l.comparison.matches.includes(6)&&/gley|stagnogley|vernäss|moor|torf/i.test(l.text)).length'),0);
