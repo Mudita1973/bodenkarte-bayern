@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "known_app_assets_only",
+    "unrelated_cache_preserved",
+    "old_app_cache_removed_on_activation",
+    "offline_incomplete_before_data_download",
+    "offline_complete_after_all_assets",
+    "cached_navigation_offline",
+    "cached_soil_data_offline",
+    "redirected_auth_response_not_cached",
+    "html_auth_response_not_cached_as_soil_data",
+    "manifest_and_icon_paths"
+  ],
+  "passed": true
+}

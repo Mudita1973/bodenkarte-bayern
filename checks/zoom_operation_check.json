@@ -1,0 +1,14 @@
+{
+  "kind": "instrumented_canvas_mock_not_browser_fps",
+  "zoom_frames": 20,
+  "synchronous_polygon_fills": 0,
+  "script_time_ms": 1.4144999999998618,
+  "metrics": {
+    "completed": 6,
+    "cancelled": 1,
+    "featuresDrawn": 508120,
+    "cachedFrames": 3,
+    "previewFrames": 22,
+    "chunks": 1019
+  }
+}
