@@ -1,5 +1,6 @@
 {
   "features": 175354,
+  "loaded_features": 175354,
   "themes": 5,
   "legends": 696,
   "ready": true,
@@ -12,6 +13,8 @@
   "moor_layer": 8,
   "bookmarks": true,
   "saved_views": true,
+  "app_version": "3.1",
+  "spatial_loading": true,
   "incremental_soil_render": true,
   "interaction_raster_preview": true,
   "offline_packages": true,
@@ -19,6 +22,8 @@
   "mobile_touch": true,
   "pwa": true,
   "hosted_data_parts": true,
+  "ph_model": true,
+  "ph_measurements": false,
   "checks": [
     "template_content_is_inert_before_mount",
     "missing_dom_elements_return_null",

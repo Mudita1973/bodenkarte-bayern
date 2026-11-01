@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "features": 175354,
+  "regional_packs": 75,
+  "all_geometries_identical": true,
+  "all_pack_bounds_enclose_full_geometry": true,
+  "original_legend_unchanged": true
+}

@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "initialRequests": 2,
+  "initialBytes": 1491356,
+  "regionalPacks": 7,
+  "totalPacks": 75,
+  "features": 175354,
+  "example426b": {
+    "profile6": false,
+    "profile8": true
+  },
+  "checks": [
+    "no_full_geometry_at_start",
+    "overview_not_used_for_point_classification",
+    "regional_geometry_only",
+    "secondary_pseudogley_excludes_profile6",
+    "secondary_water_hint_explained",
+    "target_label_separate_from_matching_features",
+    "missing_offline_region_explicit_no_network",
+    "failed_region_retry",
+    "sha256_mismatch_rejected"
+  ]
+}

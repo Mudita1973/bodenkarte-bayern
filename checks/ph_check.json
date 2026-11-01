@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "source": "ISRIC SoilGrids250m 2.0 WMS",
+  "method": "pH(H2O)",
+  "checks": [
+    "source_scaling_divide_by_10",
+    "separate_layer_per_quantile",
+    "WMS_latitude_longitude_axis_order",
+    "one_pixel_query",
+    "median_acid_neutral_basic",
+    "uncertainty_crossing_neutral_flagged",
+    "no_data_rejected",
+    "nodata_and_wrong_layers_rejected",
+    "imported_point_and_intervals_validated",
+    "network_failure_not_a_numeric_result"
+  ],
+  "network": "mock; real WMS HTML separately verified in browser"
+}

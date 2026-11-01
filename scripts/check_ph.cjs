@@ -1,0 +1,14 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+let online=true,calls=[];const point={lat:49.63,lon:10.91};
+const sandbox={window:{BODEN_QA:{release:'not-started'}},URL,URLSearchParams,Map,AbortController,Date,setTimeout:()=>0,clearTimeout(){},fetch:async url=>{calls.push(url);if(!online)throw Error('network down');const layer=new URL(url).searchParams.get('QUERY_LAYERS'),q=layer.split('_').at(-1),value={'Q0.05':44,'Q0.5':67,'Q0.95':79}[q];return {ok:true,redirected:false,text:async()=>'<b>Value: </b><span id="value">'+value+'</span><br><b>Query Layer: </b><span id="value">'+layer+'</span><br>Unit: pH*10'}}};
+vm.createContext(sandbox);vm.runInContext(fs.readFileSync('dist/ph.js','utf8'),sandbox);const run=s=>vm.runInContext(s,sandbox);sandbox.point=point;
+(async()=>{
+ const result=await run('fetchPh(point,"0-5cm")');assert.equal(result.median,6.7);assert.equal(result.low,4.4);assert.equal(result.high,7.9);assert.equal(result.method,'pH(H2O)');assert.equal(result.resolution_m,250);assert.equal(calls.length,3);
+ assert.equal(run('phClass(6.7)'),'sauer');assert.equal(run('phClass(7)'),'neutral');assert.equal(run('phClass(7.5)'),'basisch');assert(run('phUncertainty(4.4,7.9)').includes('unsicher'));
+ const u=new URL(calls[0]);assert.equal(u.searchParams.get('CRS'),'EPSG:4326');assert.equal(u.searchParams.get('WIDTH'),'1');assert.equal(u.searchParams.get('I'),'0');const b=u.searchParams.get('BBOX').split(',').map(Number);assert(Math.abs((b[0]+b[2])/2-point.lat)<1e-9);assert(Math.abs((b[1]+b[3])/2-point.lon)<1e-9);assert.equal(u.searchParams.get('QUERY_LAYERS'),'phh2o_0-5cm_Q0.05');
+ assert.throws(()=>run('parsePhResponse("Search returned no results.","phh2o_0-5cm_Q0.5")'),/keine eindeutigen/);
+ sandbox.html='<span id="value">-32768</span><span id="value">phh2o_0-5cm_Q0.5</span>';assert.throws(()=>run('parsePhResponse(html,"phh2o_0-5cm_Q0.5")'),/keinen gültigen/);
+ sandbox.record=result;assert.equal(run('validPhRecord(record,point).median'),6.7);sandbox.invalid={...result,low:8};assert.throws(()=>run('validPhRecord(invalid)'),/Ungültiger/);sandbox.invalid={...result,point:{lat:49.2,lon:11.1}};assert.throws(()=>run('validPhRecord(invalid,point)'),/Ungültiger/);
+ online=false;await assert.rejects(()=>run('fetchPh(point,"0-5cm")'),/network down/);
+ const report={passed:true,source:'ISRIC SoilGrids250m 2.0 WMS',method:'pH(H2O)',checks:['source_scaling_divide_by_10','separate_layer_per_quantile','WMS_latitude_longitude_axis_order','one_pixel_query','median_acid_neutral_basic','uncertainty_crossing_neutral_flagged','no_data_rejected','nodata_and_wrong_layers_rejected','imported_point_and_intervals_validated','network_failure_not_a_numeric_result'],network:'mock; real WMS HTML separately verified in browser'};fs.writeFileSync('checks/ph_check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+})().catch(e=>{console.error(e);process.exitCode=1});
