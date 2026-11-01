@@ -1,0 +1,43 @@
+# Bodenausgangsgesteinsgruppen der BAG500 (LfU, UmweltAtlas Bayern, Layer bag500_kw), Kurzname -> Bezeichnung
+BAG = {
+"10a-g":"Sandige bis schluffige Auensedimente der Grundgebirgsauen",
+"10a-m":"Sandige bis schluffige Auensedimente der Mainaue",
+"10a-r":"Sandige Auensedimente der Regnitzaue",
+"10a-w":"Sandige bis schluffige Auensedimente der Wörnitz",
+"10b":"Kalkhaltige, sandig-lehmige Auensedimente der Donau und ihrer Alpenzuflüsse",
+"13":"Flussmergel, Hochflutlehm, Alm und anmoorige Bildungen, meist auf carbonatreichem Schotter",
+"14":"Carbonatreiche Schotter, meist mit Hochflutlehm",
+"18":"Sand, z. T. kiesig, untergeordnet mit Mergel- und Tonlagen (Molasse, Deckenschotter)",
+"21":"Geschiebelehm und -mergel (Moränenmaterial), z. T. mit Löss und Lösslehm",
+"31":"Flug- und Terrassensand",
+"42a":"Löss und Lösslehm über mesozoischen Sedimentgesteinen",
+"42b":"Löss und Lösslehm über tertiären Lockersedimenten",
+"49a":"Kalk- und Dolomitstein, Kalkmergel-, Mergelstein",
+"49b":"Kalk- und Dolomitstein, Kalkmergel-, Mergel- und Tonstein",
+"50":"Residuallehm/-ton (Alblehm), Lösslehm",
+"51":"Ton-, Schluff-, Mergel-, Sand- und Dolomitstein, Kalkstein (Keuper)",
+"52a":"Ton- und Mergelstein, (Kalk-)Sandstein, Konglomerat (Flysch, Helvetikum, Molasse)",
+"53":"Amphibolit, Serpentinit, Diabas, Basalt, Gabbro und andere basische Gesteine",
+"54a":"Riesseesedimente (Kalkstein, Mergelstein, Ton)",
+"54b":"Riesauswurfmassen mit Lösslehm und Residuallehm",
+"55":"Gneis, Migmatit, untergeordnet Glimmerschiefer",
+"56":"Granit, untergeordnet Granodiorit, Diorit, Redwitzit",
+"59":"Phyllit, Glimmerschiefer, Ton- und Sandstein, Grauwacke, Quarzit, Tonschiefer",
+"6":"Niedermoortorf",
+"61b":"Sand und Sandstein, untergeordnet Tonstein (Keuper)",
+"61c":"Sandstein, untergeordnet Sandstein-Tonstein-Wechsellagen",
+"61d":"Sandstein, selten Tonstein",
+"61e":"Ton, Schluff, Sand, Kies",
+"61f":"Ton- und Sandstein, Konglomerat, Fanglomerat (Rotliegend)",
+"63a":"Sand (Monheimer Höhensand)",
+"63e":"Sandstein, z. T. mit Flugsandüberdeckung",
+"68":"Kalkstein, Dolomitstein, Mergel und andere alpine Gesteine",
+"7":"Hochmoortorf",
+"70":"Siedlungsfläche größerer Städte",
+"72":"Gewässer",
+"?":"nicht zugeordnet",
+}
+SAUER = {"55","56","59","61c","61d"}
+KRISTALLIN = {"55","56","59"}
+BASISCH = {"53"}
+CARBONAT = {"49a","49b","68","14","10b","54a","21","13","50"}

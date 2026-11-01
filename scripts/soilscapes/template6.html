@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bodenkarte Bayern: Soilscapes-Klassen aus der ÜBK25</title>
+<style>/*LEAFLET_CSS*/</style>
+<style>
+.viz-root{
+  color-scheme:light;
+  --surface-0:#f4f3f0; --surface-1:#fcfcfb; --line:#e2e0da;
+  --text-primary:#0b0b0b; --text-secondary:#52514e; --text-muted:#7a7873;
+  --c6:#1baf7a; --c13:#eb6834; --c16:#2a78d6; --c7:#6250d6; --c8:#eda100; --c14:#e87ba4; --c15:#008300; --c2:#9b2335; --c19:#7a7873;
+  --c0:#e4e2dc; --cX:#cfccc4; --cM:#b3aa9a; --cW:#a7c3d8;
+  --hl:#0b0b0b; --ok:#1d7a4f; --warn:#8a5a00;
+}
+@media (prefers-color-scheme: dark){
+  :root:where(:not([data-theme="light"])) .viz-root{
+    color-scheme:dark;
+    --surface-0:#121211; --surface-1:#1a1a19; --line:#33322f;
+    --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#8f8d86;
+    --c6:#199e70; --c13:#d95926; --c16:#3987e5; --c7:#9085e9; --c8:#c98500; --c14:#d55181; --c15:#008300; --c2:#e66767; --c19:#8f8d86;
+    --c0:#2c2b29; --cX:#3a3936; --cM:#5a5348; --cW:#2f4a5e;
+    --hl:#ffffff; --ok:#5cc28f; --warn:#e0a640;
+  }
+}
+:root[data-theme="dark"] .viz-root{
+  color-scheme:dark;
+  --surface-0:#121211; --surface-1:#1a1a19; --line:#33322f;
+  --text-primary:#f0efec; --text-secondary:#c3c2b7; --text-muted:#8f8d86;
+  --c6:#199e70; --c13:#d95926; --c16:#3987e5; --c7:#9085e9; --c8:#c98500; --c14:#d55181; --c15:#008300; --c2:#e66767; --c19:#8f8d86;
+  --c0:#2c2b29; --cX:#3a3936; --cM:#5a5348; --cW:#2f4a5e;
+  --hl:#ffffff; --ok:#5cc28f; --warn:#e0a640;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.45}
+.viz-root{display:grid;grid-template-columns:400px 1fr;height:100vh;background:var(--surface-0);color:var(--text-primary)}
+aside{overflow-y:auto;background:var(--surface-1);border-right:1px solid var(--line);padding:18px 18px 28px}
+h1{font-size:18px;line-height:1.25;margin:0 0 4px;font-weight:650;letter-spacing:-.01em}
+.sub{color:var(--text-secondary);margin:0 0 12px;font-size:12.5px}
+details.box{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--surface-1)}
+details.box>summary{cursor:pointer;padding:10px 12px;font-weight:600;font-size:13.5px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.box>summary::after{content:"+";color:var(--text-muted);font-weight:400}
+details.box[open]>summary::after{content:"–"}
+details.box>.in{padding:0 12px 12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0;font-size:12.5px;color:var(--text-secondary)}
+.note{font-size:12px;color:var(--text-muted);margin:6px 0}
+input[type=text],input[type=search],select,textarea{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--surface-0);color:var(--text-primary);width:100%}
+textarea{min-height:52px;resize:vertical}
+button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface-0);color:var(--text-primary);padding:5px 10px;border-radius:7px;cursor:pointer}
+button:hover{border-color:var(--text-muted)}
+button.on{background:var(--text-primary);color:var(--surface-1);border-color:var(--text-primary)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:16px;padding:3px 9px 3px 5px;font-size:12.5px;background:var(--surface-0);cursor:pointer;user-select:none}
+.chip .x{color:var(--text-muted);margin-left:2px}
+.chip.off{opacity:.45}
+.sw{width:14px;height:14px;border-radius:4px;display:inline-block;flex:none;border:1px solid rgba(0,0,0,.1)}
+.res{max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:7px;margin-top:6px;display:none}
+.res div{padding:6px 8px;border-bottom:1px solid var(--line);cursor:pointer;font-size:12.5px}
+.res div:hover{background:var(--surface-0)}
+.res small{color:var(--text-muted)}
+.leg{list-style:none;margin:6px 0 0;padding:0}
+.leg li{display:grid;grid-template-columns:16px 1fr auto;gap:8px;align-items:start;padding:4px 0;font-size:12.5px}
+.leg .v{font-variant-numeric:tabular-nums;color:var(--text-secondary);white-space:nowrap}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;padding:3px;gap:3px;background:var(--surface-0);margin:6px 0}
+.seg button{flex:1;border:0;background:transparent;color:var(--text-secondary);padding:6px;border-radius:6px}
+.seg button[aria-pressed="true"]{background:var(--surface-1);color:var(--text-primary);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.lu{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;font-size:12.5px}
+.lu label{display:flex;gap:6px;align-items:center;cursor:pointer}
+#point{font-size:13px}
+#point .ph{color:var(--text-muted)}
+.pt{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface-0)}
+.pt h3{font-size:14px;margin:0 0 2px}
+.pt .meta{font-size:12px;color:var(--text-muted);margin-bottom:6px}
+.prop{border-top:1px solid var(--line);padding:7px 0}
+.prop .pn{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);display:flex;justify-content:space-between;gap:8px}
+.prop .pv{font-weight:600;margin:1px 0}
+.prop .pb{font-size:12px;color:var(--text-secondary)}
+.prop .pr{font-size:11.5px;color:var(--text-muted)}
+.badge{font-size:10.5px;letter-spacing:0;text-transform:none;border:1px solid currentColor;border-radius:9px;padding:0 6px;white-space:nowrap}
+.b-genannt{color:var(--ok)} .b-amtlich{color:var(--c16);font-weight:600} .b-berechnet{color:var(--c7)}
+.kw{width:100%;border-collapse:collapse;font-size:12px;margin-top:3px} .kw td{padding:2px 4px;border-top:1px solid var(--line);vertical-align:top} .kw td:first-child{color:var(--text-secondary);white-space:nowrap} .b-abgeleitet{color:var(--warn)} .b-fehlt{color:var(--text-muted)}
+.crit{font-size:12px;margin:3px 0 6px}
+.crit .cl{display:flex;justify-content:space-between;gap:6px;font-weight:600;cursor:pointer}
+.crit ul{margin:2px 0 0;padding-left:16px;color:var(--text-secondary)}
+.crit li{list-style:none;margin:1px 0}
+.bar{height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin:2px 0}
+.bar i{display:block;height:100%}
+.links{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.links a{font-size:12.5px;border:1px solid var(--line);border-radius:7px;padding:4px 9px;text-decoration:none;color:var(--text-primary);background:var(--surface-1)}
+.list{font-size:12.5px}
+.list .it{border-top:1px solid var(--line);padding:6px 0;display:grid;grid-template-columns:1fr auto;gap:6px}
+.list .it small{color:var(--text-muted);display:block}
+.src{font-size:11.5px;color:var(--text-muted);margin-top:14px}
+a{color:var(--c16)}
+#map{height:100%;background:var(--surface-0)}
+.leaflet-container{background:var(--surface-0);font:inherit}
+.mapwrap{position:relative;height:100%}
+.lupng{image-rendering:pixelated}
+.tip{position:absolute;pointer-events:none;z-index:1000;background:var(--surface-1);color:var(--text-primary);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:12.5px;box-shadow:0 4px 14px rgba(0,0,0,.14);max-width:330px;display:none}
+.tip .t1{font-weight:600}
+.tip .t2{color:var(--text-secondary);margin-top:2px}
+.lbl{white-space:nowrap;font-size:11.5px;color:var(--text-primary);text-shadow:0 0 3px var(--surface-1),0 0 3px var(--surface-1),0 0 2px var(--surface-1)}
+.lbl.city::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--text-primary);margin-right:4px;vertical-align:1px}
+.lbl.land{font-style:italic;color:var(--text-secondary);font-size:12px}
+.leaflet-control-zoom a{background:var(--surface-1)!important;color:var(--text-primary)!important;border-color:var(--line)!important}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--surface-1) 85%,transparent)!important;color:var(--text-muted)!important;font-size:10.5px;max-width:70%}
+.leaflet-control-attribution a{color:var(--text-secondary)}
+.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-muted);z-index:500;pointer-events:none}
+.toast{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:var(--text-primary);color:var(--surface-1);padding:7px 12px;border-radius:8px;font-size:12.5px;z-index:1200;display:none;max-width:80%}
+.copybox{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:11px}
+#printHead{display:none}
+.swipe{position:absolute;top:0;bottom:0;width:0;z-index:800;display:none}
+.swipe .bar{position:absolute;top:0;bottom:0;left:-1.5px;width:3px;background:#fff;box-shadow:0 0 4px rgba(0,0,0,.55)}
+.swipe .knob{position:absolute;top:50%;left:-19px;width:38px;height:38px;margin-top:-19px;border-radius:50%;background:#fff;color:#222;display:flex;align-items:center;justify-content:center;cursor:ew-resize;box-shadow:0 1px 6px rgba(0,0,0,.45);font-size:15px;touch-action:none;user-select:none}
+.swipe .lab{position:absolute;top:10px;white-space:nowrap;font-size:11.5px;background:rgba(255,255,255,.88);color:#222;border-radius:6px;padding:2px 7px}
+.swipe .lab.l{right:10px} .swipe .lab.r{left:10px}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  html,body{height:auto;background:#fff}
+  .viz-root{display:block;height:auto}
+  aside{display:none}
+  .mapwrap{height:560px;width:1040px;page-break-after:always;border:1px solid #999}
+  .leaflet-control-zoom,.toast,.tip,.loading{display:none!important}
+  #printHead{display:block;font:12px system-ui,sans-serif;margin:0 0 4mm}
+  #printHead h2{font-size:16px;margin:0 0 2mm}
+  #printBody{display:block!important;font:11px system-ui,sans-serif;columns:2;column-gap:8mm}
+  #printBody .leg li{break-inside:avoid}
+}
+#printBody{display:none}
+.printing .mapwrap{width:1040px!important;height:560px!important;flex:none!important}
+@media (max-width:860px){
+  .viz-root{grid-template-columns:1fr;grid-template-rows:60vh auto;height:auto}
+  aside{order:2;border-right:0;border-top:1px solid var(--line)}
+  .mapwrap{order:1;height:60vh}
+}
+</style>
+</head>
+<body>
+<div class="viz-root">
+<aside>
+  <h1>Bodenkarte Bayern</h1>
+  <p class="sub">ÜBK25 (LfU Bayern), verglichen mit britischen Soilscapes-Klassen nach dem Dokument „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“. Die Vergleichskategorien zeigen passende Teilmerkmale, keine vollständig nachgewiesene Gleichsetzung.</p>
+
+  <div class="row" style="margin-top:0"><input type="search" id="place" placeholder="Ort suchen, z. B. Bodenmais oder 49.07, 13.10" autocomplete="off"></div>
+  <div class="res" id="placeRes"></div>
+  <p class="note" id="onlineNote" style="display:none"></p>
+
+  <details class="box" open>
+    <summary>Kategorien suchen und vergleichen</summary>
+    <div class="in">
+      <div class="row" style="margin-top:0">Schnellwahl:
+        <span class="chip" data-q="6"><span class="sw" style="background:var(--c6)"></span>6</span>
+        <span class="chip" data-q="13"><span class="sw" style="background:var(--c13)"></span>13</span>
+        <span class="chip" data-q="16"><span class="sw" style="background:var(--c16)"></span>16</span>
+      </div>
+      <input type="search" id="catSearch" placeholder="Kategorie oder ÜBK25-Einheit: Nummer oder Text" autocomplete="off">
+      <div class="res" id="catRes"></div>
+      <div class="chips" id="selChips"></div>
+      <div class="seg" role="group" aria-label="Vergleichsart">
+        <button id="mZ" aria-pressed="true">Zuordnung (eine je Fläche)</button>
+        <button id="mT" aria-pressed="false">Teilmerkmale</button>
+      </div>
+      <div class="row" id="thrRow" style="display:none">
+        <label><input type="radio" name="thr" value="1" checked> alle Merkmale erfüllt</label>
+        <label><input type="radio" name="thr" value="0.75"> mindestens 75 %</label>
+      </div>
+      <p class="note" id="modeNote">Jede Fläche hat genau eine Kategorie nach dem Regelwerk des Dokuments.</p>
+      <ul class="leg" id="legend"></ul>
+      <div class="row"><label><input type="checkbox" id="cUnsure" checked> unsichere Zuordnungen blasser</label></div>
+    </div>
+  </details>
+
+  <details class="box" open>
+    <summary>Darstellung</summary>
+    <div class="in">
+      <div class="row" style="margin-top:0"><label><input type="checkbox" id="cSoil" checked> Bodenfarben</label>
+        <span style="margin-left:auto">Deckkraft</span><input type="range" id="op" min="0.1" max="1" step="0.05" value="0.85" style="width:120px"></div>
+      <div class="row">Hintergrund
+        <select id="basemap" style="width:auto;flex:1">
+          <option value="none">ohne (offline)</option>
+          <option value="topo">Topografisch (basemap.de)</option>
+          <option value="dop">Luftbild Bayern (DOP40)</option>
+          <option value="esri">Luftbild (Esri World Imagery)</option>
+        </select></div>
+      <div class="row"><label><input type="checkbox" id="cOutline"> nur Umrisse (für Luftbild)</label><button id="swipeBtn" aria-pressed="false">Vergleichsregler</button></div>
+      <p class="note">Umrisse zeigen die Bodengrenzen als Linien über dem Hintergrund. Der Vergleichsregler teilt die Karte: links Bodenkarte, rechts nur Hintergrund.</p>
+      <div class="row"><button id="shareBtn">Link zu dieser Ansicht kopieren</button><button id="printBtn">Drucken / als PDF</button><button id="imgBtn">Karte als Bild</button></div>
+      <p class="note" id="shareNote">Der Link enthält Ausschnitt, Kategorien, Vergleichsart, Nutzungsfilter, Hintergrund und den gewählten Punkt.</p>
+      <p class="note">Hintergründe und Ortssuche brauchen Internet. In der Claude-Artifact-Ansicht sind sie gesperrt; dort die Online-Fassung oder die HTML-Datei nutzen. Das Luftbild Bayern sucht sich die passende Bildebene selbst; ist der Dienst nicht erreichbar, erscheint automatisch das Esri-Luftbild, bei der topografischen Karte ersatzweise OpenStreetMap.</p>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>Nutzung filtern</summary>
+    <div class="in">
+      <div class="lu" id="luBoxes"></div>
+      <div class="row"><button id="luAll">alle</button><button id="luNone">keine</button><button id="luGr">nur Grünland, Weide, Heide</button></div>
+      <div class="row"><label><input type="checkbox" id="cMask"> Bodenfarben nur auf gewählter Nutzung</label></div>
+      <div class="row"><label><input type="checkbox" id="cLuLayer"> Nutzung als eigene Farbebene</label></div>
+      <p class="note">Quelle: CORINE Land Cover 5 ha, Stand 2021 (offline enthalten). CORINE trennt Wiesen und Weiden nicht.</p>
+      <div class="row"><button id="osmBtn">Weiden aus OpenStreetMap laden</button><label><input type="checkbox" id="cOsm" checked> anzeigen</label></div>
+      <p class="note" id="osmNote">Lädt ausdrücklich als Weide eingetragene Flächen (OpenStreetMap) im aktuellen Kartenausschnitt, ab Zoomstufe 11. Braucht Internet.</p>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>Statistik je Landkreis</summary>
+    <div class="in">
+      <div class="row" style="margin-top:0">Klasse
+        <select id="stCls" style="width:auto"></select>
+        <label><input type="checkbox" id="stGr"> nur auf Grünland</label></div>
+      <div class="row"><select id="stSort" style="width:auto;flex:1"><option value="a">nach Fläche (km²) sortieren</option><option value="p">nach Anteil am Kreis sortieren</option><option value="n">nach Name sortieren</option></select></div>
+      <div class="list" id="stTable" style="max-height:340px;overflow:auto"></div>
+      <div class="row"><button id="stCsv">Tabelle als CSV</button></div>
+      <p class="note" id="stNote"></p>
+    </div>
+  </details>
+
+  <details class="box" open id="pointBox">
+    <summary>Ausgewählter Punkt</summary>
+    <div class="in" id="point"><span class="ph">Klick in die Karte: Bodeneigenschaften mit Belegstatus, Moorbodenprüfung, Vergleichskategorien, Höhe, Nutzung und Links.</span></div>
+  </details>
+
+  <details class="box">
+    <summary>Gespeichert: Suchstände und Merkpunkte</summary>
+    <div class="in">
+      <div class="row" style="margin-top:0"><input type="text" id="stName" placeholder="Name für den aktuellen Suchstand" style="flex:1;width:auto"><button id="stSave">speichern</button></div>
+      <div class="list" id="stList"></div>
+      <div class="row" style="margin-top:12px;font-weight:600;color:var(--text-primary)">Merkpunkte</div>
+      <div class="list" id="mpList"></div>
+      <div class="row"><button id="exGeo">Merkpunkte als GeoJSON</button><button id="exCsv">als CSV</button><button id="exAll">alles sichern</button></div>
+      <div class="row"><label style="cursor:pointer"><input type="file" id="imp" accept=".json,.geojson,application/json" style="display:none"><span style="text-decoration:underline">Sicherung oder GeoJSON importieren</span></label></div>
+      <p class="note" id="storeNote">Gespeichert wird im Browser dieses Geräts. Für eine dauerhafte Sicherung „alles sichern“ nutzen.</p>
+      <div id="copyWrap" style="display:none"><p class="note">Export als Text (falls der Download blockiert ist):</p><textarea class="copybox" id="copyBox" readonly></textarea><div class="row"><button id="copyBtn">kopieren</button><button id="copyClose">schließen</button></div></div>
+    </div>
+  </details>
+
+  <details class="box">
+    <summary>Methode, Belegstatus, Grenzen</summary>
+    <div class="in" style="font-size:12.5px;color:var(--text-secondary)">
+      <p><b>Belegstatus je Eigenschaft:</b> <span class="badge b-genannt">in Legende genannt</span> steht wörtlich in der amtlichen ÜBK25-Legende (Textstelle wird gezeigt). <span class="badge b-abgeleitet">abgeleitet</span> wurde aus genannten Merkmalen erschlossen, etwa „sauer“ aus Granit; die Regel steht dabei. <span class="badge b-fehlt">keine Angabe</span>: die Legende sagt dazu nichts. <span class="badge b-amtlich">amtlich (LfU)</span> sind Bodenkennwerte und Karten des LfU: Basensättigung, Grobboden, Carbonat, Humus und Säurepuffer je Legendeneinheit (getrennt Wald und Acker/Grünland), die Bodenausgangsgesteinskarte BAG500 und die ÜMBK25. <span class="badge b-berechnet">berechnet</span>: Hangneigung aus dem DGM200. Gemessene pH-Werte gibt es landesweit nicht; die pH-Stufe wird aus der Basensättigung genähert (unter 20 % sehr sauer, 20 bis 50 % sauer, ab 50 % schwach sauer bis neutral). Die Basensättigung unter Acker und Grünland ist durch Kalkung meist deutlich höher, deshalb zählt der Waldwert, wo es einen gibt.</p>
+      <p><b>Zuordnung, Stand 2:</b> Ein zweiter, unabhängiger Prüfdurchgang hat 396 Einheiten gegen das Dokument geprüft (87 % der geprüften Fläche zutreffend, 12 % fraglich, 0,4 % falsch). Alle 13 als falsch erkannten und 36 weitere fragliche Fälle wurden korrigiert, unter anderem: Auengleye 99a bis 99c sind kartierte Böden statt „Siedlung“, Pseudogley-Braunerden zählen wie im Dokument zu Klasse 8, sandige podsolige Braunerden zu Klasse 14, Regosole aus Basalt oder Diabas zu Klasse 7.</p>
+      <p><b>Einzelfall 574a (1.192 km², Spessart):</b> nach 2.708 Kartierpunkten des LfU ist der Oberboden zu 82 % Sand und nur zu 13 % Lehm; daher Klasse 14 (unsicher) statt 13. Die Soilscapes-Definition trennt 13 („loamy“) und 14 („sandy, some loamy“) über die Bodenart. Für 13 hätten Buntsandstein und Steillage gesprochen.</p>
+      <p><b>Moorbodenprüfung:</b> Abgleich mit der amtlichen Übersichtsmoorbodenkarte ÜMBK25 des LfU (UmweltAtlas Bayern, Datensatz mbk25_2016). Die ÜMBK25 besteht aus 20 ÜBK25-Legendeneinheiten, die sie nahezu vollständig übernimmt (z. B. 3.323 von 3.327 Flächen der Einheit 78). Die Prüfung erfolgt deshalb über die Legendeneinheit; bei wenigen Einzelflächen kann sie abweichen. Die frühere Prüfung allein aus dem Legendentext stimmte bei allen 20 Einheiten überein, hatte aber zusätzlich Einheit 70a markiert.</p>
+      <p><b>Zuordnung:</b> jede Legendeneinheit genau eine Kategorie (Hauptboden, Ausgangsgestein, Ausschlussbegriffe). Klasse 16 nur ab 700 m (Einheit 61a) bzw. 800 m (Einheit 75c, unsicher).</p>
+      <p><b>Teilmerkmale:</b> je Kategorie die Merkmale aus dem Dokument, geprüft an der Legende, der mittleren Höhe und den amtlichen Kennwerten (Basensättigung, Grobboden, Humus), am Gestein (BAG500) und an der Hangneigung. Eine Fläche kann mehrere Kategorien teilweise oder ganz erfüllen; Überschneidungen sind gestreift.</p>
+      <p><b>Höhe am Punkt:</b> DGM200, für die Webkarte auf etwa 270 m vergröbert. <b>Nutzung am Punkt:</b> CORINE 5 ha, Stand 2021, etwa 85 m Raster.</p>
+      <p><b>Generalisierung:</b> Flächen unter 15 ha sind dem Nachbarn zugeschlagen, Linien auf etwa 120 m vereinfacht. Flächenangaben stammen aus den ungeneralisierten Daten. <span id="detailNote">Ab Zoomstufe 12 lädt die Karte die Originalflächen nach (auf etwa 12 m vereinfacht; 99,6 % Übereinstimmung mit der ÜBK25 an 32.511 Prüfpunkten, generalisiert 81,8 %). In der Landesansicht (unter Zoomstufe 9) zeigt sie eine stark vereinfachte Übersicht.</span></p>
+      <p><b>Statistik je Landkreis:</b> ÜBK25-Flächen über ihren Schwerpunkt den Landkreisen (LfU, Stand der Verwaltungsgrenzen im UmweltAtlas) zugeordnet; der Grünlandanteil stammt aus CORINE und ist je Legendeneinheit gemittelt. Die Landessummen weichen je Kategorie um 1 bis 4 % von der exakten Flächenbilanz ab, weil der Dienst die Flächen vereinfacht liefert. Gewässer sind ausgelassen, weil große Gewässerflächen als ein Objekt geführt werden.</p>
+      <p><b>Standortauskunft:</b> Der BayernAtlas wird direkt an der Koordinate geöffnet. Der UmweltAtlas Bayern bietet keinen dokumentierten Direktlink zu einer Koordinate; dort die angezeigte UTM-Koordinate in die Koordinatensuche einfügen.</p>
+    </div>
+  </details>
+
+  <p class="src">Boden: ÜBK25 © Bayerisches Landesamt für Umwelt, <a href="https://www.lfu.bayern.de/boden/karten_daten/uebk25/index.htm">www.lfu.bayern.de</a>, CC BY 4.0. Nutzung: CORINE Land Cover 5 ha 2021, Höhe: DGM200, Hintergrund topografisch: basemap.de, alle © GeoBasis-DE / <a href="http://www.bkg.bund.de">BKG</a> 2026 (Daten verändert). Luftbild Bayern: © Bayerische Vermessungsverwaltung. Moorböden: ÜMBK25, Bodenkennwerte und Bodenausgangsgesteinskarte BAG500 © Bayerisches Landesamt für Umwelt (UmweltAtlas Bayern). Landkreisgrenzen: UmweltAtlas Bayern, Geobasisdaten © Bayerische Vermessungsverwaltung. Ortssuche und Weiden: © OpenStreetMap-Mitwirkende (ODbL). Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>
+</aside>
+<div id="printHead"><h2>Bodenkarte Bayern: Soilscapes-Vergleich</h2><div id="phInfo"></div></div>
+<div class="mapwrap"><div id="map"></div><div class="swipe" id="swipe"><div class="bar"></div><span class="lab l">Bodenkarte</span><span class="lab r">Hintergrund</span><div class="knob" id="swipeKnob" title="ziehen">⇆</div></div><div class="loading" id="loading">Karte wird aufgebaut …</div><div class="tip" id="tip"></div><div class="toast" id="toast"></div></div>
+</div>
+<div id="printBody"></div>
+
+<script>/*LEAFLET_JS*/</script>
+<script>
+"use strict";
+let D=null; const D_GZ="/*DATAGZ*/";
+async function loadData(){
+  const bin=atob(D_GZ), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+  const st=new Blob([u]).stream().pipeThrough(new DecompressionStream("gzip"));
+  return JSON.parse(await new Response(st).text());
+}
+const PAGES_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/";
+const CLS = [
+  {k:"13", name:"Gut durchlässige, saure Lehmböden über Fels"},
+  {k:"16", name:"Sehr saure Lehmböden im Bergland mit nasser Torfauflage"},
+  {k:"6",  name:"Gut durchlässige, schwach saure Lehmböden"},
+  {k:"7",  name:"Gut durchlässige, schwach saure, basenreiche Böden"},
+  {k:"8",  name:"Schwach saure Lehm- und Tonböden mit gehemmter Entwässerung"},
+  {k:"14", name:"Gut durchlässige, sehr saure Sand- und Lehmböden"},
+  {k:"15", name:"Von Natur aus feuchte, sehr saure Sand- und Lehmböden"},
+  {k:"2",  name:"Flachgründige, sehr saure Torfböden über Gestein"},
+  {k:"19", name:"Langsam durchlässige, feuchte, sehr saure Berglandböden mit Torfoberfläche"},
+];
+const CL = Object.fromEntries(CLS.map(c=>[c.k,c]));
+const BASE = {"0":"Keine der Vergleichskategorien","M":"Moorböden (Hochmoor laut Dokument ausgeschlossen)","X":"Siedlung, Abbau, Aufschüttung","W":"Gewässer"};
+const LU = [
+  {c:1,n:"Acker",col:"#e6d39a"},{c:2,n:"Sonderkulturen, Mischnutzung",col:"#cfae7a"},{c:3,n:"Grünland (Wiesen, Weiden)",col:"#8fcf7a"},
+  {c:4,n:"Natürliches Grünland",col:"#c2e3a0"},{c:5,n:"Heide, Moorheide",col:"#b58db0"},{c:6,n:"Wald",col:"#3f7a4a"},
+  {c:7,n:"Wald-Strauch-Übergang",col:"#8aae78"},{c:8,n:"Feuchtflächen, Moore",col:"#6fb0c2"},{c:9,n:"Siedlung, Verkehr",col:"#9a9a9a"},
+  {c:10,n:"Wasser",col:"#86c0e6"},{c:11,n:"Fels, Gletscher, spärliche Vegetation",col:"#d2d2d2"}];
+const LUN = Object.fromEntries(LU.map(x=>[x.c,x]));
+const UNIT_COLS = ["#0e7c86","#a15c00","#5b3c88","#b0303f","#3d6b2f","#c05a8a"];
+const root = document.querySelector(".viz-root");
+const css = n => getComputedStyle(root).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+const fmt = (n,d=0) => Number(n).toLocaleString("de-DE",{maximumFractionDigits:d,minimumFractionDigits:d});
+const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// ---------------- Zustand ----------------
+const S = {sel:["6","13","16"], units:[], mode:"zuordnung", thr:1, soil:true, op:0.85, unsureDim:true, outline:false, swipe:false,
+           lu:new Set(LU.map(x=>x.c)), luMask:false, luLayer:false, base:"none", osm:true};
+
+// ---------------- Speicher: Browser + Claude-Konto (nur Artifact-Ansicht) ----------------
+const STORE_KEY = "bodenkarte_bayern_v3";
+let MEM = {suche:[], punkte:[]}, CLOUD=null, cloudBusy=false, cloudAgain=false;
+function loadStore(){ try{ const t=localStorage.getItem(STORE_KEY); if(t) MEM=Object.assign({suche:[],punkte:[]},JSON.parse(t)); }catch(e){ $("storeNote").textContent="Der Browser erlaubt hier keine Speicherung. Suchstände und Merkpunkte gelten nur bis zum Schließen; „alles sichern“ nutzen."; } }
+function mergeInto(dst, src){ for(const s of (src.suche||[])) if(!dst.suche.find(x=>x.id===s.id)) dst.suche.push(s); for(const p of (src.punkte||[])) { const i=dst.punkte.findIndex(x=>x.id===p.id); if(i<0) dst.punkte.push(p); } (dst.deleted=dst.deleted||[]); for(const d of (src.deleted||[])) if(!dst.deleted.includes(d)) dst.deleted.push(d); dst.suche=dst.suche.filter(x=>!dst.deleted.includes(x.id)); dst.punkte=dst.punkte.filter(x=>!dst.deleted.includes(x.id)); return dst; }
+function saveStore(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(MEM)); }catch(e){} cloudSave(); }
+function unwrap(snap){ if(!snap) return null; if(typeof snap.data==="function") return snap.data(); if(snap.exists===false) return null; if(snap.data!==undefined && (snap.data===null||typeof snap.data==="object")) return snap.data; return snap; }
+async function cloudInit(){
+  if(!(window.claude && window.claude.use)) return;
+  try{
+    const db=await window.claude.use("db"), user=await window.claude.use("user"); if(!db||!user||!user.id) return;
+    const uid=await user.id(); if(!uid) return;
+    const doc=db.collection("data/users/"+uid).doc("bodenkarte");
+    const remote=unwrap(await doc.get());
+    if(remote && remote.json){ mergeInto(MEM, JSON.parse(remote.json)); try{ localStorage.setItem(STORE_KEY, JSON.stringify(MEM)); }catch(e){} }
+    CLOUD=doc; $("storeNote").textContent="Gespeichert in deinem Claude-Konto (auf all deinen Geräten in dieser Artifact-Ansicht) und zusätzlich im Browser. Die HTML-Datei aus dem Ordner speichert getrennt; zum Übertragen „alles sichern“ und importieren.";
+    drawMerk(); renderLists(); cloudSave();
+  }catch(e){ /* kein Konto-Speicher: Browser-Speicher bleibt */ }
+}
+async function cloudSave(){
+  if(!CLOUD) return; if(cloudBusy){ cloudAgain=true; return; }
+  cloudBusy=true;
+  try{ await CLOUD.set({json:JSON.stringify(MEM), stand:new Date().toISOString()}); }catch(e){ toast("Speichern im Konto fehlgeschlagen, im Browser gesichert"); }
+  cloudBusy=false; if(cloudAgain){ cloudAgain=false; cloudSave(); }
+}
+function markDeleted(id){ (MEM.deleted=MEM.deleted||[]).push(id); }
+
+// ---------------- Geometrie dekodieren ----------------
+function decode(b64, tr){ tr=tr||D.tr;
+  const bin=atob(b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+  let p=0; const rd=()=>{let r=0,s=0,b;do{b=u[p++];r+=(b&0x7f)*Math.pow(2,s);s+=7;}while(b&0x80);return (r%2)?-(r+1)/2:r/2;};
+  const [sx,sy]=tr.scale,[tx,ty]=tr.translate;
+  const nA=rd(), arcs=new Array(nA);
+  for(let a=0;a<nA;a++){ const n=rd(),pts=new Array(n); let x=0,y=0; for(let i=0;i<n;i++){x+=rd();y+=rd();pts[i]=[y*sy+ty,x*sx+tx];} arcs[a]=pts; }
+  const nG=rd(), G=new Array(nG);
+  for(let g=0;g<nG;g++){ const nP=rd(),polys=[]; for(let q=0;q<nP;q++){ const nR=rd(),rings=[]; for(let r=0;r<nR;r++){ const nI=rd(),ring=[]; for(let j=0;j<nI;j++){ const i=rd(); let a=i>=0?arcs[i]:arcs[~i].slice().reverse(); if(ring.length) a=a.slice(1); for(const pt of a) ring.push(pt);} rings.push(ring);} polys.push(rings);} G[g]=polys; }
+  return G;
+}
+function decodePNG(b64, cb){
+  const img=new Image();
+  img.onload=()=>{ const c=document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); cb(x.getImageData(0,0,img.width,img.height).data, img.width, img.height); };
+  img.src="data:image/png;base64,"+b64;
+}
+
+// ---------------- Karte ----------------
+const map = L.map("map",{preferCanvas:true, zoomSnap:0.25, minZoom:6.5, maxZoom:18});
+map.attributionControl.setPrefix(false).addAttribution('ÜBK25 © LfU Bayern, CC BY 4.0 · CLC5, DGM200 © GeoBasis-DE / <a href="http://www.bkg.bund.de">BKG</a> 2026 (Daten verändert)');
+map.createPane("luPane").style.zIndex=430;
+map.createPane("osmPane").style.zIndex=440;
+map.createPane("labelPane").style.zIndex=650; map.getPane("labelPane").style.pointerEvents="none";
+const renderer = L.canvas({padding:0.4, tolerance:2});
+const osmRenderer = L.canvas({padding:0.4, pane:"osmPane"});
+const tip=$("tip");
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.style.display="block"; clearTimeout(toast._t); toast._t=setTimeout(()=>t.style.display="none",3500); }
+
+// Canvas-Muster (Streifen) für Leaflet
+const origFS = L.Canvas.prototype._fillStroke;
+L.Canvas.prototype._fillStroke = function(ctx, layer){
+  const o=layer.options;
+  if(o.pattern && o.fill){
+    ctx.globalAlpha=o.fillOpacity; ctx.fillStyle=o.pattern; ctx.fill(o.fillRule||"evenodd");
+    if(o.stroke && o.weight!==0){ if(ctx.setLineDash) ctx.setLineDash(o._dashArray||[]); ctx.globalAlpha=o.opacity; ctx.lineWidth=o.weight; ctx.strokeStyle=o.color; ctx.lineCap=o.lineCap; ctx.lineJoin=o.lineJoin; ctx.stroke(); }
+    return;
+  }
+  return origFS.call(this, ctx, layer);
+};
+const patCache={};
+function stripes(cols){
+  const key=cols.join(","); if(patCache[key]) return patCache[key];
+  const n=cols.length, w=7*n, c=document.createElement("canvas"); c.width=c.height=w;
+  const x=c.getContext("2d");
+  for(let i=-n;i<2*n;i++){ x.fillStyle=cols[((i%n)+n)%n]; x.beginPath(); x.moveTo(i*7,0); x.lineTo(i*7+7,0); x.lineTo(i*7+7-w,w); x.lineTo(i*7-w,w); x.closePath(); x.fill(); }
+  return patCache[key]=x.createPattern(c,"repeat");
+}
+
+// ---------------- Kategorien ----------------
+function catColor(id){ if(id.startsWith("u:")){ const i=S.units.indexOf(id.slice(2)); return UNIT_COLS[i%UNIT_COLS.length]; } return css("--c"+id); }
+function catLabel(id){ return id.startsWith("u:") ? "Einheit "+id.slice(2) : "Klasse "+id; }
+function score(K,c){ const n=D.crit[c].length, b=K.m[c]||0; let k=0; for(let j=0;j<n;j++) if(b&(1<<j)) k++; return k/n; }
+function matches(K,c){ return S.mode==="zuordnung" ? K.k===c : score(K,c)>=S.thr-1e-9; }
+function keyCats(ki){ const K=D.keys[ki], out=[]; for(const c of S.sel) if(matches(K,c)) out.push(c); for(const u of S.units) if(K.leg===u) out.push("u:"+u); return out; }
+function luShare(K){ if(!S.luMask) return 1; let a=0,t=0; for(let c=0;c<K.lu.length;c++){ t+=K.lu[c]; if(S.lu.has(c)) a+=K.lu[c]; } return t?a/t:0; }
+function catArea(id){ let a=0; for(const K of D.keys){ const hit = id.startsWith("u:") ? K.leg===id.slice(2) : matches(K,id); if(hit) a+=K.a*luShare(K); } return a; }
+
+// ---------------- Stil ----------------
+let layers=[], selLayer=null, hovLayer=null;
+function baseColor(k){ return (k==="M"||k==="X"||k==="W") ? css("--c"+k) : css("--c0"); }
+function styleFor(l){
+  const K=D.keys[l.ki], cats=keyCats(l.ki);
+  const st={stroke:false, weight:0, fill:true, pattern:null, interactive:true, dashArray:null};
+  if(S.outline){ st.fill=false; st.stroke=true;
+    if(cats.length){ st.color=catColor(cats[0]); st.weight=cats.length>1?2.6:2; st.opacity=S.soil?1:0; if(S.unsureDim && S.mode==="zuordnung" && !K.s) st.dashArray="5 4"; }
+    else { st.color=S.base==="none"?css("--c0"):"#ffffff"; st.weight=0.6; st.opacity=S.soil?(S.base==="none"?0.9:0.55):0; }
+    return st; }
+  if(cats.length===0){ st.fillColor=baseColor(K.k); st.fillOpacity=S.soil?Math.min(1,S.op):0; }
+  else if(cats.length===1){ st.fillColor=catColor(cats[0]); st.fillOpacity=S.soil?S.op:0; }
+  else { st.pattern=stripes(cats.map(catColor)); st.fillColor=catColor(cats[0]); st.fillOpacity=S.soil?S.op:0; }
+  if(cats.length && S.unsureDim && S.mode==="zuordnung" && !K.s) st.fillOpacity*=0.5;
+  if(S.base!=="none" && cats.length===0 && st.fillOpacity>0) st.fillOpacity*=0.35;
+  if(document.body.classList.contains("printing") && !st.pattern && st.fillOpacity>0){ st.fillColor=blendHex(st.fillColor, st.fillOpacity); st.fillOpacity=1; }
+  return st;
+}
+function blendHex(c,a){ const m=/^#?([0-9a-f]{6})$/i.exec(String(c).trim()); if(!m) return c; const n=parseInt(m[1],16); const mix=(v)=>Math.round(v*a+255*(1-a)); const r=mix(n>>16), g=mix((n>>8)&255), b=mix(n&255); return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1); }
+function allLayers(){ return ovLayers.concat(layers); }
+function restyle(){ for(const l of allLayers()) l.setStyle(styleFor(l)); drawRings(); buildLegend(); drawLu(); if(typeof updateHash==="function") updateHash(); if(typeof detailRestyle==="function") detailRestyle(); }
+
+// ---------------- Legende, Auswahl ----------------
+function buildLegend(){
+  const ul=$("legend"); ul.innerHTML="";
+  const ids=[...S.sel, ...S.units.map(u=>"u:"+u)];
+  for(const id of ids){
+    const li=document.createElement("li"); const isU=id.startsWith("u:");
+    const name=isU ? (D.units[id.slice(2)]||{text:""}).text : CL[id].name;
+    li.innerHTML=`<span class="sw" style="background:${catColor(id)}"></span><span><b>${catLabel(id)}</b><br><span style="color:var(--text-muted)">${esc(name.length>110?name.slice(0,108)+" …":name)}</span></span><span class="v">${fmt(catArea(id))} km²</span>`;
+    ul.appendChild(li);
+  }
+  const rest=document.createElement("li");
+  rest.innerHTML=`<span class="sw" style="background:${css("--c0")}"></span><span style="color:var(--text-muted)">übrige Flächen${S.mode==="teil"?"":" sowie Moor, Siedlung, Wasser in eigenen Grautönen"}</span><span></span>`;
+  ul.appendChild(rest);
+  if(S.luMask){ const n=document.createElement("li"); n.innerHTML=`<span></span><span class="note" style="margin:0">Flächen in km² nur auf der gewählten Nutzung.</span><span></span>`; ul.appendChild(n); }
+  if(ids.length>1){ const n=document.createElement("li"); n.innerHTML=`<span class="sw" style="background-image:repeating-linear-gradient(45deg,${catColor(ids[0])} 0 4px,${catColor(ids[1])} 4px 8px)"></span><span style="color:var(--text-muted)">gestreift: Fläche erfüllt mehrere gewählte Kategorien</span><span></span>`; ul.appendChild(n); }
+  // Chips
+  const ch=$("selChips"); ch.innerHTML="";
+  for(const id of ids){ const s=document.createElement("span"); s.className="chip"; s.innerHTML=`<span class="sw" style="background:${catColor(id)}"></span>${catLabel(id)}<span class="x">×</span>`; s.onclick=()=>removeCat(id); ch.appendChild(s); }
+  document.querySelectorAll("[data-q]").forEach(el=>el.classList.toggle("off", !S.sel.includes(el.dataset.q)));
+}
+function addCat(id){ if(id.startsWith("u:")){ const u=id.slice(2); if(!S.units.includes(u)) S.units.push(u); } else if(!S.sel.includes(id)) S.sel.push(id); restyle(); }
+function removeCat(id){ if(id.startsWith("u:")) S.units=S.units.filter(u=>u!==id.slice(2)); else S.sel=S.sel.filter(x=>x!==id); restyle(); }
+document.querySelectorAll("[data-q]").forEach(el=>el.onclick=()=>{ const k=el.dataset.q; S.sel.includes(k)?removeCat(k):addCat(k); });
+
+// Suche nach Kategorie oder Legendeneinheit
+$("catSearch").addEventListener("input", e=>{
+  const q=e.target.value.trim().toLowerCase(), box=$("catRes"); box.innerHTML="";
+  if(!q){ box.style.display="none"; return; }
+  const hits=[];
+  for(const c of CLS){ if(c.k===q || ("klasse "+c.k).startsWith(q) || c.name.toLowerCase().includes(q)) hits.push({id:c.k, t:`<b>Klasse ${c.k}</b> ${esc(c.name)}`}); }
+  for(const [leg,u] of Object.entries(D.units)){
+    if(leg.toLowerCase()===q || leg.toLowerCase().startsWith(q) || u.text.toLowerCase().includes(q)) hits.push({id:"u:"+leg, t:`<b>Einheit ${esc(leg)}</b> <small>${esc(u.text.slice(0,120))}</small>`});
+    if(hits.length>40) break;
+  }
+  box.innerHTML = hits.length ? hits.map(h=>`<div data-id="${esc(h.id)}">${h.t}</div>`).join("") : `<div class="ph" style="cursor:default">kein Treffer</div>`;
+  box.style.display="block";
+  box.querySelectorAll("[data-id]").forEach(d=>d.onclick=()=>{ addCat(d.dataset.id); box.style.display="none"; $("catSearch").value=""; });
+});
+
+function setMode(m){ S.mode=m; $("mZ").setAttribute("aria-pressed",m==="zuordnung"); $("mT").setAttribute("aria-pressed",m==="teil"); $("thrRow").style.display=m==="teil"?"flex":"none";
+  $("modeNote").textContent = m==="zuordnung" ? "Jede Fläche hat genau eine Kategorie nach dem Regelwerk des Dokuments." : "Flächen erscheinen bei jeder Kategorie, deren Merkmale sie erfüllen. Mehrfachtreffer sind gestreift. Das zeigt passende Teilmerkmale, keine nachgewiesene Gleichsetzung.";
+  restyle(); }
+$("mZ").onclick=()=>setMode("zuordnung"); $("mT").onclick=()=>setMode("teil");
+document.querySelectorAll("input[name=thr]").forEach(r=>r.onchange=()=>{ S.thr=+r.value; restyle(); });
+$("cUnsure").onchange=e=>{ S.unsureDim=e.target.checked; restyle(); };
+$("cSoil").onchange=e=>{ S.soil=e.target.checked; restyle(); };
+$("op").oninput=e=>{ S.op=+e.target.value; for(const l of allLayers()) l.setStyle(styleFor(l)); detailRestyle(); };
+
+// ---------------- Markierungskreise (sehr kleine Vorkommen) ----------------
+const ringGrp=L.layerGroup();
+function drawRings(){ ringGrp.clearLayers(); if(S.mode!=="zuordnung"||!S.soil) return;
+  for(const [k,la,lo,a] of D.small){ if(!S.sel.includes(k)) continue; L.circleMarker([la,lo],{renderer, radius:a>=1?11:8, color:css("--c"+k), weight:2.2, opacity:.95, fill:false, interactive:false}).addTo(ringGrp); } }
+
+// ---------------- Nutzung (Raster) ----------------
+let LUD=null, luOverlay=null, luURL=null;
+function luBounds(){ return D.lu.b; }
+function drawLu(){
+  if(luOverlay){ map.removeLayer(luOverlay); luOverlay=null; } if(luURL){ URL.revokeObjectURL(luURL); luURL=null; }
+  if(!(S.luMask||S.luLayer)) return;
+  if(!LUD){ ensureLU(drawLu); return; }
+  const {d,w,h}=LUD, c=document.createElement("canvas"); c.width=w; c.height=h;
+  const x=c.getContext("2d"), img=x.createImageData(w,h), o=img.data;
+  const surf=hex(css("--surface-0")), cols={}; for(const L_ of LU) cols[L_.c]=hex(L_.col);
+  for(let i=0,p=0;i<d.length;i++,p+=4){ const v=d[i]; if(!v) continue;
+    const on=S.lu.has(v);
+    if(S.luLayer && on){ const cc=cols[v]; o[p]=cc[0];o[p+1]=cc[1];o[p+2]=cc[2];o[p+3]=S.luMask?255:150; }
+    else if(S.luMask && !on){ o[p]=surf[0];o[p+1]=surf[1];o[p+2]=surf[2];o[p+3]=225; } }
+  x.putImageData(img,0,0);
+  c.toBlob(b=>{ luURL=URL.createObjectURL(b); luOverlay=L.imageOverlay(luURL,luBounds(),{pane:"luPane",interactive:false,className:"lupng"}).addTo(map); },"image/png");
+}
+function hex(h){ h=h.replace("#",""); if(h.length===3) h=h.split("").map(c=>c+c).join(""); return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]; }
+function buildLuBoxes(){ const b=$("luBoxes"); b.innerHTML="";
+  for(const x of LU){ const l=document.createElement("label"); l.innerHTML=`<input type="checkbox" ${S.lu.has(x.c)?"checked":""}><span class="sw" style="background:${x.col}"></span>${x.n}`; l.querySelector("input").onchange=e=>{ e.target.checked?S.lu.add(x.c):S.lu.delete(x.c); restyle(); }; b.appendChild(l); } }
+$("luAll").onclick=()=>{ S.lu=new Set(LU.map(x=>x.c)); buildLuBoxes(); restyle(); };
+$("luNone").onclick=()=>{ S.lu=new Set(); buildLuBoxes(); restyle(); };
+$("luGr").onclick=()=>{ S.lu=new Set([3,4,5]); S.luMask=true; $("cMask").checked=true; buildLuBoxes(); restyle(); };
+$("cMask").onchange=e=>{ S.luMask=e.target.checked; restyle(); };
+$("cLuLayer").onchange=e=>{ S.luLayer=e.target.checked; restyle(); };
+
+// Rasterwert an einer Koordinate (Web-Mercator-Raster)
+function rasterAt(R, latlng){
+  if(!R) return null; const b=R.bounds;
+  const p=L.CRS.EPSG3857.project(latlng), p0=L.CRS.EPSG3857.project(L.latLng(b[1][0],b[0][1])), p1=L.CRS.EPSG3857.project(L.latLng(b[0][0],b[1][1]));
+  const fx=(p.x-p0.x)/(p1.x-p0.x), fy=(p0.y-p.y)/(p0.y-p1.y);
+  if(fx<0||fx>=1||fy<0||fy>=1) return null;
+  return Math.floor(fy*R.h)*R.w+Math.floor(fx*R.w);
+}
+let DEMD=null;
+function ensureRaster(kind, cb){
+  const R=kind==="lu"?LUD:DEMD; if(R){ cb&&cb(); return; }
+  const q=ensureRaster.q||(ensureRaster.q={}); if(q[kind]){ if(cb) q[kind].push(cb); return; } q[kind]=cb?[cb]:[];
+  const src=kind==="lu"?D.lu:D.dem;
+  decodePNG(src.png,(d,w,h)=>{
+    if(kind==="lu"){ const a=new Uint8Array(w*h); for(let i=0,p=0;i<a.length;i++,p+=4) a[i]=d[p]; LUD={d:a,w,h,bounds:src.b}; }
+    else { const a=new Uint16Array(w*h); for(let i=0,p=0;i<a.length;i++,p+=4) a[i]=d[p]*256+d[p+1]; DEMD={d:a,w,h,bounds:src.b}; }
+    const cbs=q[kind]; q[kind]=null; cbs.forEach(f=>f());
+  });
+}
+const ensureLU=cb=>ensureRaster("lu",cb), ensureDEM=cb=>ensureRaster("dem",cb);
+
+// ---------------- Hintergrund (online) ----------------
+let baseLayer=null, baseToken=0;
+const DOP_URL="https://geoservices.bayern.de/od/wms/dop/v1/dop40?";
+let dopNames=null;
+async function dopCandidates(){
+  if(dopNames) return dopNames;
+  const found=[];
+  try{
+    const r=await fetch(DOP_URL+"SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0");
+    const x=new DOMParser().parseFromString(await r.text(),"text/xml");
+    for(const l of x.getElementsByTagName("Layer")){
+      if([...l.children].some(c=>c.localName==="Layer")) continue;
+      const n=[...l.children].find(c=>c.localName==="Name"); if(n) found.push(n.textContent.trim());
+    }
+  }catch(e){}
+  const good=found.filter(n=>!/grau|gray|info|meta|datum|cir|ir$/i.test(n));
+  good.sort((a,b)=>(/c$|farb|rgb/i.test(b)?1:0)-(/c$|farb|rgb/i.test(a)?1:0));
+  dopNames=[...new Set([...good,"by_dop40c","dop40c","by_dop40","dop40"])];
+  return dopNames;
+}
+const BASEMAPS={
+  topo:async()=>[
+    ()=>L.tileLayer("https://sgx.geodatenzentrum.de/wmts_basemapde/tile/1.0.0/de_basemapde_web_raster_farbe/default/GLOBAL_WEBMERCATOR/{z}/{y}/{x}.png",{maxZoom:18,attribution:'basemap.de © GeoBasis-DE / <a href="http://www.bkg.bund.de">BKG</a> 2026, CC BY 4.0'}),
+    ()=>L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende'})],
+  dop:async()=>[...(await dopCandidates()).map(n=>()=>L.tileLayer.wms(DOP_URL,{layers:n,format:"image/jpeg",version:"1.1.1",maxZoom:19,attribution:"Luftbild © Bayerische Vermessungsverwaltung ("+n+")"})),
+    ()=>L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:19,attribution:"Luftbild © Esri, Maxar, Earthstar Geographics"})],
+  esri:async()=>[()=>L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",{maxZoom:19,attribution:"Luftbild © Esri, Maxar, Earthstar Geographics"})],
+};
+$("basemap").onchange=e=>setBase(e.target.value);
+async function setBase(v){
+  S.base=v; $("basemap").value=v; const my=++baseToken; updateHash();
+  if(baseLayer){ map.removeLayer(baseLayer); baseLayer=null; }
+  for(const l of allLayers()) l.setStyle(styleFor(l)); detailRestyle();
+  if(v==="none") return;
+  const tries=await BASEMAPS[v](); if(my!==baseToken) return;
+  const tryAt=i=>{
+    if(my!==baseToken) return;
+    if(i>=tries.length){ showOnline("Kein Hintergrund erreichbar. Ohne Internet oder in der Artifact-Ansicht ist das gesperrt; öffne die Online-Fassung oder die HTML-Datei."); return; }
+    const lay=tries[i](); let ok=false, err=0;
+    lay.on("tileload",()=>{ ok=true; });
+    lay.on("tileerror",()=>{ if(!ok && ++err===3 && my===baseToken){ map.removeLayer(lay); if(i+1<tries.length && v==="dop" && i+1===tries.length-1) toast("Luftbild Bayern nicht erreichbar, zeige Esri-Luftbild"); if(v==="topo" && i===0) toast("basemap.de nicht erreichbar, zeige OpenStreetMap"); tryAt(i+1); } });
+    baseLayer=lay.addTo(map); lay.bringToBack();
+  };
+  tryAt(0);
+}
+function showOnline(msg){ const n=$("onlineNote"); n.textContent=msg; n.style.display="block"; }
+
+// ---------------- Ortssuche (online) ----------------
+let placeMarker=null, placeTimer=null;
+$("place").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); searchPlace(); } });
+$("place").addEventListener("input", ()=>{ clearTimeout(placeTimer); placeTimer=setTimeout(searchPlace, 700); });
+async function searchPlace(){
+  const q=$("place").value.trim(), box=$("placeRes"); if(q.length<3){ box.style.display="none"; return; }
+  const m=q.match(/^\s*(-?\d+(?:[.,]\d+)?)\s*[,; ]\s*(-?\d+(?:[.,]\d+)?)\s*$/);
+  if(m){ const a=+m[1].replace(",","."), b=+m[2].replace(",","."); const ll = a>40&&a<60 ? [a,b] : (a>100000 ? utmToLatLng(a,b) : [b,a]); gotoPlace(ll[0],ll[1],q); box.style.display="none"; return; }
+  try{
+    const r=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&accept-language=de&countrycodes=de&viewbox=8.9,50.6,13.9,47.2&bounded=1&q="+encodeURIComponent(q));
+    const js=await r.json();
+    box.innerHTML = js.length ? js.map((x,i)=>`<div data-i="${i}">${esc(x.display_name)}</div>`).join("") : `<div class="ph">kein Ort gefunden</div>`;
+    box.style.display="block";
+    box.querySelectorAll("[data-i]").forEach(d=>d.onclick=()=>{ const x=js[+d.dataset.i]; gotoPlace(+x.lat,+x.lon,x.display_name, x.boundingbox); box.style.display="none"; });
+  }catch(e){ showOnline("Ortssuche nicht erreichbar. Ohne Internet oder in der Artifact-Ansicht ist sie gesperrt; Koordinaten (z. B. 49.07, 13.10) funktionieren immer."); }
+}
+function gotoPlace(lat,lng,name,bb){
+  if(bb){ map.fitBounds([[+bb[0],+bb[2]],[+bb[1],+bb[3]]],{maxZoom:15}); } else map.setView([lat,lng],14);
+  if(placeMarker) map.removeLayer(placeMarker);
+  placeMarker=L.circleMarker([lat,lng],{radius:7,color:css("--hl"),weight:2,fillColor:"#fff",fillOpacity:1}).addTo(map).bindTooltip(esc(name.split(",")[0]));
+  showPoint(L.latLng(lat,lng), findLayerAt(L.latLng(lat,lng)));
+}
+function pipLL(lat,lng,ring){ let c=false; for(let i=0,j=ring.length-1;i<ring.length;j=i++){ const a=ring[i],b=ring[j]; if(((a.lat>lat)!==(b.lat>lat)) && (lng<(b.lng-a.lng)*(lat-a.lat)/(b.lat-a.lat)+a.lng)) c=!c; } return c; }
+function layerHas(l,ll){ if(!l.getBounds().contains(ll)) return false; const g=l.getLatLngs(); const polys=(g.length&&L.LineUtil.isFlat(g[0]))?[g]:g;
+  for(const rings of polys){ let ins=false; for(const r of rings) if(pipLL(ll.lat,ll.lng,r)) ins=!ins; if(ins) return true; } return false; }
+function findLayerAt(ll){
+  if(detailActive()) for(const l of detLayers()) if(layerHas(l,ll)) return l;
+  ensureGen(); for(const l of layers) if(layerHas(l,ll)) return l;
+  for(const l of ovLayers) if(layerHas(l,ll)) return l; return null; }
+
+// ---------------- Detailflächen (nur Ordner-Fassung) ----------------
+const DT=(typeof DETAIL!=="undefined"&&DETAIL)?DETAIL:((typeof DETAIL_INDEX!=="undefined"&&DETAIL_INDEX)?DETAIL_INDEX:null), DET_Z=12;
+let DT_OFF=false; const regLoaded=new Map();
+function tileBlob(t){
+  if(DT.b) return DT.b[t];
+  const r=DT.r[t]; let R=regLoaded.get(r);
+  if(R) return R.blobs?R.blobs.get(t):null;
+  R={}; regLoaded.set(r,R);
+  fetch("detail/r"+String(r).padStart(2,"0")+".json").then(x=>{ if(!x.ok) throw new Error(x.status); return x.json(); })
+    .then(js=>{ R.blobs=new Map(js.t.map((tt,i)=>[tt,js.b[i]])); levelUpdate(); })
+    .catch(()=>{ if(!DT_OFF){ DT_OFF=true; levelUpdate(); const dn=document.getElementById("detailNote"); if(dn) dn.textContent="Detailflächen lassen sich hier nicht nachladen (Datei direkt vom Rechner geöffnet). Sie stehen in der Online-Fassung und in der Detail-Datei im Ordner zur Verfügung."; } });
+  return null;
+}
+map.createPane("detPane").style.zIndex=405;
+const detRenderer=L.canvas({padding:0.3, pane:"detPane", tolerance:2});
+const detLoaded=new Map();
+function detailActive(){ return !!DT && !DT_OFF && map.getZoom()>=DET_Z; }
+function detLayers(){ const out=[]; for(const arr of detLoaded.values()) for(const l of arr) out.push(l); return out; }
+function decodeTile(b64){
+  const bin=atob(b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+  let p=0; const rd=()=>{let r=0,s=0,b;do{b=u[p++];r+=(b&0x7f)*Math.pow(2,s);s+=7;}while(b&0x80);return (r%2)?-(r+1)/2:r/2;};
+  const n=rd()>>0, out=[];
+  for(let i=0;i<n;i++){ const ki=rd(), nr=rd(), rings=[]; for(let r=0;r<nr;r++){ const m=rd(), ring=new Array(m); let y=0,x=0; for(let j=0;j<m;j++){ y+=rd(); x+=rd(); ring[j]=[y/1e5,x/1e5]; } rings.push(ring);} out.push([ki,rings]); }
+  return out;
+}
+function detailUpdate(){
+  if(!DT) return false;
+  const on=detailActive();
+  if(!on){ if(detLoaded.size>60){ for(const [t,arr] of detLoaded){ for(const l of arr) map.removeLayer(l); } detLoaded.clear(); } else for(const arr of detLoaded.values()) for(const l of arr) if(map.hasLayer(l)) map.removeLayer(l); return false; }
+  const b=map.getBounds().pad(0.15), s=b.getSouth(), w=b.getWest(), n=b.getNorth(), e=b.getEast(); const need=new Set();
+  DT.i.forEach((bb,t)=>{ if(bb[0]<=n && bb[2]>=s && bb[1]<=e && bb[3]>=w) need.add(t); });
+  let complete=true;
+  for(const t of need){
+    let arr=detLoaded.get(t);
+    if(!arr){ const b64=tileBlob(t); if(!b64){ complete=false; continue; } arr=decodeTile(b64).map(([ki,rings])=>{ const l=L.polygon(rings,{renderer:detRenderer}); l.ki=ki; l.setStyle(styleFor(l)); wire(l); return l; }); detLoaded.set(t,arr); }
+    for(const l of arr) if(!map.hasLayer(l)) l.addTo(map);
+  }
+  for(const [t,arr] of detLoaded){ if(!need.has(t)){ for(const l of arr) if(map.hasLayer(l)) map.removeLayer(l); if(detLoaded.size>80) detLoaded.delete(t); } }
+  return complete;
+}
+function detailRestyle(){ if(!DT) return; for(const arr of detLoaded.values()) for(const l of arr) l.setStyle(styleFor(l)); }
+if(!DT){ const dn=document.getElementById("detailNote"); if(dn) dn.textContent="Diese Fassung zeigt nur die generalisierten Flächen."; }
+
+// ---------------- Weiden aus OpenStreetMap (online) ----------------
+const osmGrp=L.layerGroup().addTo(map);
+$("cOsm").onchange=e=>{ S.osm=e.target.checked; S.osm?osmGrp.addTo(map):map.removeLayer(osmGrp); };
+$("osmBtn").onclick=async()=>{
+  if(map.getZoom()<11){ $("osmNote").textContent="Bitte erst näher heranzoomen (ab Zoomstufe 11), damit die Abfrage klein bleibt."; return; }
+  const b=map.getBounds(), bb=[b.getSouth(),b.getWest(),b.getNorth(),b.getEast()].map(x=>x.toFixed(5)).join(",");
+  const q=`[out:json][timeout:25];(way["landuse"="meadow"]["meadow"~"pasture|grazing"](${bb});way["landuse"="pasture"](${bb});way["meadow"="pasture"](${bb});relation["landuse"="meadow"]["meadow"~"pasture|grazing"](${bb}););out geom;`;
+  $("osmNote").textContent="lade …";
+  try{
+    const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}});
+    const js=await r.json(); osmGrp.clearLayers(); let n=0;
+    for(const el of js.elements||[]){
+      const rings = el.type==="way" ? [el.geometry] : (el.members||[]).filter(m=>m.role==="outer"&&m.geometry).map(m=>m.geometry);
+      for(const g of rings){ if(!g||g.length<3) continue; n++;
+        L.polygon(g.map(p=>[p.lat,p.lon]),{renderer:osmRenderer,color:"#7a4a14",weight:1.6,dashArray:"4 3",fillColor:"#c98a3c",fillOpacity:.25,interactive:false}).addTo(osmGrp); }
+    }
+    $("osmNote").textContent=`${n} als Weide eingetragene Flächen im Ausschnitt geladen (braun gestrichelt). Quelle: OpenStreetMap.`;
+  }catch(e){ $("osmNote").textContent="OpenStreetMap ist nicht erreichbar. Ohne Internet oder in der Artifact-Ansicht ist die Abfrage gesperrt."; }
+};
+
+// ---------------- UTM32 <-> WGS84 ----------------
+function latLngToUtm(lat,lon){ const a=6378137,f=1/298.257222101,k0=0.9996,e2=f*(2-f),ep2=e2/(1-e2),lon0=9*Math.PI/180;
+  const φ=lat*Math.PI/180,λ=lon*Math.PI/180,N=a/Math.sqrt(1-e2*Math.sin(φ)**2),T=Math.tan(φ)**2,C=ep2*Math.cos(φ)**2,A=Math.cos(φ)*(λ-lon0);
+  const M=a*((1-e2/4-3*e2*e2/64-5*e2**3/256)*φ-(3*e2/8+3*e2*e2/32+45*e2**3/1024)*Math.sin(2*φ)+(15*e2*e2/256+45*e2**3/1024)*Math.sin(4*φ)-(35*e2**3/3072)*Math.sin(6*φ));
+  const E=500000+k0*N*(A+(1-T+C)*A**3/6+(5-18*T+T*T+72*C-58*ep2)*A**5/120);
+  const Nn=k0*(M+N*Math.tan(φ)*(A*A/2+(5-T+9*C+4*C*C)*A**4/24+(61-58*T+T*T+600*C-330*ep2)*A**6/720));
+  return [E,Nn]; }
+function utmToLatLng(E,Nn){ const a=6378137,f=1/298.257222101,k0=0.9996,e2=f*(2-f),ep2=e2/(1-e2),e1=(1-Math.sqrt(1-e2))/(1+Math.sqrt(1-e2)),lon0=9*Math.PI/180;
+  const M=Nn/k0, mu=M/(a*(1-e2/4-3*e2*e2/64-5*e2**3/256));
+  const φ1=mu+(3*e1/2-27*e1**3/32)*Math.sin(2*mu)+(21*e1*e1/16-55*e1**4/32)*Math.sin(4*mu)+(151*e1**3/96)*Math.sin(6*mu);
+  const N1=a/Math.sqrt(1-e2*Math.sin(φ1)**2),T1=Math.tan(φ1)**2,C1=ep2*Math.cos(φ1)**2,R1=a*(1-e2)/Math.pow(1-e2*Math.sin(φ1)**2,1.5),Dd=(E-500000)/(N1*k0);
+  const lat=φ1-(N1*Math.tan(φ1)/R1)*(Dd*Dd/2-(5+3*T1+10*C1-4*C1*C1-9*ep2)*Dd**4/24+(61+90*T1+298*C1+45*T1*T1-252*ep2-3*C1*C1)*Dd**6/720);
+  const lon=lon0+(Dd-(1+2*T1+C1)*Dd**3/6+(5-2*C1+28*T1-3*C1*C1+8*ep2+24*T1*T1)*Dd**5/120)/Math.cos(φ1);
+  return [lat*180/Math.PI, lon*180/Math.PI]; }
+
+// Neigung am Punkt aus dem Höhenraster (Nachbarzellen, grob)
+function slopeAt(ll){
+  if(!DEMD) return null; const R=DEMD, b=R.bounds; const i=rasterAt(R,ll); if(i===null) return null;
+  const x=i%R.w, y=Math.floor(i/R.w); if(x<1||y<1||x>=R.w-1||y>=R.h-1) return null;
+  const z=(xx,yy)=>R.d[yy*R.w+xx]; if(!z(x-1,y)||!z(x+1,y)||!z(x,y-1)||!z(x,y+1)) return null;
+  const merc=(la)=>Math.log(Math.tan(Math.PI/4+la*Math.PI/360))*6378137;
+  const dx=((b[1][1]-b[0][1])/R.w)*Math.PI/180*6378137*Math.cos(ll.lat*Math.PI/180);
+  const dy=(merc(b[1][0])-merc(b[0][0]))/R.h*Math.cos(ll.lat*Math.PI/180);
+  const gx=(z(x+1,y)-z(x-1,y))/(2*dx), gy=(z(x,y+1)-z(x,y-1))/(2*dy);
+  return Math.atan(Math.hypot(gx,gy))*180/Math.PI;
+}
+// ---------------- Punktabfrage ----------------
+let ptMarker=null, curPoint=null;
+const BADGE={amtlich:'<span class="badge b-amtlich">amtlich (LfU)</span>',moor:'<span class="badge b-amtlich">amtlich: ÜMBK25</span>',berechnet:'<span class="badge b-berechnet">berechnet</span>',genannt:'<span class="badge b-genannt">in Legende genannt</span>',abgeleitet:'<span class="badge b-abgeleitet">abgeleitet</span>',fehlt:'<span class="badge b-fehlt">keine Angabe</span>'};
+function propRow(title, p, belegHtml, badge){
+  return `<div class="prop"><div class="pn"><span>${title}</span>${BADGE[badge||p.status]||""}</div><div class="pv">${esc(p.wert)}</div>${belegHtml?`<div class="pb">${belegHtml}</div>`:""}<div class="pr">${esc(p.regel||"")}</div></div>`;
+}
+function q(s){ return s?`„${esc(s)}“`:""; }
+function showPoint(ll, l){
+  if(!LUD||!DEMD){ $("point").innerHTML='<span class="ph">Punkt wird abgefragt …</span>'; ensureLU(()=>ensureDEM(()=>showPoint(ll,l))); return; }
+  if(ptMarker) map.removeLayer(ptMarker);
+  ptMarker=L.circleMarker(ll,{radius:6,color:css("--hl"),weight:2,fill:false,interactive:false,pane:"hlPane"}).addTo(map);
+  selLayer=l; hlSel.setLatLngs(l?l.getLatLngs():[]);
+  const [E,N]=latLngToUtm(ll.lat,ll.lng);
+  let h=null; if(DEMD){ const i=rasterAt(DEMD,ll); if(i!==null){ const v=DEMD.d[i]; if(v>0) h=v; } }
+  let luv=null; if(LUD){ const i=rasterAt(LUD,ll); if(i!==null) luv=LUD.d[i]; }
+  const slp=slopeAt(ll);
+  const K = l ? D.keys[l.ki] : null, U = K ? D.units[K.leg] : null;
+  curPoint={lat:ll.lat,lng:ll.lng,E,N,h,lu:luv,leg:K?K.leg:null,k:K?K.k:null}; updateHash();
+  const lat=ll.lat.toFixed(5), lng=ll.lng.toFixed(5), e=Math.round(E), n=Math.round(N);
+  let html=`<div class="pt"><div class="meta">${lat}, ${lng} · UTM32 ${e} / ${n}${h!==null?` · Höhe etwa ${fmt(h)} m`:""}${luv?` · Nutzung: ${esc(LUN[luv]?LUN[luv].n:"?")}`:""}</div>`;
+  html+=`<div class="links"><a href="https://www.google.com/maps/search/?api=1&query=${lat},${lng}" target="_blank" rel="noopener">Google Maps</a><a href="https://atlas.bayern.de/?z=15&c=${e},${n}" target="_blank" rel="noopener">BayernAtlas</a><a href="https://www.umweltatlas.bayern.de/mapapps/resources/apps/umweltatlas/index.html?lang=de&dn=lfu_domain-boden" target="_blank" rel="noopener">UmweltAtlas Boden</a><a href="#" id="cpCoord">Koordinate kopieren</a></div>`;
+  if(!K){ html+=`<p class="ph">Außerhalb der ÜBK25-Flächen.</p></div>`; $("point").innerHTML=html; bindPointBtns(); return; }
+  const P=U.p, catName = BASE[K.k] || ("Klasse "+K.k+": "+CL[K.k].name);
+  html+=`<h3>ÜBK25-Einheit ${esc(K.leg)}</h3><div class="meta">Zuordnung: ${esc(catName)}${BASE[K.k]?"":(K.s?" (eindeutig)":" (unsicher)")} · ${fmt(K.a,1)} km² · mittlere Höhe der Fläche ${fmt(K.h)} m</div>`;
+  html+=`<div class="pb" style="font-size:12.5px;margin-bottom:6px"><b>Amtliche Beschreibung:</b> ${esc(U.text)}</div>`;
+  if(K.w) html+=`<div class="pr" style="font-size:12px;color:var(--text-muted);margin-bottom:6px"><b>Begründung der Zuordnung:</b> ${esc(K.w)}</div>`;
+  html+=propRow("Bodentyp", P.bodentyp, `Hauptboden: ${esc(P.bodentyp.wert)}${P.bodentyp.hinweis?" · "+esc(P.bodentyp.hinweis):""}<br>${q(P.bodentyp.beleg)}`);
+  html+=propRow("Textur (Bodenart)", P.textur, P.textur.beleg?`Oberboden: ${esc(P.textur.oberboden)}<br>${q(P.textur.beleg)}`:"");
+  html+=propRow("Wasserhaushalt", P.wasserhaushalt, (P.wasserhaushalt.belege||[]).map(b=>`${esc(b.art)} (${esc(b.ort)}): ${q(b.beleg)}`).join("<br>"));
+  html+=propRow("Organik und Torf", P.organik, (P.organik.belege||[]).map(b=>`${esc(b.art)}: ${q(b.beleg)}`).join("<br>"));
+  const BL={genannt:"genannt",abgeleitet:"abgeleitet",amtlich:"amtlich"};
+  html+=propRow("Säure", P.saeure, (P.saeure.belege||[]).map(b=>`${esc(b.art)} <span class="badge b-${b.status}">${BL[b.status]||b.status}</span>${b.status==="amtlich"?"":": "+q(b.beleg)}`).join("<br>"));
+  html+=propRow("Moorbodenprüfung", P.moor, P.moor.beleg?esc(P.moor.beleg):"", P.moor.status==="amtlich"?"moor":null);
+  if(P.gestein) html+=propRow("Ausgangsgestein (BAG500)", P.gestein, P.gestein.beleg?esc(P.gestein.beleg):"");
+  if(P.relief) html+=propRow("Relief (Hangneigung)", P.relief, slp!==null?`Am Punkt etwa ${fmt(slp,1)}° (aus 400-m-Höhenraster, nur grob)`:"");
+  if(P.kennwerte){ const kw=P.kennwerte; html+=propRow("Bodenkennwerte (LfU)", Object.assign({},kw,{wert:kw.hinweis||(kw.rows.length?"":"keine Angabe")}),
+      kw.rows.length?`<table class="kw">${kw.rows.map(r=>`<tr><td>${esc(r.n)}</td><td>${esc(r.v)}</td></tr>`).join("")}</table>`:""); }
+  // Vergleichskategorien
+  html+=`<div class="prop"><div class="pn"><span>Vergleichskategorien (Teilmerkmale)</span></div>`;
+  const order=CLS.map(c=>c.k).sort((a,b)=>score(K,b)-score(K,a));
+  for(const c of order){ const sc=score(K,c), names=D.crit[c], b=K.m[c]||0; const z=K.k===c;
+    html+=`<div class="crit"><div class="cl" data-add="${c}" title="als Kategorie hinzufügen"><span><span class="sw" style="background:${css("--c"+c)};width:10px;height:10px"></span> Klasse ${c}${z?" · Zuordnung":""}</span><span>${Math.round(sc*100)} %</span></div><div class="bar"><i style="width:${sc*100}%;background:${css("--c"+c)}"></i></div>`;
+    if(sc>=0.5||z) html+=`<ul>${names.map((nm,j)=>`<li>${(b&(1<<j))?"✓":"✗"} ${esc(nm)}</li>`).join("")}</ul>`;
+    html+=`</div>`; }
+  html+=`</div>`;
+  html+=`<div class="prop"><div class="pn"><span>Merkpunkt</span></div><textarea id="mpNote" placeholder="Notiz zu diesem Punkt"></textarea><div class="row"><button id="mpAdd">als Merkpunkt speichern</button></div></div></div>`;
+  $("point").innerHTML=html; $("pointBox").open=true; bindPointBtns();
+}
+function bindPointBtns(){
+  const cp=$("cpCoord"); if(cp) cp.onclick=async ev=>{ ev.preventDefault(); const t=`${curPoint.lat.toFixed(6)}, ${curPoint.lng.toFixed(6)} (UTM32: ${Math.round(curPoint.E)} ${Math.round(curPoint.N)})`; try{ await navigator.clipboard.writeText(t); toast("Koordinate kopiert"); }catch(e){ toast(t); } };
+  const ad=$("mpAdd"); if(ad) ad.onclick=()=>{ addMerkpunkt(curPoint, $("mpNote").value); };
+  document.querySelectorAll("[data-add]").forEach(el=>el.onclick=()=>{ addCat(el.dataset.add); toast("Klasse "+el.dataset.add+" zum Vergleich hinzugefügt"); });
+}
+map.on("click", e=>showPoint(e.latlng, findLayerAt(e.latlng)));
+
+// ---------------- Merkpunkte ----------------
+const mpGrp=L.layerGroup().addTo(map);
+function addMerkpunkt(p, note){
+  MEM.punkte.push({id:Date.now().toString(36), lat:+p.lat.toFixed(6), lng:+p.lng.toFixed(6), utm:[Math.round(p.E),Math.round(p.N)], hoehe:p.h, nutzung:p.lu?LUN[p.lu].n:null, einheit:p.leg, klasse:p.k, notiz:note||"", zeit:new Date().toISOString()});
+  saveStore(); drawMerk(); renderLists(); toast("Merkpunkt gespeichert");
+}
+function drawMerk(){ mpGrp.clearLayers(); for(const m of MEM.punkte){ L.circleMarker([m.lat,m.lng],{radius:6,color:"#fff",weight:2,fillColor:"#c0392b",fillOpacity:1}).addTo(mpGrp).bindTooltip(esc(m.notiz||"Merkpunkt")).on("click",ev=>{ L.DomEvent.stopPropagation(ev); showPoint(L.latLng(m.lat,m.lng), findLayerAt(L.latLng(m.lat,m.lng))); }); } }
+function renderLists(){
+  $("mpList").innerHTML = MEM.punkte.length ? MEM.punkte.map(m=>`<div class="it"><div><b>${esc(m.notiz||"ohne Notiz")}</b><small>${m.lat}, ${m.lng} · Einheit ${esc(m.einheit||"–")} · ${m.klasse?"Kat. "+esc(m.klasse):""}${m.hoehe?" · "+m.hoehe+" m":""}</small></div><div><button data-go="${m.id}">zeigen</button> <button data-ed="${m.id}">Notiz</button> <button data-del="${m.id}">×</button></div></div>`).join("") : `<p class="note">Noch keine Merkpunkte. Punkt anklicken, dann „als Merkpunkt speichern“.</p>`;
+  $("stList").innerHTML = MEM.suche.length ? MEM.suche.map(s=>`<div class="it"><div><b>${esc(s.name)}</b><small>${new Date(s.zeit).toLocaleString("de-DE")} · ${esc(s.info||"")}</small></div><div><button data-ld="${s.id}">laden</button> <button data-sdel="${s.id}">×</button></div></div>`).join("") : `<p class="note">Noch keine Suchstände.</p>`;
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{ const m=MEM.punkte.find(x=>x.id===b.dataset.go); map.setView([m.lat,m.lng],14); showPoint(L.latLng(m.lat,m.lng), findLayerAt(L.latLng(m.lat,m.lng))); });
+  document.querySelectorAll("[data-ed]").forEach(b=>b.onclick=()=>{ const m=MEM.punkte.find(x=>x.id===b.dataset.ed); const it=b.closest(".it"); it.innerHTML=`<div><textarea>${esc(m.notiz)}</textarea></div><div><button>ok</button></div>`; it.querySelector("button").onclick=()=>{ m.notiz=it.querySelector("textarea").value; saveStore(); drawMerk(); renderLists(); }; });
+  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{ markDeleted(b.dataset.del); MEM.punkte=MEM.punkte.filter(x=>x.id!==b.dataset.del); saveStore(); drawMerk(); renderLists(); });
+  document.querySelectorAll("[data-ld]").forEach(b=>b.onclick=()=>{ applyState(MEM.suche.find(x=>x.id===b.dataset.ld).state); toast("Suchstand geladen"); });
+  document.querySelectorAll("[data-sdel]").forEach(b=>b.onclick=()=>{ markDeleted(b.dataset.sdel); MEM.suche=MEM.suche.filter(x=>x.id!==b.dataset.sdel); saveStore(); renderLists(); });
+}
+// Suchstände
+function currentState(){ const c=map.getCenter(); return {sel:[...S.sel],units:[...S.units],mode:S.mode,thr:S.thr,soil:S.soil,op:S.op,unsureDim:S.unsureDim,lu:[...S.lu],luMask:S.luMask,luLayer:S.luLayer,outline:S.outline,base:S.base,center:[+c.lat.toFixed(5),+c.lng.toFixed(5)],zoom:map.getZoom()}; }
+function applyState(st){
+  Object.assign(S,{sel:st.sel,units:st.units,mode:st.mode,thr:st.thr,soil:st.soil,op:st.op,unsureDim:st.unsureDim,lu:new Set(st.lu),luMask:st.luMask,luLayer:st.luLayer,outline:!!st.outline});
+  $("cSoil").checked=S.soil; $("op").value=S.op; $("cUnsure").checked=S.unsureDim; $("cMask").checked=S.luMask; $("cLuLayer").checked=S.luLayer; $("cOutline").checked=S.outline;
+  document.querySelectorAll("input[name=thr]").forEach(r=>r.checked=(+r.value===S.thr));
+  buildLuBoxes(); setBase(st.base||"none"); setMode(S.mode); map.setView(st.center,st.zoom);
+  updateHash();
+}
+$("stSave").onclick=()=>{ const name=$("stName").value.trim()||("Suchstand "+(MEM.suche.length+1)); const st=currentState();
+  const info=[...st.sel.map(x=>"Kl. "+x),...st.units.map(u=>"Einh. "+u)].join(", ")+(st.mode==="teil"?" · Teilmerkmale":"")+(st.luMask?" · Nutzungsfilter":"");
+  MEM.suche.push({id:Date.now().toString(36),name,zeit:new Date().toISOString(),info,state:st}); saveStore(); renderLists(); $("stName").value=""; toast("Suchstand gespeichert"); };
+
+// Export / Import
+async function offerFile(name, text, mime){
+  try{ if(window.claude && window.claude.use){ const dl=await window.claude.use("downloads"); if(dl){ await dl.save({filename:name, data:text, mimeType:mime}); return; } } }catch(e){}
+  try{ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type:mime})); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000); }catch(e){}
+  $("copyBox").value=text; $("copyWrap").style.display="block";
+}
+function geojson(){ return JSON.stringify({type:"FeatureCollection",features:MEM.punkte.map(m=>({type:"Feature",geometry:{type:"Point",coordinates:[m.lng,m.lat]},properties:{notiz:m.notiz,einheit:m.einheit,kategorie:m.klasse,hoehe_m:m.hoehe,nutzung:m.nutzung,utm32_e:m.utm?m.utm[0]:null,utm32_n:m.utm?m.utm[1]:null,zeit:m.zeit}}))},null,1); }
+$("exGeo").onclick=()=>offerFile("merkpunkte_bodenkarte.geojson", geojson(), "application/geo+json");
+$("exCsv").onclick=()=>{ const rows=[["breite","laenge","utm32_e","utm32_n","hoehe_m","nutzung","einheit","kategorie","notiz","zeit"]].concat(MEM.punkte.map(m=>[m.lat,m.lng,m.utm?m.utm[0]:"",m.utm?m.utm[1]:"",m.hoehe??"",m.nutzung??"",m.einheit??"",m.klasse??"",(m.notiz||"").replace(/"/g,'""'),m.zeit]));
+  offerFile("merkpunkte_bodenkarte.csv", "﻿"+rows.map(r=>r.map(v=>/[;"\n]/.test(String(v))?`"${v}"`:v).join(";")).join("\n"), "text/csv"); };
+$("exAll").onclick=()=>offerFile("bodenkarte_sicherung.json", JSON.stringify(MEM,null,1), "application/json");
+$("imp").onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ const js=JSON.parse(await f.text());
+    if(js.type==="FeatureCollection"){ for(const ft of js.features||[]){ if(ft.geometry&&ft.geometry.type==="Point"){ const [lng,lat]=ft.geometry.coordinates; MEM.punkte.push({id:Math.random().toString(36).slice(2),lat,lng,notiz:(ft.properties||{}).notiz||(ft.properties||{}).name||"",einheit:(ft.properties||{}).einheit||null,klasse:(ft.properties||{}).kategorie||null,zeit:new Date().toISOString()}); } } }
+    else { for(const s of js.suche||[]) if(!MEM.suche.find(x=>x.id===s.id)) MEM.suche.push(s); for(const p of js.punkte||[]) if(!MEM.punkte.find(x=>x.id===p.id)) MEM.punkte.push(p); }
+    saveStore(); drawMerk(); renderLists(); toast("Import abgeschlossen"); }catch(err){ toast("Datei konnte nicht gelesen werden"); } e.target.value=""; };
+$("copyBtn").onclick=async()=>{ try{ await navigator.clipboard.writeText($("copyBox").value); toast("kopiert"); }catch(e){ $("copyBox").select(); } };
+$("copyClose").onclick=()=>$("copyWrap").style.display="none";
+
+// ---------------- Link zur Ansicht ----------------
+function stateToHash(){
+  const st=currentState(); const o={c:st.center,z:+st.zoom.toFixed(2),s:st.sel.join("."),m:st.mode==="teil"?"t":"z"};
+  if(st.units.length) o.u=st.units.join("."); if(st.thr!==1) o.t=st.thr; if(!st.soil) o.so=0; if(st.op!==0.85) o.o=st.op;
+  if(!st.unsureDim) o.ud=0; if(st.lu.length!==LU.length) o.l=st.lu.join("."); if(st.luMask) o.lm=1; if(st.luLayer) o.ll=1; if(st.base!=="none") o.b=st.base; if(st.outline) o.ol=1;
+  if(curPoint) o.p=[+curPoint.lat.toFixed(5),+curPoint.lng.toFixed(5)];
+  return "#"+Object.entries(o).map(([k,v])=>k+"="+encodeURIComponent(Array.isArray(v)?v.join(","):v)).join("&");
+}
+function hashToState(h){
+  const p=Object.fromEntries(h.replace(/^#/,"").split("&").filter(Boolean).map(x=>{const i=x.indexOf("=");return [x.slice(0,i),decodeURIComponent(x.slice(i+1))];}));
+  if(!p.c) return null; const c=p.c.split(",").map(Number);
+  return {st:{sel:p.s?p.s.split(".").filter(x=>CL[x]):[],units:p.u?p.u.split(".").filter(u=>D.units[u]):[],mode:p.m==="t"?"teil":"zuordnung",thr:p.t?+p.t:1,soil:p.so!=="0",op:p.o?+p.o:0.85,unsureDim:p.ud!=="0",
+          lu:p.l?p.l.split(".").map(Number):LU.map(x=>x.c),luMask:p.lm==="1",luLayer:p.ll==="1",outline:p.ol==="1",base:p.b||"none",center:c,zoom:+p.z||8}, pt:p.p?p.p.split(",").map(Number):null};
+}
+let hashTimer=null;
+function updateHash(){ clearTimeout(hashTimer); hashTimer=setTimeout(()=>{ try{ history.replaceState(null,"",stateToHash()); }catch(e){} },400); }
+function inArtifact(){ return !!(window.claude&&window.claude.use) || /^(about|blob|data):/.test(location.href) || /claudeusercontent|claude\.ai/.test(location.hostname); }
+function shareURL(){ if(inArtifact()) return PAGES_URL+stateToHash(); let base=""; try{ base=location.href.split("#")[0]; }catch(e){} return base+stateToHash(); }
+$("shareBtn").onclick=async()=>{
+  const url=shareURL(); const art=inArtifact();
+  try{ await navigator.clipboard.writeText(url); toast("Link kopiert"); }catch(e){ $("copyBox").value=url; $("copyWrap").style.display="block"; $("copyWrap").closest("details").open=true; }
+  $("shareNote").textContent = art ? "Die Artifact-Ansicht kann keine Ansicht in ihrer Adresse speichern. Der kopierte Link öffnet dieselbe Ansicht in der Online-Fassung auf GitHub Pages." : "Link kopiert. Er öffnet genau diese Ansicht in derselben Datei oder Webseite.";
+};
+
+// ---------------- Drucken ----------------
+function buildPrint(){
+  const cats=[...S.sel.map(c=>"Klasse "+c+": "+CL[c].name),...S.units.map(u=>"Einheit "+u)];
+  const mode=S.mode==="zuordnung"?"Zuordnung (eine Kategorie je Fläche)":"Teilmerkmale ("+(S.thr===1?"alle erfüllt":"mindestens 75 %")+")";
+  const c=map.getCenter(), [E,N]=latLngToUtm(c.lat,c.lng);
+  $("phInfo").innerHTML=`Stand ${new Date().toLocaleDateString("de-DE")} · Kartenmitte ${c.lat.toFixed(4)}, ${c.lng.toFixed(4)} (UTM32 ${Math.round(E)} / ${Math.round(N)}) · Vergleichsart: ${esc(mode)}${S.luMask?" · nur gewählte Nutzung":""}<br>Gewählt: ${esc(cats.join("; ")||"keine Kategorie")}`;
+  let html=`<h3 style="margin:0 0 2mm">Legende</h3>`+$("legend").outerHTML;
+  const pt=$("point"); if(curPoint && pt) html+=`<h3 style="margin:4mm 0 2mm">Ausgewählter Punkt</h3>`+pt.innerHTML.replace(/<textarea[\s\S]*?<\/textarea>/g,"").replace(/<button[\s\S]*?<\/button>/g,"");
+  html+=`<p style="margin-top:4mm;color:#555">`+document.querySelector(".src").innerHTML+`</p>`;
+  $("printBody").innerHTML=html;
+}
+function enterPrint(){ const c=map.getCenter(), z=map.getZoom(); document.body.classList.add("printing"); map.invalidateSize({pan:false}); map.setView(c,z,{animate:false}); restyle(); buildPrint(); }
+function leavePrint(){ const c=map.getCenter(), z=map.getZoom(); document.body.classList.remove("printing"); map.invalidateSize({pan:false}); map.setView(c,z,{animate:false}); restyle(); }
+$("printBtn").onclick=()=>{ enterPrint(); setTimeout(()=>{ try{ window.print(); }catch(e){ toast("Drucken ist in dieser Ansicht gesperrt. Bitte die HTML-Datei aus dem Ordner im Browser öffnen."); } setTimeout(leavePrint,500); },700); };
+window.addEventListener("beforeprint",()=>{ if(!document.body.classList.contains("printing")) enterPrint(); });
+window.addEventListener("afterprint",()=>{ if(document.body.classList.contains("printing")) leavePrint(); });
+
+// ---------------- Statistik je Landkreis ----------------
+function statRows(){
+  const c=$("stCls").value, gr=$("stGr").checked, so=$("stSort").value;
+  const rows=D.kreise.map(k=>{ const v=k.c[c]||[0,0]; const a=gr?v[1]:v[0]; return {n:k.n,ags:k.ags,bb:k.bb,a,p:k.t?a/k.t*100:0,t:k.t}; });
+  rows.sort(so==="n"?(x,y)=>x.n.localeCompare(y.n,"de"):so==="p"?(x,y)=>y.p-x.p:(x,y)=>y.a-x.a);
+  return rows;
+}
+function renderStats(){
+  if(!D.kreise){ $("stTable").innerHTML=""; $("stNote").textContent="Keine Kreisstatistik enthalten."; return; }
+  const c=$("stCls").value, gr=$("stGr").checked, rows=statRows(); const tot=rows.reduce((s,r)=>s+r.a,0), mx=Math.max(...rows.map(r=>r.a),1);
+  const col=CL[c]?css("--c"+c):css("--text-muted");
+  $("stTable").innerHTML=`<div class="it" style="font-weight:600"><div>Bayern gesamt</div><div>${fmt(tot)} km²</div></div>`+rows.map(r=>`<div class="it" data-bb="${r.bb.join(",")}" style="cursor:pointer" title="auf den Kreis zoomen"><div style="flex:1"><b>${esc(r.n)}</b><small>${fmt(r.p,1)} % der Kreisfläche (${fmt(r.t)} km²)</small><div class="bar" style="height:4px;margin-top:2px"><i style="width:${r.a/mx*100}%;background:${col}"></i></div></div><div style="white-space:nowrap;padding-left:8px">${fmt(r.a,r.a<10?1:0)} km²</div></div>`).join("");
+  document.querySelectorAll("#stTable [data-bb]").forEach(el=>el.onclick=()=>{ const b=el.dataset.bb.split(",").map(Number); const p0=utmToLatLng(b[0]*1000,b[1]*1000), p1=utmToLatLng(b[2]*1000,b[3]*1000); map.fitBounds([p0,p1],{padding:[10,10]}); });
+  $("stNote").textContent=`Fläche der Kategorie „${c==="0"?"keine Vergleichskategorie":(CL[c]?"Klasse "+c:BASE[c])}“${gr?" auf Grünland (CORINE)":""} je Landkreis bzw. kreisfreier Stadt, nach der Zuordnung (eine Kategorie je Fläche).`;
+}
+function initStats(){
+  const sel=$("stCls"); sel.innerHTML=[...CLS.filter(c=>c.k!=="19").map(c=>`<option value="${c.k}">Klasse ${c.k}</option>`),`<option value="0">keine Vergleichskategorie</option>`,`<option value="M">Moorböden</option>`].join("");
+  sel.value="13"; ["stCls","stGr","stSort"].forEach(id=>$(id).onchange=renderStats);
+  $("stCsv").onclick=()=>{ const c=$("stCls").value; const rows=[["landkreis","ags","flaeche_kreis_km2","klasse_"+c+"_km2","klasse_"+c+"_gruenland_km2","anteil_prozent"]].concat(D.kreise.map(k=>{const v=k.c[c]||[0,0];return [k.n,k.ags,k.t.toFixed(1),v[0].toFixed(2),v[1].toFixed(2),(k.t?v[0]/k.t*100:0).toFixed(2)];}));
+    offerFile("statistik_klasse_"+c+".csv","﻿"+rows.map(r=>r.map(x=>/[;"]/.test(x)?`"${x}"`:x).join(";")).join("\n"),"text/csv"); };
+  renderStats();
+}
+
+// ---------------- Beschriftung ----------------
+function addLabels(){
+  const cities=[["München",48.137,11.575],["Nürnberg",49.452,11.077],["Augsburg",48.371,10.898],["Regensburg",49.013,12.102],["Würzburg",49.792,9.953],["Ingolstadt",48.766,11.426],["Bayreuth",49.948,11.578],["Bamberg",49.898,10.902],["Hof",50.313,11.912],["Passau",48.574,13.461],["Landshut",48.537,12.152],["Kempten",47.726,10.314],["Rosenheim",47.857,12.118],["Aschaffenburg",49.977,9.152],["Schweinfurt",50.049,10.221],["Weiden",49.675,12.163],["Amberg",49.443,11.863],["Coburg",50.259,10.964]];
+  const lands=[["Fichtelgebirge",50.03,11.86],["Bayerischer Wald",48.98,13.25],["Oberpfälzer Wald",49.62,12.45],["Frankenwald",50.36,11.52],["Spessart",49.86,9.47],["Rhön",50.42,9.98],["Steigerwald",49.72,10.62],["Fränkische Alb",49.35,11.45],["Alpen",47.52,11.2]];
+  const grp=L.layerGroup().addTo(map);
+  for(const [n,la,lo] of cities) L.marker([la,lo],{pane:"labelPane",interactive:false,icon:L.divIcon({className:"",html:`<span class="lbl city">${n}</span>`,iconSize:null,iconAnchor:[3,8]})}).addTo(grp);
+  for(const [n,la,lo] of lands) L.marker([la,lo],{pane:"labelPane",interactive:false,icon:L.divIcon({className:"",html:`<span class="lbl land">${n}</span>`,iconSize:null,iconAnchor:[40,8]})}).addTo(grp);
+  map.on("zoomend",()=>{ const z=map.getZoom(); grp.eachLayer(m=>{ const el=m.getElement(); if(el) el.style.display = z>11 ? "none" : ""; }); });
+}
+
+// ---------------- Aufbau ----------------
+// Ebenen: Übersicht (unter Zoom 9), generalisiert (ab 9), Detail (ab 12)
+const OV_Z=9; let ovLayers=[], genBuilt=false; const ovGroup=L.featureGroup(), genGroup=L.featureGroup();
+map.createPane("ovPane").style.zIndex=400;
+const ovRenderer=L.canvas({padding:0.4, pane:"ovPane", tolerance:2});
+map.createPane("hlPane").style.zIndex=460; map.getPane("hlPane").style.pointerEvents="none";
+const hlRenderer=L.canvas({padding:0.3, pane:"hlPane"});
+const hlHov=L.polygon([],{renderer:hlRenderer,fill:false,interactive:false,weight:1.2,opacity:.8});
+const hlSel=L.polygon([],{renderer:hlRenderer,fill:false,interactive:false,weight:2.4,opacity:1});
+function mkLayer(polys,ki,rend){ const l=L.polygon(polys,{renderer:rend}); l.ki=ki; l.setStyle(styleFor(l)); wire(l); return l; }
+let genQueue=null;
+function genPrepare(){ if(genQueue||genBuilt) return; const G=decode(D.bin,D.tr); genQueue=G.map((p,i)=>[p,D.feat[i]]); renderer._container&&(renderer._container.style.display="none"); }
+function genStep(n){ for(let k=0;k<n && genQueue.length;k++){ const [p,ki]=genQueue.shift(); const l=mkLayer(p,ki,renderer); layers.push(l); genGroup.addLayer(l); } if(!genQueue.length){ genBuilt=true; genQueue=null; } genShow(map.getZoom()>=OV_Z && !detailActive()); }
+function ensureGen(){ if(genBuilt) return; if(!map.hasLayer(genGroup)) genGroup.addTo(map); genPrepare(); genStep(1e9); levelUpdateSoon(); }
+function ensureGenIdle(){ if(genBuilt) return; if(!map.hasLayer(genGroup)) genGroup.addTo(map); genPrepare(); const tick=()=>{ if(genBuilt||!genQueue) return; genStep(40); if(genBuilt) levelUpdate(); else setTimeout(tick,16); }; setTimeout(tick,16); }
+let luSoon=null; function levelUpdateSoon(){ clearTimeout(luSoon); luSoon=setTimeout(levelUpdate,0); }
+function genShow(show){ if(renderer._container) renderer._container.style.display=show?"":"none"; }
+function levelUpdate(){
+  const z=map.getZoom(), det=detailActive(), ov=z<OV_Z;
+  const complete=detailUpdate();
+  if(ov){ ovRenderer._container&&(ovRenderer._container.style.display=""); if(!map.hasLayer(ovGroup)) ovGroup.addTo(map); genShow(false); }
+  else { if(!genBuilt) ensureGen(); if(ovRenderer._container) ovRenderer._container.style.display="none"; genShow(!(det && complete)); }
+  applySwipe();
+}
+function build(){
+  const G=decode(D.ov.bin, D.ov.tr);
+  G.forEach((p,i)=>{ const l=mkLayer(p,D.ov.feat[i],ovRenderer); ovLayers.push(l); ovGroup.addLayer(l); });
+  const col=css("--hl"); hlHov.setStyle({color:col}); hlSel.setStyle({color:col}); hlHov.addTo(map); hlSel.addTo(map);
+  finishBuild();
+}
+function wire(lyr){
+    lyr.on("mouseover",()=>{ hovLayer=lyr; hlHov.setLatLngs(lyr.getLatLngs()); });
+    lyr.on("mouseout",()=>{ hovLayer=null; hlHov.setLatLngs([]); tip.style.display="none"; });
+    lyr.on("mousemove",e=>{
+      const K=D.keys[lyr.ki], cats=keyCats(lyr.ki), U=D.units[K.leg];
+      const head = cats.length ? cats.map(catLabel).join(" + ") : (BASE[K.k]||"Klasse "+K.k+" (nicht gewählt)");
+      tip.innerHTML=`<div class="t1">${esc(head)}${(S.mode==="zuordnung"&&cats.length&&!K.s)?" · unsicher":""}</div><div class="t2">Einheit ${esc(K.leg)}: ${esc(U.text.length>120?U.text.slice(0,118)+" …":U.text)}</div>`;
+      const r=$("map").getBoundingClientRect(); let x=e.originalEvent.clientX-r.left+14, y=e.originalEvent.clientY-r.top+14;
+      tip.style.display="block"; if(x+tip.offsetWidth>r.width-6) x-=tip.offsetWidth+28; if(y+tip.offsetHeight>r.height-6) y-=tip.offsetHeight+28;
+      tip.style.left=x+"px"; tip.style.top=y+"px";
+    });
+    lyr.on("click",e=>{ L.DomEvent.stopPropagation(e); showPoint(e.latlng,lyr); });
+}
+function finishBuild(){
+  const b=ovGroup.getBounds(); map.fitBounds(b,{padding:[10,10]}); map.setMaxBounds(b.pad(0.3));
+  ringGrp.addTo(map); addLabels(); restyle(); drawMerk(); renderLists();
+  const H=location.hash?hashToState(location.hash):null;
+  if(H){ applyState(H.st); if(H.pt){ const ll=L.latLng(H.pt[0],H.pt[1]); setTimeout(()=>showPoint(ll, findLayerAt(ll)),300); } }
+  map.on("moveend",updateHash); map.on("moveend",levelUpdate); levelUpdate();
+  const idle=window.requestIdleCallback||(f=>setTimeout(f,1500)); idle(()=>{ ensureDEM(); ensureGenIdle(); },{timeout:4000});
+  $("loading").remove();
+}
+// ---------------- Umrisse und Vergleichsregler ----------------
+$("cOutline").onchange=e=>{ S.outline=e.target.checked; if(S.outline && S.base==="none") toast("Tipp: unter Hintergrund ein Luftbild wählen"); restyle(); };
+let swipeX=0.5;
+function applySwipe(){
+  const panes=["ovPane","overlayPane","detPane","hlPane","luPane"].map(n=>map.getPane(n)).filter(Boolean);
+  if(!S.swipe){ panes.forEach(p=>p.style.clip=""); $("swipe").style.display="none"; return; }
+  const sz=map.getSize(), x=Math.round(sz.x*swipeX), nw=map.containerPointToLayerPoint([0,0]), se=map.containerPointToLayerPoint(sz), cx=map.containerPointToLayerPoint([x,0]).x;
+  const clip=`rect(${nw.y}px, ${cx}px, ${se.y}px, ${nw.x}px)`; panes.forEach(p=>p.style.clip=clip);
+  const sw=$("swipe"); sw.style.display="block"; sw.style.left=x+"px";
+}
+map.on("move zoom resize zoomend",applySwipe);
+$("swipeBtn").onclick=()=>{ S.swipe=!S.swipe; $("swipeBtn").setAttribute("aria-pressed",S.swipe); if(S.swipe && S.base==="none") toast("Rechts vom Regler erscheint der Hintergrund; bitte einen Hintergrund wählen"); applySwipe(); };
+(function(){ const k=$("swipeKnob"); let drag=false;
+  L.DomEvent.disableClickPropagation($("swipe")); L.DomEvent.disableScrollPropagation($("swipe"));
+  k.addEventListener("pointerdown",e=>{ drag=true; k.setPointerCapture(e.pointerId); map.dragging.disable(); e.preventDefault(); });
+  k.addEventListener("pointermove",e=>{ if(!drag) return; const r=$("map").getBoundingClientRect(); swipeX=Math.min(0.98,Math.max(0.02,(e.clientX-r.left)/r.width)); applySwipe(); });
+  const end=()=>{ if(drag){ drag=false; map.dragging.enable(); } }; k.addEventListener("pointerup",end); k.addEventListener("pointercancel",end);
+})();
+
+// ---------------- Karte als Bild ----------------
+async function exportImage(){
+  const mr=$("map").getBoundingClientRect(), W=Math.round(mr.width), H=Math.round(mr.height), LW=380, dpr=Math.min(2,window.devicePixelRatio||1);
+  const c=document.createElement("canvas"); c.width=(W+LW)*dpr; c.height=Math.max(H,560)*dpr; const x=c.getContext("2d"); x.scale(dpr,dpr);
+  x.fillStyle=css("--surface-0")||"#f6f5f1"; x.fillRect(0,0,W+LW,Math.max(H,560));
+  let tainted=false;
+  for(const im of document.querySelectorAll("#map .leaflet-tile-pane img.leaflet-tile-loaded")){ const r=im.getBoundingClientRect(); try{ x.drawImage(im,r.left-mr.left,r.top-mr.top,r.width,r.height); }catch(e){} }
+  try{ x.getImageData(0,0,1,1); }catch(e){ tainted=true; x.fillStyle=css("--surface-0")||"#f6f5f1"; x.fillRect(0,0,W+LW,Math.max(H,560)); }
+  const swipeClip=S.swipe?Math.round(W*swipeX):W;
+  for(const el of document.querySelectorAll("#map canvas, #map img.lupng")){
+    if(el.closest(".leaflet-tile-pane")) continue; const st=getComputedStyle(el); if(st.display==="none"||st.visibility==="hidden") continue;
+    const r=el.getBoundingClientRect(); if(!r.width) continue; x.save(); x.beginPath(); x.rect(0,0,swipeClip,H); x.clip(); x.drawImage(el,r.left-mr.left,r.top-mr.top,r.width,r.height); x.restore(); }
+  x.font="12px system-ui,sans-serif"; x.fillStyle=css("--text-primary")||"#222";
+  for(const el of document.querySelectorAll("#map .leaflet-marker-pane .lbl, #map .leaflet-labelPane-pane .lbl")){ const st=getComputedStyle(el.parentElement); if(st.display==="none") continue; const r=el.getBoundingClientRect(); if(r.left<mr.left||r.top<mr.top||r.right>mr.right) continue; x.fillText(el.textContent,r.left-mr.left+6,r.bottom-mr.top-3); }
+  // Legende
+  let y=26; const X=W+18; x.fillStyle=css("--text-primary")||"#222"; x.font="600 16px system-ui,sans-serif"; x.fillText("Bodenkarte Bayern: Soilscapes-Vergleich",X,y); y+=20;
+  x.font="12px system-ui,sans-serif"; x.fillStyle=css("--text-secondary")||"#555";
+  const c0=map.getCenter(); x.fillText(`Stand ${new Date().toLocaleDateString("de-DE")} · Mitte ${c0.lat.toFixed(4)}, ${c0.lng.toFixed(4)} · Zoom ${map.getZoom().toFixed(1)}`,X,y); y+=16;
+  x.fillText(S.mode==="zuordnung"?"Zuordnung: eine Kategorie je Fläche":"Teilmerkmale ("+(S.thr===1?"alle erfüllt":"mindestens 75 %")+")",X,y); y+=24;
+  const wrap=(t,maxW,lh)=>{ const words=t.split(" "); let line=""; for(const w of words){ const tt=line?line+" "+w:w; if(x.measureText(tt).width>maxW&&line){ x.fillText(line,X+22,y); y+=lh; line=w; } else line=tt; } if(line){ x.fillText(line,X+22,y); y+=lh; } };
+  for(const id of [...S.sel,...S.units.map(u=>"u:"+u)]){
+    x.fillStyle=catColor(id); x.fillRect(X,y-11,14,14);
+    x.fillStyle=css("--text-primary")||"#222"; x.font="600 12.5px system-ui,sans-serif"; x.fillText(catLabel(id)+"  "+fmt(catArea(id))+" km²",X+22,y); y+=16;
+    x.font="11.5px system-ui,sans-serif"; x.fillStyle=css("--text-secondary")||"#555";
+    wrap(id.startsWith("u:")?(D.units[id.slice(2)]||{text:""}).text.slice(0,140):CL[id].name, LW-50, 14); y+=6; }
+  y+=8; x.font="10.5px system-ui,sans-serif"; x.fillStyle=css("--text-muted")||"#777";
+  wrap("Boden: ÜBK25, ÜMBK25, Bodenkennwerte, BAG500 © LfU Bayern (CC BY 4.0). Nutzung CORINE 5 ha, DGM200 © GeoBasis-DE / BKG 2026."+(tainted||S.base==="none"?"":" Hintergrund: siehe Kartenvermerk."),LW-40,13);
+  const blob=await new Promise(r=>c.toBlob(r,"image/png")); const name="bodenkarte_bayern_"+new Date().toISOString().slice(0,10)+".png";
+  try{ if(window.claude&&window.claude.use){ const dl=await window.claude.use("downloads"); if(dl){ await dl.save({filename:name,data:blob}); return; } } }catch(e){ if(e&&e.code==="declined") return; }
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);
+}
+$("imgBtn").onclick=()=>exportImage().catch(()=>toast("Bild konnte nicht erzeugt werden"));
+setTimeout(()=>{ if(inArtifact()){ $("printBtn").style.display="none"; } },0);
+
+(async()=>{
+  try{ D=await loadData(); }catch(e){ $("loading").textContent="Die Kartendaten ließen sich nicht entpacken. Bitte einen aktuellen Browser verwenden."; return; }
+  initStats(); loadStore(); buildLuBoxes(); buildLegend(); cloudInit(); build();
+})();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{ for(const k in patCache) delete patCache[k]; if(D) restyle(); });
+</script>
+</body>
+</html>

@@ -36,3 +36,15 @@ Merkpunkte und Notizen bleiben im Browser des jeweiligen Geräts. Keine automati
 `node scripts/check_app.cjs` prüft den vollständigen Bodenbestand, Kartenfunktionen und mobile Gesten mit kontrollierten Canvas-/Dienstobjekten. `node scripts/check_worker.cjs` prüft den Service Worker. Ergebnisse unter `checks/`. Echte Geräte- und Browserprüfungen stehen aus.
 
 `python3 scripts/prepare_pwa.py --source-html /absoluter/Pfad/Bodenkarte_Bayern_interaktiv.html` übernimmt eine validierte lokale Karte. `python3 scripts/finalize_pwa.py` erzeugt Symbole und Service Worker; dafür ist Pillow erforderlich. Für den normalen statischen Betrieb ist kein Python erforderlich.
+
+## Soilscapes-Vergleichskarte (`dist/soilscapes/`)
+
+Zweite, eigenständige Karte: ordnet die 695 Legendeneinheiten der ÜBK25 den britischen Soilscapes-Klassen zu (Schwerpunkt 6, 13, 16) und zeigt dazu amtliche LfU-Bodenkennwerte (Basensättigung, Grobboden, Humus, Carbonat), die Bodenausgangsgesteinskarte BAG500, die ÜMBK25-Moorbodenprüfung, Hangneigung aus dem DGM200, CORINE-Nutzung und eine Statistik je Landkreis.
+
+- Nach der Veröffentlichung erreichbar unter `…/soilscapes/` (bei GitHub Pages: https://mudita1973.github.io/bodenkarte-bayern/soilscapes/).
+- `index.html` enthält Übersicht, generalisierte Flächen und alle Sachdaten (komprimiert, 9,8 MB). `detail/r00.json` bis `detail/r38.json` (zusammen 35 MB) sind die auf etwa 12 m vereinfachten Originalflächen; die Karte lädt sie ab Zoomstufe 12 regionsweise nach.
+- Der Service Worker der mobilen App betrifft diesen Unterordner nicht (er bedient nur die in `sw.js` gelisteten Dateien).
+- Bedienung: Umrisse über Luftbild, Vergleichsregler, teilbarer Link (Ansicht im `#`-Teil der Adresse), Drucken, Karte als Bild, Merkpunkte und Suchstände (nur im jeweiligen Browser gespeichert).
+- Erzeugt mit den Skripten in `scripts/soilscapes/` (Python, mapshaper). Die Rohdaten (ÜBK25-Geopackage, CORINE, DGM200) sind wegen ihrer Größe nicht im Repository.
+
+Quellen und Lizenzen: ÜBK25, ÜMBK25, Bodenkennwerte und BAG500 © Bayerisches Landesamt für Umwelt (CC BY 4.0); CORINE Land Cover 5 ha 2021 und DGM200 © GeoBasis-DE / BKG 2026 (Daten verändert); Landkreisgrenzen: UmweltAtlas Bayern, Geobasisdaten © Bayerische Vermessungsverwaltung; Leaflet © Volodymyr Agafonkin (BSD-2-Clause).
