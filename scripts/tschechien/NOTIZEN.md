@@ -33,3 +33,10 @@ mapy.geology.cz, mze.gov.cz, ags.cuzk.gov.cz, atom.cuzk.cz, maps.isric.org, file
 - Fehler behoben (beide Karten): Nutzungskacheln blieben nach Heraus- und Hineinzoomen auf „wait“ hängen.
 - Westböhmen: Maske auf Gebietsumriss beschnitten (D.region), LPIS mit eigenem Pool (4) und Abbruch veralteter Anfragen, ZABAGED-Kacheln ohne Platzlimit; Statistik und Nutzungsanteile aus ungeneralisierten Flächen (20.991 km² statt 20.686 km²); Merkpunkte in UTM33; Pilzfunktionen auch per Link/Import gesperrt; Texte korrigiert (Raster etwa 80 m bzw. 260 m am Boden).
 - Beide: Nachbarkarten-Link übersetzt Nutzungsauswahl, fällt ohne Überschneidung auf Übersicht zurück; Beschriftungen ohne Überlappung; Quellenzeile auf dem Handy einzeilig; Auswahllisten mit aria-label.
+
+## 2026-11-02: v11.7 (Bayern) / v1.3 (Westböhmen)
+- Pilzsuche Westböhmen: Bodengruppen aus ČGS-Bodenkarte (pz_cz.py, units[leg].zc = [sauer, basisch, wasser]); sauer 5.564 km², basisch 976 km², Wasserspeicher 1.775 km². Hangrichtung, Wetter, iNaturalist, SoilGrids-Gegenprobe aktiv; Baumarten und Thünen-pH ausgeblendet (nur Deutschland).
+- Säureanzeige: mesobasisch (TKSP) mit WRB „Dystric“ wird jetzt als „mittel basenhaltig“ angezeigt, nicht als „basenarm“.
+- Gebäude: ZABAGED-Layer 99 (dlzab99.py, 2.099.794 Objekte, 714.538 im Gebiet) je Kachel gepuffert (6 m), vereinigt, zurückgenommen (-4 m) als Layer 99 „bebaute Fläche“ in lutiles; Kacheln 19,3 MB statt 12,0 MB.
+- Speicher (beide Karten, Handy): Daten aus Textelement statt JS-String, PNG/Bin nach Gebrauch frei, generalisierte Ebene erst beim Hineinzoomen und in Schritten, in der Detailansicht nach 2,5 s freigegeben; CZ-Generalisierung je Einheit und 0,27°×0,18°-Zelle gebündelt (6.286 statt 30.791 Objekte). JS-Heap Handy: Übersicht BY 155 → 23 MB, CZ 118 → 22 MB; Zoom 13 BY 162 → 45 MB, CZ 190 → 27 MB; Zoom 10 CZ 180 → 103 MB.
+- Offen: weiße Spalten zwischen ZABAGED-Flächen (je Fläche auf 15 m vereinfacht beim Download).

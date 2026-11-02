@@ -8,7 +8,7 @@ const ZB={138:["ak","Ackerland und sonstige Flächen"],135:["sk","Obstgarten, Ga
   131:["om","Sumpf, Morast"],18:["om","Torfmoor"],130:["of","Felsen"],129:["of","Rutschung, Schutt"],132:["sw","Wasserfläche"],
   114:["ss","Betriebs- und Zweckbebauung"],115:["ss","sonstige Fläche in Siedlungen"],116:["ss","Friedhof"],117:["ss","Deponie"],118:["ss","Tagebau, Steinbruch"],
   119:["ss","Lagerplatz"],121:["ss","Bahnhofsgelände"],122:["ss","Gleisanlage"],123:["ss","Parkplatz, Rastplatz"],124:["ss","Start- und Landebahn"],
-  125:["ss","Flugplatz"],126:["ss","Kraftwerk"],127:["ss","Umspannwerk"],134:["ss","gepflegtes Grün (Park, Sportfläche)"]};
+  125:["ss","Flugplatz"],126:["ss","Kraftwerk"],127:["ss","Umspannwerk"],134:["ss","gepflegtes Grün (Park, Sportfläche)"],99:["ss","bebaute Fläche (Gebäude)"]};
 const LPIS_DE={"standardní orná půda":"Ackerland","trvalý travní porost":"Dauergrünland","travní porost (na orné půdě)":"Ackergras","úhor":"Brache",
   "ovocný sad":"Obstanlage","chmelnice":"Hopfen","vinice":"Weinberg","školka":"Baumschule","zalesněná půda":"aufgeforstete Fläche",
   "rychle rostoucí dřeviny":"schnellwachsende Gehölze","jiná trvalá kultura":"andere Dauerkultur","rybník":"Teich","mimoprodukční plocha":"nicht produktive Fläche",
@@ -33,7 +33,7 @@ function zbDecode(u,k){ let p=0;
     for(let q=0;q<np;q++){ const nr=rd(), rings=[];
       for(let r=0;r<nr;r++){ const m=rd(), a=new Float64Array(m*2); let x=x0,y=y0; for(let i=0;i<m;i++){ x+=zd(); y+=zd(); a[2*i]=x; a[2*i+1]=y; } rings.push(toZ0(a)); }
       polys.push(rings); }
-    const z=ZB[l]||["ss","Fläche ("+l+")"]; out.push({id:"a:"+k+":"+f,src:"a",sub:z[0],polys,bb:featBB(polys),name:z[1]}); }
+    const z=ZB[l]||["ss","Fläche ("+l+")"]; out.push({id:"a:"+k+":"+f,src:"a",sub:z[0],polys,bb:featBB(polys),name:z[1],top:l===99}); }
   return out; }
 const zbCache=new Map();
 async function zbGet(k){
@@ -126,13 +126,14 @@ function luvDraw(Ly){
       const on=S.lu.has(f.sub);
       if(pass==="i"){ cut(); if(S.luMask&&!on){ x.globalAlpha=0.86; x.fillStyle=surf; x.fill("evenodd"); } }
       else if(S.luMask&&on) cut();
+      else if(S.luMask&&f.top){ x.globalAlpha=0.86; x.fillStyle=surf; x.fill("evenodd"); }
       if(S.luLayer&&on){ x.globalAlpha=S.luMask?0.35:(S.soil?0.62:0.95); x.fillStyle=SUB[f.sub].col; x.fill("evenodd"); }
       if(pass==="i"&&z>=15&&(S.luLayer||(S.luMask&&on))){ x.globalAlpha=0.45; x.lineWidth=0.8; x.strokeStyle="#333"; x.stroke(); } } }
   x.restore(); x.globalAlpha=1; luSharesSoon(); }
 const luvLayer=new LuVec(); map.whenReady(()=>luvLayer.addTo(map));
 function pipZ0(f,px,py){ for(const poly of f.polys){ let ins=false; for(const r of poly){ for(let i=0,j=r.length-2;i<r.length;j=i,i+=2){ const yi=r[i+1], yj=r[j+1]; if((yi>py)!==(yj>py) && px<(r[j]-r[i])*(py-yi)/(yj-yi)+r[i]) ins=!ins; } } if(ins) return true; } return false; }
 function z0Of(ll){ const s=Math.sin(ll.lat*Math.PI/180); return [256*(0.5+ll.lng/360), 256*(0.5-Math.log((1+s)/(1-s))/(4*Math.PI))]; }
-function vecAt(ll,src,list){ const [px,py]=z0Of(ll); for(const f of (list||VF.values())){ if(f.src!==src) continue; const b=f.bb; if(px<b[0]||px>b[2]||py<b[1]||py>b[3]) continue; if(pipZ0(f,px,py)) return f; } return null; }
+function vecAt(ll,src,list){ const [px,py]=z0Of(ll); let hit=null; for(const f of (list||VF.values())){ if(f.src!==src) continue; const b=f.bb; if(px<b[0]||px>b[2]||py<b[1]||py>b[3]) continue; if(pipZ0(f,px,py)){ if(f.top) return f; if(!hit) hit=f; } } return hit; }
 function vecText(a,i){
   if(i){ const nm=SUB[i.sub].n, extra=i.crop&&i.crop!==nm?` (${i.crop})`:""; return `${nm}${extra}, Feldblock ${i.ha!=null?fmt(i.ha,2)+" ha":"ohne Flächenangabe"} · LPIS`; }
   if(a) return `${a.name} · ZABAGED`; return null; }

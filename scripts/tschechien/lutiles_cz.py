@@ -23,6 +23,23 @@ tg=gpd.GeoDataFrame({"ix":[t[0] for t in tiles],"iy":[t[1] for t in tiles]},geom
 reg32=gpd.GeoSeries([reg],crs=32633).to_crs(32632).iloc[0]
 tg=tg[tg.intersects(reg32)]
 j=gpd.sjoin(g,tg,predicate="intersects")
+# Gebäude (ZABAGED-Layer 99): je Kachel puffern (6 m), vereinigen, zurücknehmen (-4 m) -> bebaute Fläche
+BG=[]
+for f in sorted(glob.glob("zab99/z*.json")):
+    for rings in json.load(open(f))["f"]:
+        if len(rings[0])>=4:
+            try: BG.append(Polygon(rings[0]))
+            except Exception: pass
+bg=gpd.GeoDataFrame(geometry=BG,crs=32633); bg=bg[bg.geometry.is_valid|True]
+bg=bg[bg.intersects(reg)].to_crs(32632); print("Gebäude",len(bg))
+jb=gpd.sjoin(bg,tg,predicate="intersects"); BUILT={}
+for (ix,iy),grp in jb.groupby(["ix","iy"]):
+    x0,y0=ix*T,iy*T
+    u=shapely.union_all(shapely.buffer(grp.geometry.values,6,quad_segs=2))
+    u=shapely.buffer(u,-4,quad_segs=2)
+    u=shapely.simplify(shapely.clip_by_rect(u,x0,y0,x0+T,y0+T),1.5)
+    if u is not None and not u.is_empty: BUILT[(ix,iy)]=u
+print("Kacheln mit Gebäuden",len(BUILT))
 def zz(n): return (n<<1)^(n>>63) if n<0 else n<<1
 def vi(buf,n):
     while True:
@@ -51,6 +68,22 @@ for (ix,iy),grp in j.groupby(["ix","iy"]):
                 nr+=1
             if nr: vi(pb,nr); pb+=rb; np_+=1
         if np_: vi(fb,np_); fb+=pb; feats.append(fb)
+    bu=BUILT.get((ix,iy))
+    if bu is not None:
+        polys=[p for p in getattr(bu,"geoms",[bu]) if p.geom_type=="Polygon" and p.area>=150]
+        if polys:
+            fb=bytearray(); vi(fb,99); np_=0; pb=bytearray()
+            for p in polys:
+                rb=bytearray(); nr=0
+                for r in [p.exterior]+list(p.interiors):
+                    c=np.round(np.asarray(r.coords)[:-1]-[x0,y0]).astype(np.int64)
+                    keep=np.ones(len(c),bool); keep[1:]=np.any(c[1:]!=c[:-1],axis=1); c=c[keep]
+                    if len(c)<3: continue
+                    d=np.diff(np.vstack([[0,0],c]),axis=0); vi(rb,len(c))
+                    for dx,dy in d: vi(rb,zz(int(dx))); vi(rb,zz(int(dy)))
+                    nr+=1
+                if nr: vi(pb,nr); pb+=rb; np_+=1
+            if np_: vi(fb,np_); fb+=pb; feats.append(fb)
     if not feats: continue
     vi(buf,len(feats))
     for fb in feats: buf+=fb

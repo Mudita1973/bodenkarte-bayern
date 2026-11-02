@@ -59,7 +59,10 @@ for i,r in enumerate(u.itertuples()):
     F=flags(r)
     stau="staunass (Pseudogley-Merkmal)" if F["stau_main"] else "grundwasserbeeinflusst" if F["gw_main"] else "Torf bzw. Anmoor" if F["torf"] else "ohne Nässemerkmal (terrestrischer Boden)"
     sae=[]; 
-    if F["dyst"]: sae.append({"art":"basenarm laut Bodenkarte (dystrisch bzw. oligotroph)","status":"genannt","beleg":s(r.p1)+(" · WRB "+s(r.wrb) if s(r.wrb) else "")})
+    _p1=s(r.p1); _wb=(" · WRB "+s(r.wrb) if s(r.wrb) else "")
+    if re.search(r"dystrick|oligotrof",_p1): sae.append({"art":"basenarm laut Bodenkarte (dystrisch bzw. oligotroph)","status":"genannt","beleg":_p1+_wb})
+    elif "mesobazick" in _p1: sae.append({"art":"mittel basenhaltig laut Bodenkarte (mesobasisch)"+(", im WRB-Namen „Dystric“ (Basensättigung unter 50 %)" if "Dystric" in s(r.wrb) else ""),"status":"genannt","beleg":_p1+_wb})
+    elif F["dyst"]: sae.append({"art":"basenarm laut WRB-Name der Bodenkarte („Dystric“, Basensättigung unter 50 %)","status":"genannt","beleg":_p1+_wb})
     if F["eutr"]: sae.append({"art":"basenreich laut Bodenkarte (eutroph)","status":"genannt","beleg":s(r.p1)+(" · WRB "+s(r.wrb) if s(r.wrb) else "")})
     if F["podsol"]: sae.append({"art":"sauer: Podsolierung genannt","status":"genannt","beleg":s(r.p1)})
     if F["kalk"]: sae.append({"art":"basisch: Kalk oder Löss im Substrat","status":"genannt" if sub else "abgeleitet","beleg":sub or "geologische Karte 1:50 000"})

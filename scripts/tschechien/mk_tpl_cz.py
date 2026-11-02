@@ -27,8 +27,7 @@ rep('<option value="dop">Luftbild Bayern (DOP40)</option>','<option value="dop">
 rep("Das Luftbild Bayern sucht sich die passende Bildebene selbst; ist der Dienst nicht erreichbar, erscheint automatisch das Esri-Luftbild, bei der topografischen Karte ersatzweise OpenStreetMap.",
     "Ist der ČÚZK-Dienst nicht erreichbar, erscheint automatisch das Esri-Luftbild, bei der topografischen Karte ersatzweise OpenStreetMap.")
 rex(r'<p class="note">Quellen: In der Übersicht CORINE Land Cover 5 ha.*?</p>',
- '<p class="note">Quellen: In der Übersicht die Flächen der ZABAGED (ČÚZK), als Raster von etwa 80 m offline enthalten. Ab Zoomstufe 13 die ZABAGED-Flächen selbst (auf etwa 15 m vereinfacht, von dieser Seite geladen). Ab Zoomstufe 14 zusätzlich die Feldblöcke aus dem tschechischen Agrarregister LPIS (Landwirtschaftsministerium) mit Kultur und Fläche, live abgefragt. Wiese und Weide trennen beide Quellen nicht.</p>')
-rep('<details class="box" id="pilzBox">','<details class="box" id="pilzBox" style="display:none">')
+ '<p class="note">Quellen: In der Übersicht die Flächen der ZABAGED (ČÚZK), als Raster von etwa 80 m offline enthalten. Ab Zoomstufe 13 die ZABAGED-Flächen selbst (auf etwa 15 m vereinfacht, von dieser Seite geladen); die 714.538 Gebäude des Gebiets sind dabei zu bebauten Flächen verschmolzen (Lücken bis etwa 12 m geschlossen). Ab Zoomstufe 14 zusätzlich die Feldblöcke aus dem tschechischen Agrarregister LPIS (Landwirtschaftsministerium) mit Kultur und Fläche, live abgefragt. Wiese und Weide trennen beide Quellen nicht.</p>')
 rep("<summary>Statistik je Landkreis</summary>","<summary>Statistik je Bezirk (okres)</summary>")
 rep('<option value="p">nach Anteil am Kreis sortieren</option>','<option value="p">nach Anteil am Bezirk sortieren</option>')
 rep("Klick in die Karte: Bodeneigenschaften mit Belegstatus, Moorbodenprüfung, Vergleichskategorien, Höhe, Nutzung und Links.","Klick in die Karte: Bodeneigenschaften mit Belegstatus, Vergleichskategorien, Höhe, Nutzung und Links.")
@@ -42,12 +41,13 @@ METH='''<div class="in" style="font-size:12.5px;color:var(--text-secondary)">
       <p><b>Höhe am Punkt:</b> DMR 4G der ČÚZK, für die Webkarte auf etwa 260 m vergröbert. <b>Nutzung am Punkt:</b> in der Übersicht ZABAGED als Raster von etwa 80 m, ab Zoomstufe 13 die ZABAGED-Fläche und, wo vorhanden, der LPIS-Feldblock. LPIS-Kulturen ohne eindeutige Nutzung (andere Kultur, nicht produktive Fläche, Containerflächen) bleiben bei der ZABAGED-Angabe.</p>
       <p><b>Generalisierung:</b> Linien in der Übersicht auf etwa 600 m, in der Normalansicht auf etwa 60 m vereinfacht. Flächenangaben stammen aus den ungeneralisierten Daten. <span id="detailNote">Ab Zoomstufe 12 lädt die Karte genauere Flächen nach (auf etwa 10 m vereinfacht).</span></p>
       <p><b>Statistik je Bezirk:</b> 17 Bezirke (okresy) nach RÚIAN (ČÚZK), ausgezählt auf einem 50-m-Raster aus Bodenkarte und ZABAGED. Der Grünlandanteil ist das ZABAGED-Dauergrünland an genau diesen Rasterzellen. Gewässer sind ausgelassen.</p>
+      <p><b>Pilzsuche:</b> Die Bodengruppen kommen aus der ČGS-Bodenkarte: sauer (basenarm oder podsoliert, ohne Kalk) 5.564 km², basen- oder kalkreich 976 km² (basisches Gestein aus der geologischen Karte zählt nur, wenn die Bodenkarte nicht basenarm oder mittel basenhaltig angibt), gute Wasserspeicher (tiefgründiger Lehm aus Löss oder Lösslehm) 1.775 km². In Bayern beruhen dieselben Gruppen auf gemessenen LfU-Kennwerten; hier sind sie eine Näherung. Hangrichtung, Wetter und Fundmeldungen funktionieren wie in Bayern, Baumarten fehlen.</p>
       <p><b>Agrarregister LPIS:</b> Der Dienst enthält auch Namen und Anschriften der Bewirtschafter. Die Karte fragt nur Geometrie, Kultur und Fläche ab; die persönlichen Angaben werden nicht übertragen und nirgends angezeigt.</p>
       <p><b>Standortauskunft:</b> Mapy.com wird direkt an der Koordinate geöffnet. Die ČGS-Bodenkarte bietet keinen dokumentierten Direktlink zu einer Koordinate; dort über die Ortssuche hinzoomen.</p>
     </div>'''
 rex(r'<div class="in" style="font-size:12.5px;color:var\(--text-secondary\)">\s*<p><b>Belegstatus je Eigenschaft:</b>.*?</div>\s*</details>', METH+"\n  </details>")
 rex(r'<p class="src">Boden: ÜBK25.*?</p>',
- '<p class="src">'+SRC_ATTR+' Nutzung (ZABAGED), Höhe (DMR 4G), Bezirksgrenzen (RÚIAN), Hintergrund ZTM und Ortofoto: © ČÚZK, CC BY 4.0 (Nutzung zu 9 Gruppen zusammengefasst, Linien vereinfacht, Höhe vergröbert). Feldblöcke: LPIS © Ministerstvo zemědělství ČR. Ortssuche und Ersatzkarte: © OpenStreetMap-Mitwirkende (ODbL). Luftbild Esri: © Esri, Maxar, Earthstar Geographics. Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>')
+ '<p class="src">'+SRC_ATTR+' Nutzung (ZABAGED), Höhe (DMR 4G), Bezirksgrenzen (RÚIAN), Hintergrund ZTM und Ortofoto: © ČÚZK, CC BY 4.0 (Nutzung zu 9 Gruppen zusammengefasst, Gebäude zu bebauten Flächen verschmolzen, Linien vereinfacht, Höhe vergröbert). Feldblöcke: LPIS © Ministerstvo zemědělství ČR. Ortssuche und Ersatzkarte: © OpenStreetMap-Mitwirkende (ODbL). Luftbild Esri: © Esri, Maxar, Earthstar Geographics. Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>')
 rep('<div id="printHead"><h2>Bodenkarte Bayern: Soilscapes-Vergleich</h2>','<div id="printHead"><h2>Bodenkarte Westböhmen: Soilscapes-Vergleich</h2>')
 
 rep('<a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/" target="_blank" rel="noopener">Nachbarkarte: Bodenkarte Westböhmen (Tschechien) →</a>',
@@ -110,7 +110,7 @@ rex(r'  else if\(inArtifact\(\)\) t="In der Claude-Artifact-Ansicht.*?\n  el\.te
     if(!st.n) t="Außerhalb des Kartengebiets gibt es keine Nutzungsflächen.";
     else if(st.n>40) t="Ausschnitt zu groß für die genauen Flächen; etwas näher heranzoomen.";
     else if(!st.complete) t=`Lade Nutzungsflächen … ${st.ao} von ${st.a} Kacheln. Bis dahin die Übersicht.`;
-    else { t="Jetzt: ZABAGED-Flächen (ČÚZK). Straßen und Gebäudeblöcke wurden aus ZABAGED nicht übernommen und bleiben bei „Boden nur auf gewählter Nutzung“ abgedeckt";
+    else { t="Jetzt: ZABAGED-Flächen (ČÚZK), Gebäude zu bebauten Flächen zusammengefasst. Straßen sind nicht als Fläche enthalten und bleiben bei „Boden nur auf gewählter Nutzung“ abgedeckt";
       t+= z>=INV_Z ? `, darüber die LPIS-Feldblöcke (MZe)${st.io<st.i?` (lädt noch ${st.i-st.io} von ${st.i})`:""}${st.ie?`; ${st.ie} LPIS-Abfrage(n) fehlgeschlagen`:""}.` : `. Für die LPIS-Feldblöcke auf Zoomstufe ${INV_Z} gehen.`;
       if(st.ae) t+=` ${st.ae} Kachel(n) nicht geladen, dort fehlen Flächen.`; } }
   el.textContent=t; }''')
@@ -128,7 +128,6 @@ rep('· UTM32 ${e} / ${n}${h!==null?','· UTM33 ${e} / ${n}${h!==null?')
 rep('(CORINE, grob)`:""}</span></div>`;','(ZABAGED-Übersicht)`:""}</span></div>`;')
 rex(r'<a href="https://atlas\.bayern\.de/\?z=15&c=\$\{e\},\$\{n\}" target="_blank" rel="noopener">BayernAtlas</a><a href="https://www\.umweltatlas\.bayern\.de[^"]*" target="_blank" rel="noopener">UmweltAtlas Boden</a>',
  '<a href="https://mapy.com/de/zakladni?x=${lng}&y=${lat}&z=15&source=coor&id=${lng}%2C${lat}" target="_blank" rel="noopener">Mapy.com</a><a href="https://mapy.geology.cz/pudy/" target="_blank" rel="noopener">ČGS-Bodenkarte</a>')
-rep('  html+=`<details class="pilzpt" id="ptPilz"${S.pilzOpen?" open":""}><summary>Pilzsuche an diesem Punkt</summary><div id="ptPilzIn"></div></details>`;\n',"")
 rep('<p class="ph">Außerhalb der ÜBK25-Flächen.</p>','<p class="ph">Außerhalb der Bodenkarte (nur Karlovarský, Plzeňský und Jihočeský kraj).</p>')
 rep("<h3>ÜBK25-Einheit ${esc(K.leg)}</h3>","<h3>Bodeneinheit ${esc(K.leg)}</h3>")
 rep("<b>Amtliche Beschreibung:</b>","<b>Beschreibung (ČGS-Bodenkarte, übersetzt):</b>")
@@ -160,8 +159,37 @@ rep('"utm32_e","utm32_n"','"utm33_e","utm33_n"')
 rep("utm32_e:m.utm?m.utm[0]:null","utm33_e:m.utm?m.utm[0]:null"); rep("utm32_n:m.utm?m.utm[1]:null","utm33_n:m.utm?m.utm[1]:null")
 rep('offerFile("bodenkarte_sicherung.json"','offerFile("bodenkarte_westboehmen_sicherung.json"')
 # Pilzfunktionen auch über Link oder Sicherung nicht einschalten
-rep("pz:(st.pz||[]).filter(p=>PZ[p])","pz:[]")
-rep('pilzSet("asp",!!st.asp); pilzSet("tree",!!st.tree); if(st.inat){','st.asp=st.tree=false; st.inat=""; if(false){')
+rep('pilzSet("asp",!!st.asp); pilzSet("tree",!!st.tree); if(st.inat){','pilzSet("asp",!!st.asp); if(st.inat){')
+# ---- Pilzsuche für Westböhmen: Bodengruppen aus der ČGS-Bodenkarte, keine Thünen-Karten ----
+rep('regel:"Basensättigung unter 20 % (LfU-Kennwert, Waldwert bevorzugt) und Oberboden kalkfrei (Carbonat unter 0,5 %)"',
+    'regel:"laut ČGS-Bodenkarte basenarm (dystrisch, oligotroph) oder podsoliert (Podsol, Kryptopodsol, podsolige Braunerde), ohne Kalk"')
+rep('regel:"Oberboden kalkhaltig (Carbonat ab 0,5 %) oder Basensättigung ab 80 % oder mindestens 50 % basisches Gestein (BAG500)"',
+    'regel:"laut ČGS-Bodenkarte eutroph oder kalkhaltig (Rendzina, Pararendzina, Kalk, Mergel, Löss) oder aus basischem Gestein (Basalt, Diabas, Amphibolit und ähnliche)"')
+rep('regel:"nutzbare Feldkapazität ab 180 mm und Wasserdurchlässigkeit unter 40 cm/Tag (höchstens mittel)"',
+    'regel:"tiefgründige Lehmböden aus Löss oder Lösslehm (Hnědozem, Luvizem, Braunerde mit Lösslehmdecke); Näherung, gemessene Feldkapazitäten gibt es hier nicht"')
+rex(r'const PH_SRC=\{.*?\}\};\nfunction phRaster',
+ 'const PH_SRC={cgs:{n:"ČGS-Bodenkarte (Subtyp und Gestein)",kind:"unit",info:"Sauer und basisch nach den Angaben der Bodenkarte: Basenarmut (dystrisch, oligotroph) und Podsolierung gegen Eutrophie, Kalk und basisches Gestein. Gemessene Kennwerte wie die Basensättigung des LfU gibt es für Tschechien nicht; der SoilGrids-pH am Punkt dient als Gegenprobe."}};\nfunction phRaster')
+rex(r'function pzMatch\(K,p,src\)\{.*?\n  return false; \}\n',
+ 'function pzMatch(K,p,src){ const u=D.units[K.leg]; if(!u||!u.zc) return false; return !!u.zc[{sauer:0,basisch:1,wasser:2}[p]]; }\n')
+rex(r'    const rows=\[\n.*?\]\];\n',
+ '    const rows=[\n      ["cgs", leg&&D.units[leg]?D.units[leg].p.saeure.wert:"keine Angabe", leg&&D.units[leg]&&D.units[leg].zc?unitCls("cgs"):null],\n'
+ '      ["sg", parts.sg===undefined?"…":parts.sg==null?"keine Angabe":`pH ${fmt(parts.sg,1)} (in Wasser gemessen)`, parts.sg==null?null:clsPh(parts.sg-0.6)]];\n')
+rex(r'    h\+=`<div class="prop"><div class="pn"><span>Baumart \(Thünen-Institut, 10 m\).*?\n','')
+rex(r'  treeAt\(ll\)\.then.*?\n','')
+rex(r'  thAt\("geonode:pH_map_0_30",ll\).*?\n','')
+rex(r'  thAt\("geonode:pH_map_30_100",ll\).*?\n','')
+rep('In der Claude-Artifact-Ansicht sind Wetter, Hang und Baumart gesperrt.','In der Claude-Artifact-Ansicht sind Wetter und Hang gesperrt.')
+t=t.replace('"lfuW"','"cgs"')
+rep('<div class="row"><label><input type="checkbox" id="cTree">','<div class="row" style="display:none"><label><input type="checkbox" id="cTree">')
+rep('<div class="pzleg" id="treeLeg"></div>','<div class="pzleg" id="treeLeg" style="display:none"></div><p class="note">Eine offene Baumartenkarte wie die des Thünen-Instituts gibt es für Tschechien nicht. Laub- und Nadelwald trennt auch ZABAGED nicht.</p>')
+rep("Sauer und basisch richten sich nach der gewählten pH-Grundlage, „gute Wasserspeicher“ immer nach den LfU-Wasserwerten.",
+    "Sauer, basisch und „gute Wasserspeicher“ kommen aus den Angaben der ČGS-Bodenkarte (Bodentyp, Subtyp, Gestein); gemessene Kennwerte gibt es hier nicht.")
+rex(r'<p class="note">Weitere Quellen: <a href="https://www\.ufz\.de/duerremonitor".*?</p>',
+ '<p class="note">Weitere Quellen: <a href="https://www.intersucho.cz" target="_blank" rel="noopener">InterSucho</a> (Dürre und Bodenfeuchte in Tschechien), <a href="https://www.myko.cz" target="_blank" rel="noopener">Tschechische Mykologische Gesellschaft</a>.</p>')
+rep('Ortssuche und Ersatzkarte: © OpenStreetMap-Mitwirkende (ODbL).','Ortssuche und Ersatzkarte: © OpenStreetMap-Mitwirkende (ODbL). Pilzsuche: Hangrichtung aus AWS Terrain Tiles (u. a. EU-DEM, SRTM); Wetter Open-Meteo (CC BY 4.0); Fundmeldungen iNaturalist (Lizenzen der Beobachter); pH am Punkt SoilGrids © ISRIC (CC BY 4.0). Faustregeln nach dem Pilzsammler-Buch, Kapitel „Digital Hotspots finden“ und „Digital den perfekten Moment finden“.')
+rep("LfU-Werte und Gestein gelten als Mittel der ganzen Bodeneinheit, die Rasterkarten für diesen Punkt. Thünen-Werte stammen aus den Bodenzustandserhebungen (dort in der Regel in CaCl2 gemessen); SoilGrids misst in Wasser, das liegt meist 0,5 bis 1 pH-Einheit höher, deshalb ist für die Einstufung 0,6 abgezogen. SoilGrids ist ein weltweites Modell und nur zum Vergleich aufgeführt.",
+    "Die Angaben der Bodenkarte gelten für die ganze Bodeneinheit, SoilGrids ist ein Modellwert für diesen Punkt (Raster 250 m). SoilGrids misst in Wasser, das liegt meist 0,5 bis 1 pH-Einheit über dem in CaCl2 gemessenen Wert, deshalb ist für die Einstufung 0,6 abgezogen.")
+rep('<div class="pr">pH-Grundlage: ${esc(PH_SRC[S.phSrc].n)} (unter „Pilzsuche“ umstellbar).</div>','<div class="pr">Grundlage: ${esc(PH_SRC[S.phSrc].n)}; SoilGrids unten als Gegenprobe.</div>')
 # ---- Bildexport ----
 rep('x.fillText("Bodenkarte Bayern: Soilscapes-Vergleich",X,y)','x.fillText("Bodenkarte Westböhmen: Soilscapes-Vergleich",X,y)')
 rex(r'wrap\("Boden: ÜBK25, ÜMBK25.*?"\+\(tainted',
@@ -169,7 +197,6 @@ rex(r'wrap\("Boden: ÜBK25, ÜMBK25.*?"\+\(tainted',
 rep('const name="bodenkarte_bayern_"+new Date()','const name="bodenkarte_westboehmen_"+new Date()')
 
 # ---- Pilzfunktionen still legen (keine Daten für Tschechien) ----
-rep("function pilzBind(ll,leg){ const d=$(\"ptPilz\")","function pilzBind(ll,leg){ return; const d=$(\"ptPilz\")")
 
 open("/home/claude/cz/template_cz.html","w",encoding="utf-8").write(t)
 left=re.findall(r".{0,40}(?:ÜBK25|LfU|Bayern|CORINE|ATKIS|InVeKoS|Landkreis|basemap\.de|UTM32 \$).{0,40}",t)

@@ -9,13 +9,22 @@ def varint(buf,n):
         b=n&0x7f; n>>=7
         if n: buf.append(b|0x80)
         else: buf.append(b); break
-def topo(fn):
+def topo(fn,merge=False):
     t=json.load(open(fn)); obj=list(t["objects"].values())[0]
     buf=bytearray(); arcs=t["arcs"]; varint(buf,len(arcs))
     for a in arcs:
         varint(buf,len(a))
         for x,y in a: varint(buf,x); varint(buf,y)
-    geoms=[g for g in obj["geometries"] if g.get("type")]; varint(buf,len(geoms)); feats=[]
+    geoms=[g for g in obj["geometries"] if g.get("type")]
+    if merge:
+        # Flächen gleicher Einheit je 20-km-Zelle bündeln: viel weniger Kartenobjekte, Ausschnitt-Prüfung bleibt wirksam
+        sc,tr_=t["transform"]["scale"],t["transform"]["translate"]; grp={}
+        for g in geoms:
+            for p in (g["arcs"] if g["type"]=="MultiPolygon" else [g["arcs"]]):
+                i=p[0][0]; x,y=arcs[i if i>=0 else ~i][0]; cx=int((x*sc[0]+tr_[0])//0.27); cy=int((y*sc[1]+tr_[1])//0.18)
+                grp.setdefault((g["properties"]["key"],cx,cy),[]).append(p)
+        geoms=[{"type":"MultiPolygon","arcs":v,"properties":{"key":k[0]}} for k,v in grp.items()]
+    varint(buf,len(geoms)); feats=[]
     for g in geoms:
         polys=g["arcs"] if g["type"]=="MultiPolygon" else [g["arcs"]]
         varint(buf,len(polys))
@@ -27,7 +36,7 @@ def topo(fn):
         feats.append(kix[g["properties"]["key"]])
     return {"tr":t["transform"],"bin":base64.b64encode(bytes(buf)).decode(),"feat":feats}
 ov=topo("ms/ov.topojson"); json.dump(ov,open("ov.json","w"),separators=(",",":"))
-gen=topo("ms/gen.topojson"); json.dump(gen,open("gen.json","w"),separators=(",",":"))
+gen=topo("ms/gen.topojson",merge=True); json.dump(gen,open("gen.json","w"),separators=(",",":"))
 print("ov",len(ov["feat"]),"gen",len(gen["feat"]), os.path.getsize("gen.json")/1e6,"MB")
 # Detailkacheln
 g=json.load(open("ms/detail.geojson")); TL=0.1; TW=0.15

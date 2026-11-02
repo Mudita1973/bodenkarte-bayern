@@ -12,7 +12,9 @@ for i,(key,r) in enumerate(zip(keys,u.itertuples())):
     bits={c:sum((1<<j) for j,(n,ok) in enumerate(lst) if ok) for c,lst in crit.items()}
     K.append({"leg":r.leg,"k":r.k,"s":int(bool(r.sure)),"w":r.why,"a":round(float(r.km2),1),"h":int(round(r.h)) if r.h==r.h else 0,
               "lu":[int(round(x*100)) for x in lu[i+1]],"m":bits})
-units={f"{r.leg}|{r.k}":pr["units"][r.leg] for r in u.itertuples()} if False else pr["units"]
+units=pr["units"]
+import pz_cz
+for r in u.itertuples(): units[r.leg]["zc"]=list(pz_cz.pz(r))
 # Kreisstatistik
 R=50; X0,Y0,X1,Y1=285000,5370000,545000,5600000; W=(X1-X0)//R; H=(Y1-Y0)//R
 tr=rasterio.transform.from_origin(X0,Y1,R,R)
