@@ -19,3 +19,12 @@ mapy.geology.cz, mze.gov.cz, ags.cuzk.gov.cz, atom.cuzk.cz, maps.isric.org, file
 - LPIS WFS: https://mze.gov.cz/public/app/wms/plpis_wfs.fcgi (CORS ok; eagri.cz scheitert)
 - ZABAGED REST: https://ags.cuzk.gov.cz/arcgis/rest/services/ZABAGED_POLOHOPIS/MapServer (CORS ok)
 - LPIS trennt Acker/Dauergrünland, nicht Wiese/Mähweide/Weide.
+
+## Stand 2026-11-02: Version 1 gebaut
+
+- Pipeline: dl.py, dlgeo.py, dlzab.py → units.py → run_cls.py (classify_cz.py) → props_cz.py → mapshaper → geopack_cz.py → raster_cz.py → pack_cz.py → lutiles_cz.py → mk_tpl_cz.py (template_cz aus template10) → build_cz.py.
+- Prüfung (pruefung_2026-11-02.tsv): 278 Einheiten, 90 % der Fläche; 94,8 % richtig, 0,9 % fraglich, 4,3 % falsch. Alle 28 Beanstandungen (979 km²) umgesetzt; 283 Einheiten / 1.120 km² geändert. Unsicher: 72,8 % der Fläche.
+- Nutzung: ZABAGED als statische Kacheln (lu/{ix}_{iy}.bin, UTM32-Raster 4 km, 1.484 Kacheln, 12 MB), ČÚZK CC BY 4.0. LPIS live nur mit PROPERTYNAME=ms:GEOMETRY,ms:kultura,ms:vymera (keine Namen/Adressen).
+- Hintergrund: ČÚZK ZTM_WM und ORTOFOTO_WM (arcgis1), CORS ok.
+- Lizenz: Bodenkarte 1:50 000 und 1:1 Mio. sind NICHT CC BY (Metadaten: „copyright“, Zugang ohne Bedingungen). Laut cgs.gov.cz/en/copyright dürfen Kartenausschnitte bzw. Bearbeitungen mit Zitierform und Änderungshinweis weitergegeben werden; sonst schriftliche Genehmigung. Deshalb Daten (dist/soilscapes-cz) noch NICHT öffentlich auf Pages, bis der Nutzer entscheidet.
+- Ausgeliefert: Ordner 07_Bodenkarten/Tschechien (Web-Datei und Detail-Datei mit eingebetteten Kacheln), privates Artifact c32994b2-dc75-4b3e-828e-f384a900aebb.

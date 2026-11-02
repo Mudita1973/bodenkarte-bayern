@@ -1,0 +1,279 @@
+ukey	urteil	vorschlag	grund
+KAa' | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13 (Gestein nur aus GK50)
+1M: kambizemě modální mesobazické | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13 (Gestein nur aus GK50) (1:1 Mio.)
+1M: kambizemě modální mesobazické | Gestein: loam	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+1M: kambizemě dystrické | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘ (Gestein nur aus GK50) (1:1 Mio.)
+KAd | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘ (Gestein nur aus GK50)
+1M: kryptopodzoly s podzoly | Gestein: acid	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14 (1:1 Mio.)
+KPm | Gestein: acid	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+KAm | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13) (Gestein nur aus GK50)
+1M: kambizemě s rankery a litozeměmi | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13) (Gestein nur aus GK50) (1:1 Mio.)
+1M: pseudogleje s kambizeměmi oglejenými | Gestein: acid	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+1M: pseudogleje s kambizeměmi oglejenými | Gestein: clay	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+1M: pseudogleje s kambizeměmi oglejenými | Gestein: sand	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAga' | Gestein: acid	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+1M: kambizemě modální mesobazické | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50) (1:1 Mio.)
+GLm | Gestein: loam	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAa' | ruly	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+PGm | Gestein: acid	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+LUg | Gestein: acid	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+FLq | Gestein: loam	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+? | Gestein: loam	richtig		Gewässer
+LUm | Gestein: acid	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAdz' | Gestein: acid	richtig		podsolige Braunerde auf saurem Gestein: 13 wie Bayern (Gestein nur aus GK50)
+KAga' | Gestein: sand	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+1M: kambizemě dystrické | Gestein: sand	falsch	6	Gesteinsgruppe ‚sand‘ stammt aus der GK50 (‚písčito-hlinitý až hlinito-písčitý sediment‘ = Sandlehm bis Lehmsand, Deckschicht); der Sand-Regex trifft ‚hlinito-písčitý‘. Die Bodenkarte nennt keinen arenischen Subtyp, der Boden ist also lehmig; dystrisch, aber nicht über Fels: Klasse 6 statt 0
+PGm | Gestein: sand	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+GLf | Gestein: loam	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAb':KAsb' | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50)
+GLm | Gestein: sand	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAa' | Gestein: sand	falsch	6	Gesteinsgruppe ‚sand‘ stammt aus der GK50 (‚písčito-hlinitý až hlinito-písčitý sediment‘ = Sandlehm bis Lehmsand, Deckschicht); der Sand-Regex trifft ‚hlinito-písčitý‘. Die Bodenkarte nennt keinen arenischen Subtyp, der Boden ist also lehmig: Braunerde aus Lehm, Klasse 6 statt 0
+KAl | Gestein: acid	falsch	6	kambizem luvická mit WRB-Zusatz Aeolic: Boden aus Lösslehm-Deckschicht über Phyllit/Grauwacke; Bayern-Regel ‚saures Gestein mit Lösslehm‘ ergibt 6, nicht 13
+FLm | Gestein: loam	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAa' | granodiority	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+KAd | žuly	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+PGd | Gestein: acid	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+LUg | Gestein: sand	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAd | Gestein: basic	fraglich	13	laut Bodenkarte dystrisch, Amphibolit nur aus der GK50; basenarm über Fels entspricht 13 (‚acid loamy over rock‘) besser als 6, für 7 fehlt die Basenversorgung
+GLf | nivní hlíny (aluviální)	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+LUg | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+FLq | nivní hlíny (aluviální)	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+PGk | Gestein: acid	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+PGm | hlíny polygenetické	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAa' | žuly	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+KAb' | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50)
+KAd | ruly–migmatity	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+AN | antropogenní substráty nerozlišené	richtig		Antropozem: anthropogen, korrekt ausgeschlossen
+KAa' | ruly–migmatity	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+KAds | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘ (Gestein nur aus GK50)
+KPm | žuly	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+1M: luvizemě s luvizeměmi oglejenými | Gestein: loess	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+1M: fluvizemě | Gestein: loam	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAa'g' | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13 (Gestein nur aus GK50)
+KAb' | Gestein: other	falsch	7	kambizem eutrofní auf Doupov-Alkalivulkaniten (Foidit, Analcimit, Nephelinit, Lahar): basisch, vom BASIC-Regex nicht erfasst; eutroph + basisch = 7
+KAd | ruly	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAga' | Gestein: skel	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAa' | neutrální až ultrabazické metamorfované horniny	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7
+KAa' | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50)
+PGm | písky křemenné chudé & jíly málo bobtnavé & štěrky, štěrkopísky	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+PGm | pískovce & slepence & jílovce & břidlice jílovité měkké	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+GLm | koluviální (deluviální) sedimenty (hlíny)	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+PGk | Gestein: sand	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+FLm | nivní hlíny (aluviální)	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAb':KAsb' | Gestein: other	falsch	7	kambizem eutrofní und rankerová eutrofní auf Analcimit/Foidit/Nephelinit (Doupov): basenreich, 7 statt 6
+HNm | Gestein: acid	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+LUg | hlíny polygenetické	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+PGm | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KPs | Gestein: acid	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14; Kryptopodsol rankerový: nach Regelwerk 14 (Podsol-Braunerde), flachgründig über Fels; 13 wäre vertretbar
+ORme | organické materiály rašelinišť	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+KAa' | Gestein: skel	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KAm | Gestein: sand	falsch	6	Gruppe ‚sand‘ aus GK50 (Sandlehm-Deckschicht, tertiäre Tone/Sande/Kiese gemischt); Bodenkarte: kambizem modální, nicht arenisch, daher lehmig: 6 statt 0
+KAga' | hlíny polygenetické	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+LUm | Gestein: sand	falsch	6	Luvizem setzt Tonverlagerung voraus und ist damit ein Lehmboden; ‚sand‘ kommt nur aus der GK50 (Sandlehm-Deckschicht, Regex-Fehler): 6 statt 0
+PZm | Gestein: acid	richtig		Podsol: 14
+KAgd | Gestein: acid	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAga' | ruly	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+RNk | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13) (Gestein nur aus GK50)
+GLm | Gestein: acid	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+1M: luvizemě s luvizeměmi oglejenými | Gestein: acid	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAg | Gestein: acid	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+HNm | Gestein: sand	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAa' | hlíny polygenetické	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+GLo | Gestein: loam	richtig		Glej histický bzw. zrašelinělý = Moor-/Anmoorgley ohne Kalk: 15
+PGm | Gestein: skel	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+1M: organozemě | Gestein: loam	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+KAsa' | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13 (Gestein nur aus GK50)
+1M: podzoly | Gestein: acid	richtig		Podsol: 14
+KAl | Gestein: sand	falsch	6	kambizem luvická (WRB Aeolic) = Braunerde-Parabraunerde aus Lösslehm-Deckschicht, also lehmig; ‚sand‘ nur aus der GK50: 6 statt 0
+PGp | jílovce chudé & jíly málo bobtnavé & štěrky, štěrkopísky	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KPg | Gestein: acid	richtig		Kryptopodsol oglejený ≈ Pseudogley-Podsol: nass und sehr sauer, 15 (unsicher, 14 denkbar)
+1M: pseudogleje s kambizeměmi oglejenými | Gestein: other	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAa' | břidlice jílovité tvrdé, fylitické	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+1M: pseudogleje s kambizeměmi oglejenými | Gestein: loam	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+PGm | Gestein: clay	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAm | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50)
+HNl | Gestein: acid	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAd | žuly & granodiority	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAb' | bazické vyvřelé horniny	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7
+1M: luvizemě s luvizeměmi oglejenými | Gestein: sand	falsch	6	Luvizem/Luvizem oglejená (1:1 Mio.) ist ein Lehmboden; ‚sand‘ nur aus der GK50 (Sandlehm-Deckschicht): 6 statt 0
+PZr | štěrky, štěrkopísky	richtig		Podsol: 14
+PGm:KAa' | Gestein: sand	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+PGm | sprašové hlíny, prachovice	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+GLo | Gestein: acid	richtig		Glej histický bzw. zrašelinělý = Moor-/Anmoorgley ohne Kalk: 15
+KAga' | Gestein: loam	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAa' | Gestein: other	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+1M: organozemě | Gestein: acid	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+ORme | Gestein: other	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+1M: luvizemě s luvizeměmi oglejenými | Gestein: basic	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KPg | Gestein: sand	richtig		Kryptopodsol oglejený ≈ Pseudogley-Podsol: nass und sehr sauer, 15 (unsicher, 14 denkbar)
+KAd | granodiority	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAm | Gestein: other	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+RNm | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13) (Gestein nur aus GK50)
+PGm | Gestein: loam	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+PZg | Gestein: acid	richtig		Podsol mit Stau- bzw. Grundwasser (Gley-/Pseudogley-Podsol): 15
+KAa' | žuly & granodiority	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+1M: kambizemě s podzoly na terasových uloženinách | Gestein: sand	richtig		sandige, podsolige Braunerde (arenická podzolovaná bzw. mit Podsol): 14, wie Bayern 574a
+KAs | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13) (Gestein nur aus GK50)
+PGm | Gestein: basic	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAy | štěrky, štěrkopísky	richtig		Braunerde aus Sand bzw. Kies (arenická/psefitická) ohne Podsolierung: wie Bayern 0 (eher Soilscapes 10)
+KAdrz' | Gestein: acid	richtig		sandige, podsolige Braunerde (arenická podzolovaná bzw. mit Podsol): 14, wie Bayern 574a
+HNlg' | Gestein: sand	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+PGd | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAla' | Gestein: acid	falsch	6	kambizem luvická (Aeolic) auf Phyllit/Granit: Lösslehmdecke, nach Bayern-Regel 6 statt 13
+PGd | Gestein: sand	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+1M: kambizemě s rankery a litozeměmi | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50) (1:1 Mio.)
+ORfi | Gestein: other	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+KAlg' | Gestein: acid	fraglich	6	kambizem luvická (Tonverlagerung, meist in Lösslehm- bzw. polygenetischer Lehmdecke), nur schwach pseudovergleyt; Bayern-Regel Löss+sauer ergibt 6
+KPm | ruly	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+PGm | spraše & sprašové hlíny, prachovice	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+LUm | Gestein: skel	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAg' | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13) (Gestein nur aus GK50)
+KAm | Gestein: skel	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+PGa' | Gestein: acid	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+1M: podzoly | Gestein: other	richtig		Podsol: 14
+1M: rendziny | Gestein: acid	richtig		Rendzina: wie Bayern 0
+KAl | Gestein: basic	falsch	6	kambizem luvická (Aeolic) = Lösslehmboden; ‚basic‘ nur aus der GK50 (Sandsteine/Konglomerate mit Tuffen, teils Basalt): 6 statt 7
+KAm | písčitojílovité substráty & štěrky, štěrkopísky zahliněné, silikátové	falsch	6	Bodenkarte: ‚písčitojílovité substráty‘ (sandig-tonig) und lehmige Kiese, Subtyp nicht arenisch: Lehmboden, Klasse 6 statt 0
+KAa' | hlíny polygenetické kyselé	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+HNm | spraše & sprašové hlíny, prachovice	richtig		Braunerde bzw. Parabraunerde über Löss: basenreich, 7 wie Bayern (Löss = carb)
+PGd | Gestein: basic	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+PGd | hlíny polygenetické	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+AN | Gestein: other	richtig		Antropozem: anthropogen, korrekt ausgeschlossen
+KAdz' | žuly	richtig		podsolige Braunerde auf saurem Gestein: 13 wie Bayern
+KPm | žuly & granodiority	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+LUm | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+PZqro' | štěrky, štěrkopísky	richtig		Podsol mit Stau- bzw. Grundwasser (Gley-/Pseudogley-Podsol): 15
+PGm | štěrky, štěrkopísky zahliněné, silikátové	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAd | minerálně chudé metamorfované horniny	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+1M: kambizemě modální mesobazické | Gestein: sand	falsch	6	Gesteinsgruppe ‚sand‘ stammt aus der GK50 (‚písčito-hlinitý až hlinito-písčitý sediment‘ = Sandlehm bis Lehmsand, Deckschicht); der Sand-Regex trifft ‚hlinito-písčitý‘. Die Bodenkarte nennt keinen arenischen Subtyp, der Boden ist also lehmig: 6 statt 0
+KAd | Gestein: sand	falsch	6	Gesteinsgruppe ‚sand‘ stammt aus der GK50 (‚písčito-hlinitý až hlinito-písčitý sediment‘ = Sandlehm bis Lehmsand, Deckschicht); der Sand-Regex trifft ‚hlinito-písčitý‘. Die Bodenkarte nennt keinen arenischen Subtyp, der Boden ist also lehmig; dystrisch, ohne Felsbezug: 6 statt 0
+GLo | Gestein: sand	richtig		Glej histický bzw. zrašelinělý = Moor-/Anmoorgley ohne Kalk: 15
+KAr | Gestein: sand	richtig		Braunerde aus Sand bzw. Kies (arenická/psefitická) ohne Podsolierung: wie Bayern 0 (eher Soilscapes 10)
+PGd | pískovce & slepence & jílovce & břidlice jílovité měkké	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAd | fylity & břidlice jílovité tvrdé, fylitické	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+1M: kambizemě s podzoly na terasových uloženinách | Gestein: loam	richtig		sandige, podsolige Braunerde (arenická podzolovaná bzw. mit Podsol): 14, wie Bayern 574a
+LUg | Gestein: skel	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAd | svory	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAga' | Gestein: basic	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAga' | ruly–migmatity	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+HNl | Gestein: sand	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAm | droby & břidlice jílovité	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13)
+PGm | ruly	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+1M: organozemě | Gestein: other	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+KAsb' | Gestein: other	falsch	7	kambizem rankerová eutrofní auf Bazanit/Nephelinit/Analcimit: basenreicher Ranker-Braunerde-Boden = 7 (Bayern: Ranker/Braunerde aus basischem Gestein)
+PGk | hlíny polygenetické	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+GLo' | Gestein: loam	richtig		Glej histický bzw. zrašelinělý = Moor-/Anmoorgley ohne Kalk: 15
+PGm | štěrky, štěrkopísky & jíly smektitické – bobtnavé & jíly málo bobtnavé	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+HNlg | Gestein: sand	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+HNm | Gestein: loess	richtig		Braunerde bzw. Parabraunerde über Löss: basenreich, 7 wie Bayern (Löss = carb) (Gestein nur aus GK50)
+KAa' | svory	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+KAd | hlíny polygenetické kyselé	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KAgd | Gestein: basic	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+PGk | Gestein: basic	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAg | Gestein: sand	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+PZr | Gestein: acid	richtig		Podsol: 14
+KAdrz' | pískovce křemité & slepence křemité & břidlice jílovité	richtig		sandige, podsolige Braunerde (arenická podzolovaná bzw. mit Podsol): 14, wie Bayern 574a
+KAa' | břidlice jílovité & droby	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+GLm | hlíny polygenetické	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAr | štěrky, štěrkopísky	richtig		Braunerde aus Sand bzw. Kies (arenická/psefitická) ohne Podsolierung: wie Bayern 0 (eher Soilscapes 10)
+GLk | Gestein: loam	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAg | Gestein: loam	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+LUg | Gestein: basic	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAd | ruly; žuly & granodiority	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+LUm | Gestein: basic	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAb' | Gestein: skel	fraglich	7	Bodenkarte: eutrofní (basenreich); Substrat steiniger Hangschutt unbekannter Herkunft. Basensättigung spricht für 7, nicht 6
+KAga' | hlíny polygenetické kyselé	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+HNg' | Gestein: sand	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAd | Gestein: other	fraglich	13	dystrische Braunerde auf Ganggesteinen/Vulkaniten (Minette, Trachyt, Dazit, Kieselgestein), Hang 7,5°: basenarm über Fels eher 13 als 6
+KAm | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+GLm | ruly	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAds | žuly	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+HNlg' | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+PGm | polygenetické sedimenty s příměsí štěrku	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KPm | fylity & břidlice jílovité tvrdé, fylitické	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+HNlg' | Gestein: acid	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+1M: kambizemě modální mesobazické | Gestein: loess	fraglich	6	1:1 Mio.: mesobazická (WRB Dystric Cambisols), Löss nur aus der GK50; Bodenkarte zeigt keinen basenreichen Boden, daher eher 6 als 7
+KAgb' | Gestein: basic	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KPs | žuly	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14; Kryptopodsol rankerový: nach Regelwerk 14 (Podsol-Braunerde), flachgründig über Fels; 13 wäre vertretbar
+KAgd | žuly	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern; oglejená auf Granit bei 8° Hang: nach Regelwerk 8 (Pseudogley-Braunerde), britisch eher 17; Hangnässe
+PGk | pískovce & slepence & jílovce & břidlice jílovité měkké	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAb' | čediče & andezity–čediče	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7
+KPm | Gestein: basic	falsch	14	Kryptopodsol (Entic Podzol) laut Bodenkarte; Amphibolit nur am Flächenmittelpunkt der GK50. Bodentyp hat Vorrang: 14 statt 0 (Regel fällt bei basic ohne Alternative auf 0 durch)
+KAsb' | Gestein: basic	richtig		Braunerde bzw. Ranker auf basischem Gestein, nicht dystrisch: 7 (Gestein nur aus GK50)
+KAa' | droby & břidlice jílovité	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+KAga' | žuly	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+PGq | Gestein: clay	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+LUg | sprašové hlíny, prachovice	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+SGp | jílovce chudé & jíly málo bobtnavé & štěrky, štěrkopísky	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+HNlg' | hlíny polygenetické	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAd | droby & břidlice jílovité	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAg | Gestein: skel	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAb' | tufity	falsch	7	kambizem eutrofní auf Tuffiten bzw. Pyroklastika des Doupov-Vulkans (basaltisch): 7 statt 6; BASIC-Regex schließt ‚tufit‘ aus
+KAd | migmatity	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KPm | Gestein: sand	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+KAa'g' | Gestein: skel	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KAgd | Gestein: sand	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+1M: podzoly, rankery a litozemě (alpinské půdní formy) | Gestein: acid	richtig		Podsol: 14
+KAy | písky křemenné chudé & jíly málo bobtnavé & štěrky, štěrkopísky	falsch	0	Substrat sind Sande, Tone und Kiese (Lockersediment), nicht Fels; ‚písky křemenné‘ trifft den ACID-Regex über ‚křemen‘. kambizem psefitická aus Kies wie Einheiten KAy auf Schotter: 0 (Bayern: Braunerde aus Kiessand ohne Podsolierung)
+KAd | neutrální až ultrabazické metamorfované horniny	fraglich	13	dystrische Braunerde, Hang 8,4° (85 % ≥ 5°), GK50 zeigt Hornfels (rohovec, sauer): basenarm über Fels eher 13 als 6
+KAb' | Gestein: loess	richtig		Braunerde bzw. Parabraunerde über Löss: basenreich, 7 wie Bayern (Löss = carb) (Gestein nur aus GK50)
+1M: organozemě | Gestein: sand	richtig		Organozem = Moor mit mächtigem Torf, wie Bayern-Regel (Niedermoor/Hochmoor) ausgeschlossen
+KAa':KAd | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13 (Gestein nur aus GK50)
+1M: kryptopodzoly s podzoly | Gestein: skel	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14 (1:1 Mio.)
+KAg | hlíny polygenetické	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAd | břidlice jílovité tvrdé, fylitické	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAa' | neutrální vyvřelé horniny	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+LUm | hlíny polygenetické	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+PGk | Gestein: loam	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+HNm | Gestein: basic	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+AN | antropogenní substráty – výsypky	richtig		Antropozem: anthropogen, korrekt ausgeschlossen
+KAds | žuly & granodiority	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAm | pískovce křemité & slepence křemité & břidlice jílovité	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13)
+KAgd:KAds | Gestein: acid	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern; oglejená dystrická in 867 m bei 8° Hang: nach Regelwerk 8, britisch eher 17
+KAd | pískovce křemité; slepence křemité; droby	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAga' | granodiority	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+HNl | Gestein: skel	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAd | kyselé metamorfované horniny	falsch	13	Substrat ‚kyselé metamorfované horniny‘ (Metagrauwacke, Phyllonit) ist sauer, wird vom ACID-Regex nicht erkannt (‚other‘): dystrische Braunerde über saurem Fels = 13
+KAga' | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAa' | migmatity	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); mesobazická spräche eher für 6, nach Regelwerk aber 13
+GLm | Gestein: ?	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+PGm | tufity	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+HNlg' | sprašové hlíny, prachovice	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+HNm | Gestein: skel	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+KAds | Gestein: basic	falsch	13	kambizem dystrická rankerová = basenarm, flachgründig-steinig über Fels, 12°: klar 13; 6 setzt einen tiefgründigen Lehmboden ohne Felsbezug voraus
+LUm | Gestein: loesslehm	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
+PZr | Gestein: sand	richtig		Podsol: 14
+KAa'g' | hlíny polygenetické	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KPm | svory	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+KAr | pískovce křemité & slepence křemité & břidlice jílovité	fraglich	0	kambizem arenická (sandig) ohne Podsolierung; Klasse 13 ist ‚loamy‘. Bayern-Regel ergibt für Braunerde aus Sand über Sandstein ohne Podsolierung 0 (eher Soilscapes 10)
+KPm:KAd | Gestein: acid	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+KAd | hlíny polygenetické	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KAds(LIm) | Gestein: acid	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘ (Gestein nur aus GK50)
+KAga' | polygenetické sedimenty s příměsí štěrku	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAd:KAdz' | Gestein: acid	richtig		podsolige Braunerde auf saurem Gestein: 13 wie Bayern; dystrisch stützt ‚acid‘ (Gestein nur aus GK50)
+AN | Gestein: carb	richtig		Antropozem: anthropogen, korrekt ausgeschlossen
+KAdrz' | Gestein: basic	richtig		sandige, podsolige Braunerde (arenická podzolovaná bzw. mit Podsol): 14, wie Bayern 574a
+PGk(GLk) | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+GLo | organické materiály rašelinišť	richtig		Glej histický bzw. zrašelinělý = Moor-/Anmoorgley ohne Kalk: 15
+HNg' | spraše & sprašové hlíny, prachovice	richtig		Braunerde bzw. Parabraunerde über Löss: basenreich, 7 wie Bayern (Löss = carb)
+PGp | štěrky, štěrkopísky & jíly smektitické – bobtnavé & jíly málo bobtnavé	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+KAa'g' | Gestein: sand	falsch	6	Gesteinsgruppe ‚sand‘ stammt aus der GK50 (‚písčito-hlinitý až hlinito-písčitý sediment‘ = Sandlehm bis Lehmsand, Deckschicht); der Sand-Regex trifft ‚hlinito-písčitý‘. Die Bodenkarte nennt keinen arenischen Subtyp, der Boden ist also lehmig; slabě oglejená = nur pseudovergleyt: 6 statt 0
+KAm | hlíny polygenetické	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KAa' | polygenetické sedimenty s příměsí štěrku	richtig		Braunerde aus Lehm bzw. Deckschicht ohne saures Festgestein, kalk- und podsolfrei: 6
+KAlg | Gestein: sand	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+GLm | žuly	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+KAd | ryolity	richtig		Braunerde, Ranker bzw. podsolige Braunerde auf saurem Silikatgestein (in Bayern ‚aus Grus/Schutt‘ = 13); dystrisch stützt ‚acid‘
+KAy | Gestein: sand	richtig		Braunerde aus Sand bzw. Kies (arenická/psefitická) ohne Podsolierung: wie Bayern 0 (eher Soilscapes 10)
+KAgy | štěrky, štěrkopísky	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+1M: kryptopodzoly s podzoly | Gestein: sand	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14 (1:1 Mio.)
+PGp | jílovce & jíly málo bobtnavé & slíny & písky křemenné chudé	richtig		Pseudogley bzw. Stagnogley ohne Torf: 8 wie Bayern
+GLo' | Gestein: acid	richtig		Glej histický bzw. zrašelinělý = Moor-/Anmoorgley ohne Kalk: 15
+KAqa' | Gestein: acid	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+HNl | spraše & sprašové hlíny, prachovice	richtig		Braunerde bzw. Parabraunerde über Löss: basenreich, 7 wie Bayern (Löss = carb)
+PZr | pískovce & slepence & jílovce & břidlice jílovité měkké	richtig		Podsol: 14
+KPm | ruly–migmatity	richtig		Kryptopodsol (Entic Podzol) ≈ Podsol-Braunerde/Braunerde-Podsol, in Bayern 14
+KAlg | hlíny polygenetické	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KPg | Gestein: loam	richtig		Kryptopodsol oglejený ≈ Pseudogley-Podsol: nass und sehr sauer, 15 (unsicher, 14 denkbar)
+LUg | Gestein: other	richtig		oglejená (WRB Stagnic, nicht nur Protostagnic) entspricht Pseudogley-Braunerde bzw. -Parabraunerde: 8 wie Bayern
+KAq | Gestein: acid	richtig		Grund- bzw. Auenwasserboden ohne Torf, wie Bayern (Gley, Vega, Gley-Braunerde = 0)
+HNl | polygenetické sedimenty s příměsí štěrku & hlíny polygenetické	richtig		Parabraunerde (Luvizem/Hnědozem) aus Lösslehm bzw. Lehm, ohne Kalk und Podsolierung: 6
