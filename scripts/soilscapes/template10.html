@@ -1011,9 +1011,11 @@ function wetterText(w,leg){
   if(w.p7>=10&&w.p30-w.p7>=15) E.push("Feuchte: Mit mindestens etwa 10 l/m² in 7 Tagen auf schon feuchtem Boden ist es nach der Faustregel des Buchs feucht genug.");
   else if(w.p7>=10) E.push("Feuchte: Der Regen der letzten Woche fiel nach einer trockenen Phase. Laut Buch bleiben Pilze danach oft noch unbeeindruckt; besser einige Tage abwarten oder Böden mit gutem Wasserspeicher wählen.");
   else E.push(`Feuchte: knapp (unter etwa 10 l/m² in 7 Tagen).${leg&&pzMatch({leg},"wasser")?" Dieser Boden speichert aber viel Wasser (nutzbare Feldkapazität "+fmt(nfk)+" mm); in Trockenphasen sind solche Böden die bessere Wahl.":""}`);
+  if(w.p7<10&&w.smNow!=null&&w.smWeek!=null&&w.smNow>=w.smWeek*0.9) E.push(`Die Modell-Bodenfeuchte ist mit ${fmt(w.smNow*100,0)} Vol.-% kaum gesunken; ganz ausgetrocknet ist der Oberboden also noch nicht.`);
   if(w.frost) E.push("Nach Frost stellen viele Arten das Wachstum ein. Angefrorene Pilze nicht mehr essen (Gefahr einer Lebensmittelvergiftung). Frostharte Arten wie Austern-Seitling, Samtfußrübling und Judasohr können jetzt kommen.");
   else if(w.tmax>=15&&w.tmax<=20&&w.tmin>=5&&w.tmin<=15) E.push("Temperatur: ideal für die meisten „mildliebenden“ Arten (tags 15 bis 20 °C, nachts 5 bis 15 °C).");
   else if(w.tmax>25) E.push("Temperatur: eher zu warm; viele Arten wachsen erst wieder bei kühlerem Wetter.");
+  else if(w.tmax<15) E.push("Temperatur: kühl. Spätherbstarten haben jetzt ihre Zeit, das Wachstum ist langsamer; nach den ersten Frösten wird es für die meisten Arten vorbei sein.");
   if(w.gls!==undefined) E.push(w.gls==null?"Grünlandsumme: nicht abrufbar.":`Grünlandsumme seit 1. Januar: ${fmt(w.gls,0)} °C. Ab etwa 200 °C beginnt laut Buch die Morchelzeit (Spitz-Morchel zuerst).`);
   return `<div class="pr" style="margin:2px 0 4px">${L_.join("<br>")}</div><div class="pb"><b>Einschätzung nach den Faustregeln des Buchs:</b><br>${E.join("<br>")}</div><div class="pr">Wetter: Open-Meteo, Modelldaten (u. a. Deutscher Wetterdienst), Punktwert für ein Raster von wenigen Kilometern, keine Messstation.</div>`; }
 async function pilzPoint(ll,leg,my){
@@ -1123,7 +1125,7 @@ function showCard(K,U,P,ll){
   const cats=keyCats(D.keys.indexOf(K)), head=BASE[K.k]||("Klasse "+K.k+": "+CL[K.k].name);
   $("cardT").innerHTML=`<span class="sw" style="background:${BASE[K.k]?css("--c0"):css("--c"+K.k)};width:12px;height:12px;border-radius:3px;display:inline-block"></span>${esc(head)}${BASE[K.k]?"":(K.s?"":" (unsicher)")}`;
   const bs=(P.saeure&&P.saeure.status==="amtlich")?P.saeure.wert.split(";")[0]:"";
-  $("cardS").textContent=`Einheit ${K.leg} · ${P.bodentyp.wert}${bs?" · "+bs:""}`;
+  const pzs=pzOf(K.leg); $("cardS").textContent=`Einheit ${K.leg} · ${P.bodentyp.wert}${bs?" · "+bs:""}${pzs.length?" · Pilzboden: "+pzs.map(p=>PZ[p].n).join(", "):""}`;
   $("cardMaps").onclick=()=>window.open(`https://www.google.com/maps/search/?api=1&query=${ll.lat.toFixed(5)},${ll.lng.toFixed(5)}`,"_blank","noopener");
   $("card").style.display="block";
 }
