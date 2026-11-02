@@ -36,10 +36,11 @@ for leg,u in P["units"].items():
         for key,name,unit,cls in (("nfk","Nutzbare Feldkapazität (bis 1 m)","mm",cl_nfk),("fk","Feldkapazität (bis 1 m)","mm",None),("lk","Luftkapazität (bis 1 m)","mm",None),("kf","Wasserdurchlässigkeit gesättigt (kf)","cm/Tag",cl_kf)):
             t=both(key,unit,cls)
             if t: rows.append({"n":name,"v":t}); n+=1
-    bs=pick(kwd,"bs"); ca=pick(kwd,"ca_ob"); nfk=pick(w,"nfk") if w else None; kf=pick(w,"kf") if w else None
-    s=b=None
-    if leg in geo.index: s=int(geo.loc[leg,"sauer"]); b=int(geo.loc[leg,"basisch"])
-    u["z"]=[bs,ca,nfk,kf,s,b]
+    g=lambda d,fn,k: d.get(fn,{}).get(k)
+    nfk=pick(w,"nfk") if w else None; kf=pick(w,"kf") if w else None
+    s=b=c=None
+    if leg in geo.index: s=int(geo.loc[leg,"sauer"]); b=int(geo.loc[leg,"basisch"]); c=int(geo.loc[leg,"carb"])
+    u["z"]=[g(kwd,"F","bs"),g(kwd,"NF","bs"),g(kwd,"F","ca_ob"),g(kwd,"NF","ca_ob"),nfk,kf,s,b,c]
 P["water_rule"]=("Bodenwasser-Kennwerte des LfU (UmweltAtlas Bayern, Dienst boden_kennwerte_ftz, Layer 53, 55, 57 und 59) je ÜBK25-Legendeneinheit, "
  "getrennt für Wald und Nichtwald, gemittelt über die Teilkennungen der Einheit. Einstufung der nutzbaren Feldkapazität und der Wasserdurchlässigkeit nach Bodenkundlicher Kartieranleitung (KA5).")
 json.dump(P,open("props5.json","w"),ensure_ascii=False)
@@ -47,6 +48,6 @@ print("Zeilen ergänzt:",n,"Einheiten mit Wasserdaten:",sum(1 for l in P["units"
 import collections
 c=collections.Counter()
 for u in P["units"].values():
-    bs,ca,nfk,kf,s,b=u["z"]; c["bs"]+=bs is not None; c["nfk"]+=nfk is not None
+    z=u["z"]; c["bsF"]+=z[0] is not None; c["bsN"]+=z[1] is not None; c["nfk"]+=z[4] is not None
 print(c)
 print(P["units"]["574a"]["p"]["kennwerte"]["rows"][-4:], P["units"]["574a"]["z"])

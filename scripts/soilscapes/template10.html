@@ -133,6 +133,7 @@ a{color:var(--c16)}
 .pzc .sw{width:11px;height:11px;border-radius:3px;display:inline-block} .pzc[aria-pressed=true]{background:var(--text-primary);color:var(--surface-1);border-color:var(--text-primary)}
 .pzt{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px} .pzt th{text-align:left;font-weight:600;color:var(--text-secondary);padding:2px 4px;border-bottom:1px solid var(--line)} .pzt td{vertical-align:top;padding:3px 4px;color:var(--text-secondary)}
 .pzleg{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--text-secondary);margin:2px 0 4px 24px} .pzleg>span{display:flex;align-items:center;gap:4px} .pzleg .sw{width:10px;height:10px;border-radius:2px;display:inline-block}
+.phq td{vertical-align:top} .phq tr.act td{font-weight:600}
 .pilzpt{margin:8px 0;border:1px solid var(--line);border-radius:8px;padding:6px 10px} .pilzpt>summary{cursor:pointer;font-weight:600;font-size:13px}
 .ehint{position:absolute;top:10px;left:56px;right:150px;margin:auto;max-width:440px;z-index:850;background:var(--surface-1);color:var(--text-primary);border:1px solid var(--line);border-left:4px solid #d08a1f;border-radius:8px;padding:7px 10px;font-size:12.5px;box-shadow:0 2px 8px rgba(0,0,0,.15);display:none;pointer-events:none}
 @media (max-width:700px){ .lupanel{top:auto;left:0;right:0;bottom:0;width:auto;max-height:55%;border-radius:14px 14px 0 0} .ehint{left:50px;right:10px;top:auto;bottom:30px} }
@@ -239,10 +240,14 @@ a{color:var(--c16)}
     <div class="in">
       <p class="note" style="margin-top:0">Hilfen nach dem Buchkapitel „Digital Hotspots finden“: Boden, Wasser, Hang, Baumart, Wetter und Fundmeldungen. Ein Klick in die Karte zeigt unter „Pilzsuche an diesem Punkt“ alles zusammen, auch das aktuelle Pilzwetter.</p>
       <h4 class="pzh">Böden für bestimmte Pilze</h4>
+      <div class="row" style="margin-top:2px">pH-Grundlage <select id="phSrc" style="flex:1;width:auto"></select></div>
+      <p class="note" id="phInfo2" style="margin-top:2px"></p>
+      <div class="row" id="phFullRow" style="display:none;margin-top:0"><label><input type="checkbox" id="cPhFull"> ganze pH-Karte in 8 Stufen zeigen</label></div>
+      <div class="pzleg" id="phLeg" style="display:none"></div>
       <div class="pzchips" id="pzChips"></div>
       <table class="pzt"><tr><th>saure Böden</th><th>überall</th><th>basische Böden</th></tr>
         <tr><td>Echter und Trompeten-Pfifferling, Maronen-Röhrling, Fichten-Steinpilz, Frauen-Täubling, Kuhmaul</td><td>Brätling, Herbsttrompete, Parasol, Perlpilz, Sommer-Steinpilz</td><td>Morcheln, Mönchskopf, Blasser und Starkriechender Pfifferling, Schweinsohr, Sommer-Trüffel</td></tr></table>
-      <p class="note">Die Gruppen werden wie Vergleichskategorien eingefärbt und erscheinen in der Legende. Grundlage sind Mittelwerte je Bodeneinheit (Basensättigung, Carbonat, Gestein, Wasserspeicher des LfU), also Wahrscheinlichkeiten, keine Fundorte.</p>
+      <p class="note">Die Gruppen werden wie Vergleichskategorien eingefärbt und erscheinen in der Legende. Sauer und basisch richten sich nach der gewählten pH-Grundlage, „gute Wasserspeicher“ immer nach den LfU-Wasserwerten. Alles sind Wahrscheinlichkeiten, keine Fundorte. Ein Klick in die Karte zeigt die Werte aller Quellen nebeneinander.</p>
       <h4 class="pzh">Gelände und Wald</h4>
       <div class="row" style="margin-top:2px"><label><input type="checkbox" id="cAsp"> Hangrichtung einfärben (ab 5° Neigung, ab Zoomstufe 11)</label></div>
       <div class="pzleg" id="aspLeg"></div>
@@ -306,7 +311,7 @@ a{color:var(--c16)}
     </div>
   </details>
 
-  <p class="src">Boden: ÜBK25 © Bayerisches Landesamt für Umwelt, <a href="https://www.lfu.bayern.de/boden/karten_daten/uebk25/index.htm">www.lfu.bayern.de</a>, CC BY 4.0. Nutzung: CORINE Land Cover 5 ha 2021, Höhe: DGM200, Hintergrund topografisch: basemap.de, alle © GeoBasis-DE / <a href="http://www.bkg.bund.de">BKG</a> 2026 (Daten verändert). Luftbild Bayern: © Bayerische Vermessungsverwaltung. Moorböden: ÜMBK25, Bodenkennwerte und Bodenausgangsgesteinskarte BAG500 © Bayerisches Landesamt für Umwelt (UmweltAtlas Bayern). Landkreisgrenzen: UmweltAtlas Bayern, Geobasisdaten © Bayerische Vermessungsverwaltung. Nutzung genau: ATKIS Basis-DLM © Bayerische Vermessungsverwaltung, www.geodaten.bayern.de, CC BY 4.0; Schläge aus dem Agrarantrag (InVeKoS) © Bayerisches Staatsministerium für Ernährung, Landwirtschaft, Forsten und Tourismus, CC BY 4.0. Ortssuche: © OpenStreetMap-Mitwirkende (ODbL). Pilzsuche: Bodenwasser-Kennwerte © LfU (UmweltAtlas Bayern); Baumarten © Thünen-Institut (Blickensdörfer et al. 2024, Daten 2017/2018); Hangrichtung aus AWS Terrain Tiles (u. a. EU-DEM, SRTM); Wetter Open-Meteo (CC BY 4.0, Modelldaten u. a. DWD); Fundmeldungen iNaturalist (Lizenzen der Beobachter). Faustregeln nach dem Pilzsammler-Buch, Kapitel „Digital Hotspots finden“ und „Digital den perfekten Moment finden“. Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>
+  <p class="src">Boden: ÜBK25 © Bayerisches Landesamt für Umwelt, <a href="https://www.lfu.bayern.de/boden/karten_daten/uebk25/index.htm">www.lfu.bayern.de</a>, CC BY 4.0. Nutzung: CORINE Land Cover 5 ha 2021, Höhe: DGM200, Hintergrund topografisch: basemap.de, alle © GeoBasis-DE / <a href="http://www.bkg.bund.de">BKG</a> 2026 (Daten verändert). Luftbild Bayern: © Bayerische Vermessungsverwaltung. Moorböden: ÜMBK25, Bodenkennwerte und Bodenausgangsgesteinskarte BAG500 © Bayerisches Landesamt für Umwelt (UmweltAtlas Bayern). Landkreisgrenzen: UmweltAtlas Bayern, Geobasisdaten © Bayerische Vermessungsverwaltung. Nutzung genau: ATKIS Basis-DLM © Bayerische Vermessungsverwaltung, www.geodaten.bayern.de, CC BY 4.0; Schläge aus dem Agrarantrag (InVeKoS) © Bayerisches Staatsministerium für Ernährung, Landwirtschaft, Forsten und Tourismus, CC BY 4.0. Ortssuche: © OpenStreetMap-Mitwirkende (ODbL). Pilzsuche: Bodenwasser-Kennwerte © LfU (UmweltAtlas Bayern); Baumarten © Thünen-Institut (Blickensdörfer et al. 2024, Daten 2017/2018); Hangrichtung aus AWS Terrain Tiles (u. a. EU-DEM, SRTM); Wetter Open-Meteo (CC BY 4.0, Modelldaten u. a. DWD); Fundmeldungen iNaturalist (Lizenzen der Beobachter). pH-Karte © Thünen-Institut (Scherstjanoi, Grüneberg, Wellbrock 2021); SoilGrids © ISRIC (CC BY 4.0). Faustregeln nach dem Pilzsammler-Buch, Kapitel „Digital Hotspots finden“ und „Digital den perfekten Moment finden“. Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>
 </aside>
 <div id="printHead"><h2>Bodenkarte Bayern: Soilscapes-Vergleich</h2><div id="phInfo"></div></div>
 <div class="mapwrap"><div id="map"></div><div class="swipe" id="swipe"><div class="bar"></div><span class="lab l">Bodenkarte</span><span class="lab r">Hintergrund</span><div class="knob" id="swipeKnob" title="ziehen">⇆</div></div><div class="loading" id="loading">Karte wird aufgebaut …</div><div class="tip" id="tip"></div><div class="card" id="card"><button class="x" id="cardX" aria-label="schließen">×</button><div class="c1" id="cardT"></div><div class="c2" id="cardS"></div><div class="row"><button id="cardMore">Details</button><button id="cardMaps">Google Maps</button></div></div><div class="toast" id="toast"></div><div class="ehint" id="emptyHint"></div>
@@ -371,7 +376,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&
 
 // ---------------- Zustand ----------------
 const S = {sel:["6","13","16"], units:[], mode:"zuordnung", thr:1, soil:true, op:0.85, unsureDim:true, outline:false, swipe:false,
-           lu:new Set(SUB_IDS), luMask:false, luLayer:false, base:"none", pz:[], asp:false, tree:false, pilzOpen:false};
+           lu:new Set(SUB_IDS), luMask:false, luLayer:false, base:"none", pz:[], asp:false, tree:false, pilzOpen:false, phSrc:"lfuW", phFull:false};
 
 // ---------------- Speicher: Browser + Claude-Konto (nur Artifact-Ansicht) ----------------
 const STORE_KEY = "bodenkarte_bayern_v3";
@@ -456,7 +461,7 @@ function keyCats(ki){ const K=D.keys[ki], out=[]; for(const c of S.sel) if(match
 function luShare(K){ if(!S.luMask) return 1; let a=0,t=0; for(let c=0;c<K.lu.length;c++){ t+=K.lu[c]; if(cOn(c)) a+=K.lu[c]; } return t?a/t:0; }
 function allCatIds(){ return [...S.sel, ...S.units.map(u=>"u:"+u), ...S.pz.map(p=>"p:"+p)]; }
 function catName(id){ return id.startsWith("p:") ? PZ[id.slice(2)].pilze : id.startsWith("u:") ? (D.units[id.slice(2)]||{text:""}).text : CL[id].name; }
-function catArea(id){ let a=0; for(const K of D.keys){ const hit = id.startsWith("p:") ? pzMatch(K,id.slice(2)) : id.startsWith("u:") ? K.leg===id.slice(2) : matches(K,id); if(hit) a+=K.a*luShare(K); } return a; }
+function catArea(id){ if((id==="p:sauer"||id==="p:basisch")&&phRaster()) return null; let a=0; for(const K of D.keys){ const hit = id.startsWith("p:") ? pzMatch(K,id.slice(2)) : id.startsWith("u:") ? K.leg===id.slice(2) : matches(K,id); if(hit) a+=K.a*luShare(K); } return a; }
 
 // ---------------- Stil ----------------
 let layers=[], selLayer=null, hovLayer=null;
@@ -487,7 +492,7 @@ function buildLegend(){
   for(const id of ids){
     const li=document.createElement("li"); const isU=id.startsWith("u:");
     const name=catName(id);
-    li.innerHTML=`<span class="sw" style="background:${catColor(id)}"></span><span><b>${catLabel(id)}</b><br><span style="color:var(--text-muted)">${esc(name.length>110?name.slice(0,108)+" …":name)}</span></span><span class="v">${fmt(catArea(id))} km²</span>`;
+    li.innerHTML=`<span class="sw" style="background:${catColor(id)}"></span><span><b>${catLabel(id)}</b><br><span style="color:var(--text-muted)">${esc(name.length>110?name.slice(0,108)+" …":name)}</span></span><span class="v">${catArea(id)==null?"Rasterkarte":fmt(catArea(id))+" km²"}</span>`;
     ul.appendChild(li);
   }
   const rest=document.createElement("li");
@@ -500,8 +505,8 @@ function buildLegend(){
   for(const id of ids){ const s=document.createElement("span"); s.className="chip"; s.innerHTML=`<span class="sw" style="background:${catColor(id)}"></span>${catLabel(id)}<span class="x">×</span>`; s.onclick=()=>removeCat(id); ch.appendChild(s); }
   document.querySelectorAll("[data-q]").forEach(el=>el.classList.toggle("off", !S.sel.includes(el.dataset.q)));
 }
-function addCat(id){ if(id.startsWith("p:")){ S.pilzOpen=true; const p=id.slice(2); if(!S.pz.includes(p)) S.pz.push(p); restyle(); if(typeof pzChips==="function") pzChips(); return; } if(id.startsWith("u:")){ const u=id.slice(2); if(!S.units.includes(u)) S.units.push(u); } else if(!S.sel.includes(id)) S.sel.push(id); restyle(); }
-function removeCat(id){ if(id.startsWith("p:")){ S.pz=S.pz.filter(x=>x!==id.slice(2)); restyle(); if(typeof pzChips==="function") pzChips(); return; } if(id.startsWith("u:")) S.units=S.units.filter(u=>u!==id.slice(2)); else S.sel=S.sel.filter(x=>x!==id); restyle(); }
+function addCat(id){ if(id.startsWith("p:")){ S.pilzOpen=true; const p=id.slice(2); if(!S.pz.includes(p)) S.pz.push(p); restyle(); if(typeof pzChips==="function") pzChips(); if(typeof phSync==="function") phSync(); return; } if(id.startsWith("u:")){ const u=id.slice(2); if(!S.units.includes(u)) S.units.push(u); } else if(!S.sel.includes(id)) S.sel.push(id); restyle(); }
+function removeCat(id){ if(id.startsWith("p:")){ S.pz=S.pz.filter(x=>x!==id.slice(2)); restyle(); if(typeof pzChips==="function") pzChips(); if(typeof phSync==="function") phSync(); return; } if(id.startsWith("u:")) S.units=S.units.filter(u=>u!==id.slice(2)); else S.sel=S.sel.filter(x=>x!==id); restyle(); }
 document.querySelectorAll("[data-q]").forEach(el=>el.onclick=()=>{ const k=el.dataset.q; S.sel.includes(k)?removeCat(k):addCat(k); });
 
 // Suche nach Kategorie oder Legendeneinheit
@@ -900,10 +905,20 @@ const PZ={
     regel:"Oberboden kalkhaltig (Carbonat ab 0,5 %) oder Basensättigung ab 80 % oder mindestens 50 % basisches Gestein (BAG500)"},
   wasser:{n:"Gute Wasserspeicher",col:"#334199",pilze:"in Trockenphasen die besseren Chancen, etwa Sommer-Steinpilz auf Lösslehm",
     regel:"nutzbare Feldkapazität ab 180 mm und Wasserdurchlässigkeit unter 40 cm/Tag (höchstens mittel)"}};
-function pzMatch(K,p){ const u=D.units[K.leg]; if(!u||!u.z) return false; const [bs,ca,nfk,kf,s,b]=u.z;
-  if(p==="sauer") return (bs!=null&&bs<20&&(ca==null||ca<0.5)) || (bs==null&&s!=null&&s>=50&&(ca==null||ca<0.5));
-  if(p==="basisch") return (ca!=null&&ca>=0.5)||(bs!=null&&bs>=80)||(b!=null&&b>=50);
+const PH_SRC={
+  lfuW:{n:"LfU-Bodenkennwerte, Waldwert",kind:"unit",info:"Basensättigung und Carbonat im Oberboden je Bodeneinheit, Wert unter Wald (ohne Kalkung). Sauer: Basensättigung unter 20 % und kalkfrei; basisch: Carbonat ab 0,5 % oder Basensättigung ab 80 %."},
+  lfuA:{n:"LfU-Bodenkennwerte, Acker- und Grünlandwert",kind:"unit",info:"Wie oben, aber die Werte unter Acker und Grünland. Durch Kalkung und Düngung meist deutlich basenreicher als im Wald, daher kaum saure Flächen."},
+  bag:{n:"Ausgangsgestein (BAG500)",kind:"unit",info:"Nur nach dem Gestein: sauer bei mindestens 50 % Granit, Gneis, Schiefer, Quarzit oder Sandstein; basisch bei mindestens 50 % Kalk-, Mergel- oder basischem Gestein. Maßstab 1:500.000, Versauerung des Oberbodens bleibt unberücksichtigt."},
+  th30:{n:"Thünen-pH-Karte, 0 bis 30 cm",kind:"raster",layer:"geonode:pH_map_0_30",info:"Modellierte pH-Werte (Thünen-Institut 2021, aus den Bodenzustandserhebungen Wald und Landwirtschaft), Rasterkarte für Wald- und Agrarflächen. Sauer: pH bis 5,0; basisch: pH über 6,5. Flächen in km² lassen sich hierfür nicht berechnen."},
+  th100:{n:"Thünen-pH-Karte, 30 bis 100 cm",kind:"raster",layer:"geonode:pH_map_30_100",info:"Wie oben für den Unterboden. Zeigt eher das Ausgangsgestein, weniger die Versauerung der obersten Schicht."}};
+function phRaster(){ return PH_SRC[S.phSrc].kind==="raster"; }
+function pzMatch(K,p,src){ const u=D.units[K.leg]; if(!u||!u.z) return false; const [bF,bN,cF,cN,nfk,kf,s,b,c]=u.z; src=src||S.phSrc;
   if(p==="wasser") return nfk!=null&&nfk>=180&&kf!=null&&kf<40;
+  if(PH_SRC[src].kind==="raster") return false;
+  if(src==="bag"){ if(p==="sauer") return s!=null&&s>=50; if(p==="basisch") return b!=null&&(b+(c||0))>=50; return false; }
+  const A=src==="lfuA", bs=A?(bN??bF):(bF??bN), ca=A?(cN??cF):(cF??cN);
+  if(p==="sauer") return bs!=null&&bs<20&&(ca==null||ca<0.5);
+  if(p==="basisch") return (ca!=null&&ca>=0.5)||(bs!=null&&bs>=80);
   return false; }
 function pzOf(leg){ const K={leg}; return Object.keys(PZ).filter(p=>pzMatch(K,p)); }
 function pzChips(){ const box=$("pzChips"); if(!box) return; box.innerHTML=Object.entries(PZ).map(([k,p])=>`<button class="pzc" data-pz="${k}" aria-pressed="${S.pz.includes(k)}" title="${esc(p.regel)}"><span class="sw" style="background:${p.col}"></span>${p.n}</button>`).join("");
@@ -938,6 +953,35 @@ async function aspectAt(ll){ const z=15, n=Math.pow(2,z), fx=(ll.lng+180)/360*n,
   const px=40075016.686*Math.cos(ll.lat*Math.PI/180)/(256*n); let ssl=0,sx=0,sy=0,c=0;
   for(let dj=-2;dj<=2;dj++) for(let di=-2;di<=2;di++){ const [sl,az]=gradAt(e,i+di,j+dj,px); ssl+=sl; sx+=Math.sin(az*Math.PI/180); sy+=Math.cos(az*Math.PI/180); c++; }
   let az=Math.atan2(sx,sy)*180/Math.PI; if(az<0) az+=360; return {sl:ssl/c, az, h:e[j*256+i]}; }
+
+// pH-Rasterkarten (Thünen-Institut, WMS)
+const TH_PAL=[[125,15,50],[175,8,37],[236,89,106],[249,204,209],[204,236,249],[89,193,236],[0,120,173],[0,80,120]];
+const TH_LAB=["bis 4,5","4,5 bis 5","5 bis 5,5","5,5 bis 6","6 bis 6,5","6,5 bis 7","7 bis 7,5","über 7,5"];
+function palIdx(r,g,b){ let bi=0,bd=1e9; for(let k=0;k<TH_PAL.length;k++){ const p=TH_PAL[k], d=(p[0]-r)**2+(p[1]-g)**2+(p[2]-b)**2; if(d<bd){bd=d;bi=k;} } return bi; }
+map.createPane("phPane").style.zIndex=431; map.getPane("phPane").style.pointerEvents="none";
+const PhLayer=L.GridLayer.extend({ createTile(co,done){ const t=document.createElement("canvas"); t.width=t.height=256; const m=this._map, sz=this.getTileSize();
+  const nw=L.CRS.EPSG3857.project(m.unproject(co.scaleBy(sz),co.z)), se=L.CRS.EPSG3857.project(m.unproject(co.add([1,1]).scaleBy(sz),co.z));
+  const u=`https://atlas.thuenen.de/geoserver/ows?service=WMS&version=1.1.1&request=GetMap&layers=${PH_SRC[S.phSrc].layer}&styles=&srs=EPSG:3857&bbox=${nw.x},${se.y},${se.x},${nw.y}&width=256&height=256&format=image/png&transparent=true`;
+  const im=new Image(); im.crossOrigin="anonymous";
+  im.onload=()=>{ const g=t.getContext("2d"); g.drawImage(im,0,0);
+    if(!S.phFull){ try{ const d=g.getImageData(0,0,256,256), o=d.data, sc=hex(PZ.sauer.col), bc=hex(PZ.basisch.col), wS=S.pz.includes("sauer"), wB=S.pz.includes("basisch");
+      for(let q=0;q<o.length;q+=4){ if(!o[q+3]) continue; const k=palIdx(o[q],o[q+1],o[q+2]); const c=(wS&&k<=1)?sc:(wB&&k>=5)?bc:null; if(c){ o[q]=c[0];o[q+1]=c[1];o[q+2]=c[2];o[q+3]=Math.round(255*Math.min(1,S.op)); } else o[q+3]=0; }
+      g.putImageData(d,0,0); }catch(e){} }
+    done(null,t); };
+  im.onerror=()=>done(new Error("pH-Karte nicht erreichbar"),t); im.src=u; return t; } });
+const phLayer=new PhLayer({pane:"phPane",minZoom:6,maxZoom:18,opacity:1,attribution:"pH-Karte: Thünen-Institut (Scherstjanoi, Grüneberg, Wellbrock 2021)"});
+function phSync(){ const want=phRaster()&&(S.phFull||S.pz.includes("sauer")||S.pz.includes("basisch")); if(want){ if(map.hasLayer(phLayer)) phLayer.redraw(); else phLayer.addTo(map); } else if(map.hasLayer(phLayer)) map.removeLayer(phLayer);
+  const leg=$("phLeg"); if(leg){ leg.style.display=phRaster()&&S.phFull?"":"none"; }
+  const fr=$("phFullRow"); if(fr) fr.style.display=phRaster()?"":"none"; if($("phInfo2")) $("phInfo2").textContent=PH_SRC[S.phSrc].info; if($("phSrc")) $("phSrc").value=S.phSrc; if($("cPhFull")) $("cPhFull").checked=S.phFull; }
+function setPhSrc(v){ S.phSrc=PH_SRC[v]?v:"lfuW"; S.pilzOpen=true; restyle(); phSync(); }
+async function thAt(layer,ll){ const p=L.CRS.EPSG3857.project(ll), d=40, ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),12000);
+  try{ const j=await (await fetch(`https://atlas.thuenen.de/geoserver/ows?service=WMS&version=1.1.1&request=GetFeatureInfo&layers=${layer}&query_layers=${layer}&styles=&srs=EPSG:3857&bbox=${p.x-d},${p.y-d},${p.x+d},${p.y+d}&width=3&height=3&x=1&y=1&info_format=application/json`,{signal:ctl.signal})).json();
+    const v=j.features&&j.features[0]&&j.features[0].properties.GRAY_INDEX; return (v!=null&&v>0&&v<14)?v:null; } finally{ clearTimeout(to); } }
+async function sgAt(ll){ const p=L.CRS.EPSG3857.project(ll), d=150, ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),12000);
+  try{ const t=await (await fetch(`https://maps.isric.org/mapserv?map=/map/phh2o.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=phh2o_0-5cm_mean&QUERY_LAYERS=phh2o_0-5cm_mean&STYLES=&SRS=EPSG:3857&BBOX=${p.x-d},${p.y-d},${p.x+d},${p.y+d}&WIDTH=3&HEIGHT=3&X=1&Y=1&INFO_FORMAT=text%2Fhtml`,{signal:ctl.signal})).text();
+    const m=/id="value">(-?\d+)</.exec(t); const v=m?+m[1]:null; return (v!=null&&v>0)?v/10:null; } finally{ clearTimeout(to); } }
+const clsPh=v=>v==null?null:v<=5?"sauer":v>6.5?"basisch":"mittel";
+const CLS_TXT={sauer:"sauer",basisch:"basisch",mittel:"dazwischen"};
 
 // Baumarten (Thünen-Institut, WMS)
 const TH_URL="https://atlas.thuenen.de/geoserver/ows";
@@ -1021,8 +1065,19 @@ function wetterText(w,leg){
 async function pilzPoint(ll,leg,my){
   const box=$("ptPilzIn"); if(!box) return; box.innerHTML='<span class="ph">wird abgefragt …</span>';
   const parts={}; const show=()=>{ if(curPoint!==my||!$("ptPilzIn")) return;
-    const pz=leg?pzOf(leg):[];
-    let h=`<div class="prop"><div class="pn"><span>Bodengruppe für Pilze</span></div><div class="pv">${pz.length?pz.map(p=>`<span class="sw" style="background:${PZ[p].col};width:10px;height:10px;display:inline-block;border-radius:2px"></span> ${PZ[p].n}`).join("<br>"):"keine der drei Gruppen (mittlerer Basengehalt oder keine Angaben)"}</div>${pz.length?`<div class="pb">${pz.map(p=>`${PZ[p].n}: ${PZ[p].pilze}`).join("<br>")}</div>`:""}<div class="pr">Mittelwert der Bodeneinheit. Nadelstreu kann den Oberboden auf Kalk versauern, geschotterte Wege und Waldkalkung machen saure Wälder stellenweise basisch.</div></div>`;
+    const z=leg&&D.units[leg]?D.units[leg].z:null, f1=v=>v==null?"keine Angabe":fmt(v,1).replace(",0","");
+    const unitCls=src=>!leg?null:pzMatch({leg},"sauer",src)?"sauer":pzMatch({leg},"basisch",src)?"basisch":"mittel";
+    const rows=[
+      ["lfuW", z?`Basensättigung ${f1(z[0])} %, Carbonat ${f1(z[2])} %`:"keine Angabe", z&&z[0]!=null?unitCls("lfuW"):null],
+      ["lfuA", z?`Basensättigung ${f1(z[1])} %, Carbonat ${f1(z[3])} %`:"keine Angabe", z&&z[1]!=null?unitCls("lfuA"):null],
+      ["bag", z&&z[6]!=null?`${z[6]} % saures, ${z[7]+(z[8]||0)} % basisches oder kalkhaltiges Gestein`:"keine Angabe", z&&z[6]!=null?unitCls("bag"):null],
+      ["th30", parts.th30===undefined?"…":parts.th30==null?"keine Angabe":`pH ${fmt(parts.th30,1)}`, clsPh(parts.th30)],
+      ["th100", parts.th100===undefined?"…":parts.th100==null?"keine Angabe":`pH ${fmt(parts.th100,1)}`, clsPh(parts.th100)],
+      ["sg", parts.sg===undefined?"…":parts.sg==null?"keine Angabe":`pH ${fmt(parts.sg,1)} (in Wasser gemessen)`, parts.sg==null?null:clsPh(parts.sg-0.6)]];
+    const act=rows.find(r=>r[0]===S.phSrc), actCls=act?act[2]:null;
+    const grp=[]; if(actCls==="sauer") grp.push("sauer"); if(actCls==="basisch") grp.push("basisch"); if(leg&&pzMatch({leg},"wasser")) grp.push("wasser");
+    let h=`<div class="prop"><div class="pn"><span>Bodengruppe für Pilze</span></div><div class="pv">${grp.length?grp.map(p=>`<span class="sw" style="background:${PZ[p].col};width:10px;height:10px;display:inline-block;border-radius:2px"></span> ${PZ[p].n}`).join("<br>"):(actCls==="mittel"?"weder sauer noch basisch (dazwischen)":"keine Einstufung möglich")}</div>${grp.length?`<div class="pb">${grp.map(p=>`${PZ[p].n}: ${PZ[p].pilze}`).join("<br>")}</div>`:""}<div class="pr">pH-Grundlage: ${esc(PH_SRC[S.phSrc].n)} (unter „Pilzsuche“ umstellbar).</div></div>`;
+    h+=`<div class="prop"><div class="pn"><span>Boden-pH nach Quelle</span></div><table class="kw phq">${rows.map(r=>`<tr${r[0]===S.phSrc?' class="act"':""}><td>${r[0]===S.phSrc?"▶ ":""}${esc(r[0]==="sg"?"SoilGrids (ISRIC), 0 bis 5 cm, 250 m":PH_SRC[r[0]].n)}</td><td>${esc(r[1])}${r[2]?` · <b>${CLS_TXT[r[2]]}</b>`:""}</td></tr>`).join("")}</table><div class="pr">LfU-Werte und Gestein gelten als Mittel der ganzen Bodeneinheit, die Rasterkarten für diesen Punkt. Thünen-Werte stammen aus den Bodenzustandserhebungen (dort in der Regel in CaCl2 gemessen); SoilGrids misst in Wasser, das liegt meist 0,5 bis 1 pH-Einheit höher, deshalb ist für die Einstufung 0,6 abgezogen. SoilGrids ist ein weltweites Modell und nur zum Vergleich aufgeführt. Nadelstreu kann den Oberboden auf Kalk versauern, geschotterte Wege und Waldkalkung machen saure Wälder stellenweise basisch.</div></div>`;
     h+=`<div class="prop"><div class="pn"><span>Hang (Höhenmodell etwa 30 m)</span></div><div class="pv">${parts.asp===undefined?"…":parts.asp?(parts.asp.sl<3?`eben (Neigung ${fmt(parts.asp.sl,1)}°)`:`${ASP[aspCls(parts.asp.az)][0]} (${fmt(parts.asp.az)}°), Neigung ${fmt(parts.asp.sl,1)}°`):"nicht abrufbar"}</div><div class="pr">Südhänge tragen früh im Jahr, Nordhänge halten im trockenen Sommer länger feucht, Westhänge bekommen oft mehr Regen.</div></div>`;
     h+=`<div class="prop"><div class="pn"><span>Baumart (Thünen-Institut, 10 m)</span></div><div class="pv">${parts.tree===undefined?"…":parts.tree===null?"nicht abrufbar":parts.tree?TREE[parts.tree][0]:"kein Wald oder keine Angabe"}</div>${parts.tree&&TREE_PILZ[parts.tree]?`<div class="pb">${TREE_PILZ[parts.tree]}</div>`:""}<div class="pr">Satellitenkarte mit Daten aus 2017 und 2018; Fällungen und Borkenkäferschäden seitdem sind nicht enthalten.</div></div>`;
     h+=`<div class="prop"><div class="pn"><span>Pilzwetter</span></div>${parts.wx===undefined?'<div class="pv">…</div>':parts.wx===null?'<div class="pv">Wetterdienst nicht erreichbar.</div>':wetterText(parts.wx,leg)}</div>`;
@@ -1032,12 +1087,18 @@ async function pilzPoint(ll,leg,my){
   if(inArtifact()){ $("ptPilzIn").innerHTML='<span class="ph">In der Claude-Artifact-Ansicht sind Wetter, Hang und Baumart gesperrt. Die Bodengruppe steht in der Online-Fassung; dort funktioniert alles.</span>'; return; }
   aspectAt(ll).then(a=>{ parts.asp=a; show(); }).catch(()=>{ parts.asp=null; show(); });
   treeAt(ll).then(t=>{ parts.tree=t; show(); }).catch(()=>{ parts.tree=null; show(); });
+  thAt("geonode:pH_map_0_30",ll).then(v=>{ parts.th30=v; show(); }).catch(()=>{ parts.th30=null; show(); });
+  thAt("geonode:pH_map_30_100",ll).then(v=>{ parts.th100=v; show(); }).catch(()=>{ parts.th100=null; show(); });
+  sgAt(ll).then(v=>{ parts.sg=v; show(); }).catch(()=>{ parts.sg=null; show(); });
   pilzWetter(ll).then(w=>{ parts.wx=w; show(); }).catch(()=>{ parts.wx=null; show(); }); }
 function pilzSet(k,on){ S[k]=on; if(on) S.pilzOpen=true; const lay={asp:aspLayer,tree:treeLayer}[k]; if(on) lay.addTo(map); else map.removeLayer(lay); const cb=$(k==="asp"?"cAsp":"cTree"); if(cb) cb.checked=on;
   if(on&&map.getZoom()<(k==="asp"?11:9)) toast(k==="asp"?"Hangrichtung erscheint ab Zoomstufe 11":"Baumarten erscheinen ab Zoomstufe 9"); updateHash(); }
 function pilzInit(){
   pzChips(); bindInatSearch();
   $("cAsp").onchange=e=>pilzSet("asp",e.target.checked); $("cTree").onchange=e=>pilzSet("tree",e.target.checked); $("cInat").onchange=e=>inatSet(e.target.checked);
+  $("phSrc").innerHTML=Object.entries(PH_SRC).map(([k,v])=>`<option value="${k}">${v.n}</option>`).join(""); $("phSrc").onchange=e=>setPhSrc(e.target.value);
+  $("cPhFull").onchange=e=>{ S.phFull=e.target.checked; phSync(); updateHash(); };
+  $("phLeg").innerHTML=TH_PAL.map((c,k)=>`<span><span class="sw" style="background:rgb(${c.join(",")})"></span>pH ${TH_LAB[k]}</span>`).join(""); phSync();
   $("aspLeg").innerHTML=ASP.map(a=>`<span><span class="sw" style="background:${a[1]}"></span>${a[0]}</span>`).join("");
   $("treeLeg").innerHTML=Object.values(TREE).map(a=>`<span><span class="sw" style="background:${a[1]}"></span>${a[0]}</span>`).join(""); }
 
@@ -1155,11 +1216,11 @@ function renderLists(){
   document.querySelectorAll("[data-sdel]").forEach(b=>b.onclick=()=>{ markDeleted(b.dataset.sdel); MEM.suche=MEM.suche.filter(x=>x.id!==b.dataset.sdel); saveStore(); renderLists(); });
 }
 // Suchstände
-function currentState(){ const c=map.getCenter(); return {sel:[...S.sel],units:[...S.units],mode:S.mode,thr:S.thr,soil:S.soil,op:S.op,unsureDim:S.unsureDim,lu:[...S.lu],luMask:S.luMask,luLayer:S.luLayer,outline:S.outline,base:S.base,pz:[...S.pz],asp:S.asp,tree:S.tree,inat:INAT.on?(INAT.taxon?INAT.taxon.id+":"+INAT.taxon.label:"1"):"",center:[+c.lat.toFixed(5),+c.lng.toFixed(5)],zoom:map.getZoom()}; }
+function currentState(){ const c=map.getCenter(); return {sel:[...S.sel],units:[...S.units],mode:S.mode,thr:S.thr,soil:S.soil,op:S.op,unsureDim:S.unsureDim,lu:[...S.lu],luMask:S.luMask,luLayer:S.luLayer,outline:S.outline,base:S.base,pz:[...S.pz],ph:S.phSrc,phf:S.phFull,asp:S.asp,tree:S.tree,inat:INAT.on?(INAT.taxon?INAT.taxon.id+":"+INAT.taxon.label:"1"):"",center:[+c.lat.toFixed(5),+c.lng.toFixed(5)],zoom:map.getZoom()}; }
 function applyState(st){
-  Object.assign(S,{sel:st.sel,units:st.units,mode:st.mode,thr:st.thr,soil:st.soil,op:st.op,unsureDim:st.unsureDim,lu:new Set(normLu(st.lu)),luMask:st.luMask,luLayer:st.luLayer,outline:!!st.outline,pz:(st.pz||[]).filter(p=>PZ[p])});
+  Object.assign(S,{sel:st.sel,units:st.units,mode:st.mode,thr:st.thr,soil:st.soil,op:st.op,unsureDim:st.unsureDim,lu:new Set(normLu(st.lu)),luMask:st.luMask,luLayer:st.luLayer,outline:!!st.outline,pz:(st.pz||[]).filter(p=>PZ[p]),phSrc:PH_SRC[st.ph]?st.ph:"lfuW",phFull:!!st.phf});
   pilzSet("asp",!!st.asp); pilzSet("tree",!!st.tree); if(st.inat){ const [id,...lb]=String(st.inat).split(":"); INAT.taxon=id!=="1"&&lb.length?{id:+id,label:lb.join(":")}:null; if($("inatSearch")) $("inatSearch").value=INAT.taxon?INAT.taxon.label:""; if($("inatClr")) $("inatClr").style.display=INAT.taxon?"":"none"; setTimeout(()=>inatSet(true),600); } else if(INAT.on) inatSet(false);
-  if(S.pz.length||st.asp||st.tree||st.inat) S.pilzOpen=true; pzChips();
+  if(S.pz.length||st.asp||st.tree||st.inat) S.pilzOpen=true; pzChips(); phSync();
   $("cSoil").checked=S.soil; $("op").value=S.op; $("cUnsure").checked=S.unsureDim; $("cMask").checked=S.luMask; $("cLuLayer").checked=S.luLayer; $("cOutline").checked=S.outline;
   document.querySelectorAll("input[name=thr]").forEach(r=>r.checked=(+r.value===S.thr));
   buildLuBoxes(); syncLuMode(); setBase(st.base||"none"); setMode(S.mode); map.setView(st.center,st.zoom);
@@ -1191,7 +1252,7 @@ $("copyClose").onclick=()=>$("copyWrap").style.display="none";
 function stateToHash(){
   const st=currentState(); const o={c:st.center,z:+st.zoom.toFixed(2),s:st.sel.join("."),m:st.mode==="teil"?"t":"z"};
   if(st.units.length) o.u=st.units.join("."); if(st.thr!==1) o.t=st.thr; if(!st.soil) o.so=0; if(st.op!==0.85) o.o=st.op;
-  if(!st.unsureDim) o.ud=0; if(st.lu.length!==SUB_IDS.length) o.l=st.lu.join("."); if(st.luMask) o.lm=1; if(st.luLayer) o.ll=1; if(st.base!=="none") o.b=st.base; if(st.outline) o.ol=1; if(st.pz.length) o.pz=st.pz.join("."); if(st.asp) o.pa=1; if(st.tree) o.pt=1; if(st.inat) o.pi=st.inat;
+  if(!st.unsureDim) o.ud=0; if(st.lu.length!==SUB_IDS.length) o.l=st.lu.join("."); if(st.luMask) o.lm=1; if(st.luLayer) o.ll=1; if(st.base!=="none") o.b=st.base; if(st.outline) o.ol=1; if(st.pz.length) o.pz=st.pz.join("."); if(st.ph!=="lfuW") o.ph=st.ph; if(st.phf) o.phf=1; if(st.asp) o.pa=1; if(st.tree) o.pt=1; if(st.inat) o.pi=st.inat;
   if(curPoint) o.p=[+curPoint.lat.toFixed(5),+curPoint.lng.toFixed(5)];
   return "#"+Object.entries(o).map(([k,v])=>k+"="+encodeURIComponent(Array.isArray(v)?v.join(","):v)).join("&");
 }
@@ -1199,7 +1260,7 @@ function hashToState(h){
   const p=Object.fromEntries(h.replace(/^#/,"").split("&").filter(Boolean).map(x=>{const i=x.indexOf("=");return [x.slice(0,i),decodeURIComponent(x.slice(i+1))];}));
   if(!p.c) return null; const c=p.c.split(",").map(Number);
   return {st:{sel:p.s?p.s.split(".").filter(x=>CL[x]):[],units:p.u?p.u.split(".").filter(u=>D.units[u]):[],mode:p.m==="t"?"teil":"zuordnung",thr:p.t?+p.t:1,soil:p.so!=="0",op:p.o?+p.o:0.85,unsureDim:p.ud!=="0",
-          lu:normLu(p.l?p.l.split("."):null),luMask:p.lm==="1",luLayer:p.ll==="1",outline:p.ol==="1",pz:p.pz?p.pz.split("."):[],asp:p.pa==="1",tree:p.pt==="1",inat:p.pi||"",base:p.b||"none",center:c,zoom:+p.z||8}, pt:p.p?p.p.split(",").map(Number):null};
+          lu:normLu(p.l?p.l.split("."):null),luMask:p.lm==="1",luLayer:p.ll==="1",outline:p.ol==="1",pz:p.pz?p.pz.split("."):[],ph:p.ph||"lfuW",phf:p.phf==="1",asp:p.pa==="1",tree:p.pt==="1",inat:p.pi||"",base:p.b||"none",center:c,zoom:+p.z||8}, pt:p.p?p.p.split(",").map(Number):null};
 }
 let hashTimer=null;
 function updateHash(){ clearTimeout(hashTimer); hashTimer=setTimeout(()=>{ try{ history.replaceState(null,"",stateToHash()); }catch(e){} },400); }
@@ -1362,7 +1423,7 @@ async function exportImage(){
   const wrap=(t,maxW,lh)=>{ const words=t.split(" "); let line=""; for(const w of words){ const tt=line?line+" "+w:w; if(x.measureText(tt).width>maxW&&line){ x.fillText(line,X+22,y); y+=lh; line=w; } else line=tt; } if(line){ x.fillText(line,X+22,y); y+=lh; } };
   for(const id of allCatIds()){
     x.fillStyle=catColor(id); x.fillRect(X,y-11,14,14);
-    x.fillStyle=css("--text-primary")||"#222"; x.font="600 12.5px system-ui,sans-serif"; x.fillText(catLabel(id)+"  "+fmt(catArea(id))+" km²",X+22,y); y+=16;
+    x.fillStyle=css("--text-primary")||"#222"; x.font="600 12.5px system-ui,sans-serif"; x.fillText(catLabel(id)+"  "+(catArea(id)==null?"(Rasterkarte)":fmt(catArea(id))+" km²"),X+22,y); y+=16;
     x.font="11.5px system-ui,sans-serif"; x.fillStyle=css("--text-secondary")||"#555";
     wrap(catName(id).slice(0,140), LW-50, 14); y+=6; }
   y+=8; x.font="10.5px system-ui,sans-serif"; x.fillStyle=css("--text-muted")||"#777";
