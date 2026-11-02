@@ -50,6 +50,9 @@ rex(r'<p class="src">Boden: ÜBK25.*?</p>',
  '<p class="src">'+SRC_ATTR+' Nutzung (ZABAGED), Höhe (DMR 4G), Bezirksgrenzen (RÚIAN), Hintergrund ZTM und Ortofoto: © ČÚZK, CC BY 4.0 (Nutzung zu 9 Gruppen zusammengefasst, Linien vereinfacht, Höhe vergröbert). Feldblöcke: LPIS © Ministerstvo zemědělství ČR. Ortssuche und Ersatzkarte: © OpenStreetMap-Mitwirkende (ODbL). Luftbild Esri: © Esri, Maxar, Earthstar Geographics. Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>')
 rep('<div id="printHead"><h2>Bodenkarte Bayern: Soilscapes-Vergleich</h2>','<div id="printHead"><h2>Bodenkarte Westböhmen: Soilscapes-Vergleich</h2>')
 
+rep('<a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/" target="_blank" rel="noopener">Nachbarkarte: Bodenkarte Westböhmen (Tschechien) →</a>',
+    '<a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/" target="_blank" rel="noopener">Nachbarkarte: Bodenkarte Bayern →</a>')
+rep('const OTHER_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/";','const OTHER_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/";')
 # ---- Konstanten ----
 rep('const PAGES_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/";','const PAGES_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/";')
 rep('const STORE_KEY = "bodenkarte_bayern_v3";','const STORE_KEY = "bodenkarte_westboehmen_v1";')
