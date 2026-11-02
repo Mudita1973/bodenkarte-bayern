@@ -1,5 +1,5 @@
 import json, numpy as np, pandas as pd
-md=json.load(open("mapdata2.json")); pr=json.load(open("props3.json")); wr=json.load(open("webraster.json"))
+md=json.load(open("mapdata2.json")); pr=json.load(open("props5.json")); wr=json.load(open("webraster.json"))
 keys=wr["keys"]; kix={k:i for i,k in enumerate(keys)}
 lu=np.load("key_lu_km2.npy")
 z=pd.read_csv("zuordnung.tsv",sep="\t",header=None,names=["leg","k","sure","why","text"],dtype=str).drop_duplicates("leg").set_index("leg")
