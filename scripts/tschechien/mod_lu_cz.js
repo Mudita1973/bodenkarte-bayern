@@ -13,10 +13,12 @@ const LPIS_DE={"standardní orná půda":"Ackerland","trvalý travní porost":"D
   "ovocný sad":"Obstanlage","chmelnice":"Hopfen","vinice":"Weinberg","školka":"Baumschule","zalesněná půda":"aufgeforstete Fläche",
   "rychle rostoucí dřeviny":"schnellwachsende Gehölze","jiná trvalá kultura":"andere Dauerkultur","rybník":"Teich","mimoprodukční plocha":"nicht produktive Fläche",
   "zelinářská půda":"Gemüsebau","krajinotvorný sad":"Landschaftsobstgarten","trvalý travní porost (TTP)":"Dauergrünland"};
-const VF=new Map(), VT={a:new Map(),i:new Map()}; let vecQ=[], vecRun=0, vecOk=0, vecFail=0, vecDead=false, LUVIS=[];
+const VF=new Map(), VT={a:new Map(),i:new Map()}, vecCtl=new Map(); let vecQ=[], vecRun=0, vecRunI=0, vecOk=0, vecFail=0, vecDead=false, LUVIS=[], REG=null;
+function regRings(){ if(!REG) REG=(D.region||[]).map(r=>toZ0(r)); return REG; }
+function regPath(x,k,ox,oy){ x.beginPath(); for(const r of regRings()){ for(let j=0;j<r.length;j+=2){ const X=r[j]*k-ox, Y=r[j+1]*k-oy; if(j===0) x.moveTo(X,Y); else x.lineTo(X,Y); } x.closePath(); } }
 function lpisSub(k){ k=(k||"").toLowerCase();
   if(/trvalý travní/.test(k)) return "gs";
-  if(/orná|úhor|na orné/.test(k)) return "ak";
+  if(/orná|úhor|na orné|víceletými produkčními/.test(k)) return "ak";
   if(/chmel|vinic|sad|školk|trvalá kultura|rychle rostoucí|zelin/.test(k)) return "sk";
   if(/zalesn/.test(k)) return "wg"; if(/rybník|vodní/.test(k)) return "sw";
   return null; }
@@ -52,11 +54,11 @@ function parseLpis(tx){ const out=[];
     const vy=/<ms:vymera>\s*([\d.,]+)/.exec(ch);
     out.push({id:"i:"+m[1],src:"i",sub,polys,bb:featBB(polys),crop:LPIS_DE[kult]||kult,ha:vy?+vy[1].replace(",","."):null}); }
   return out; }
-async function wfsGet(src,x0,y0,x1,y1,ms){
+async function wfsGet(src,x0,y0,x1,y1,ms,sig){
   if(src==="a") return zbGet(Math.floor(x0/TILE)+"_"+Math.floor(y0/TILE));
   const P=[[x0,y0],[x1,y0],[x0,y1],[x1,y1]].map(p=>utmToLatLng(p[0],p[1])), la=P.map(p=>p[0]), lo=P.map(p=>p[1]);
   const bb=[Math.min(...la),Math.min(...lo),Math.max(...la),Math.max(...lo)].map(v=>v.toFixed(6)).join(",");
-  const ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),ms||40000);
+  const ctl=new AbortController(), to=setTimeout(()=>ctl.abort(),ms||40000); if(sig) sig.addEventListener("abort",()=>ctl.abort());
   try{
     // Nur Geometrie, Kultur und Fläche abfragen: Namen und Adressen der Bewirtschafter werden gar nicht erst übertragen.
     const r=await fetch(`${LPIS_URL}?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=ms:LPIS_DPB_UCINNE&COUNT=30000&PROPERTYNAME=ms:GEOMETRY,ms:kultura,ms:vymera&SRSNAME=urn:ogc:def:crs:EPSG::4326&BBOX=${bb},urn:ogc:def:crs:EPSG::4326`,{signal:ctl.signal});
@@ -72,21 +74,27 @@ function vecNeed(){ const b=map.getBounds().pad(0.05); const P=[b.getSouthWest()
 function vecAdd(s,k,fs){ const ids=[]; for(const f of fs){ const ex=VF.get(f.id); if(ex) ex.n++; else { f.n=1; VF.set(f.id,f); } ids.push(f.id); } VT[s].set(k,{st:"ok",ids}); }
 function vecDrop(s,k){ const t=VT[s].get(k); if(t&&t.ids) for(const id of t.ids){ const f=VF.get(id); if(f&&--f.n<=0) VF.delete(id); } VT[s].delete(k); }
 function vecUpdate(){
-  if(!vecWanted()){ vecQ=[]; luvSoon(); return; }
+  if(!vecWanted()){ vecQ=[]; for(const s of ["a","i"]) for(const [k,x] of [...VT[s]]) if(x.st==="wait"||(s==="i"&&x.st==="load")) VT[s].delete(k); for(const c of vecCtl.values()) c.abort(); vecCtl.clear(); luvSoon(); return; }
   const need=vecNeed(); if(need.length>40){ luvSoon(); return; }
   const want=[]; for(const k of need){ want.push("a:"+k); if(map.getZoom()>=INV_Z) want.push("i:"+k); }
   const ws=new Set(want);
   vecQ=vecQ.filter(w=>{ if(ws.has(w)) return true; const [s,k]=w.split(":"); const t=VT[s].get(k); if(t&&t.st==="wait") VT[s].delete(k); return false; });
-  for(const w of want){ const [s,k]=w.split(":"), t=VT[s].get(k); if(!t||(t.st==="err"&&Date.now()-t.t>60000)){ VT[s].set(k,{st:"wait"}); vecQ.push(w); } }
+  for(const [w,c] of [...vecCtl]) if(!ws.has(w)){ c.abort(); vecCtl.delete(w); VT.i.delete(w.split(":")[1]); }
+  const inQ=new Set(vecQ); for(const w of want){ const [s,k]=w.split(":"), t=VT[s].get(k); if(!t||(t.st==="err"&&Date.now()-t.t>60000)||(t.st==="wait"&&!inQ.has(w))){ VT[s].set(k,{st:"wait"}); vecQ.push(w); } }
   vecQ.sort((p,q)=>(p[0]==="a"?0:1)-(q[0]==="a"?0:1));
   const ns=new Set(need); for(const s of ["a","i"]) if(VT[s].size>36) for(const [k,t] of [...VT[s]]) if(!ns.has(k)&&t.st==="ok") vecDrop(s,k);
   vecPump(); luvSoon(); }
 function vecPump(){
-  while(vecRun<4 && vecQ.length){ const w=vecQ.shift(), [s,k]=w.split(":"), t=VT[s].get(k); if(!t||t.st!=="wait") continue;
-    t.st="load"; vecRun++; const [ix,iy]=k.split("_").map(Number);
-    wfsGet(s,ix*TILE,iy*TILE,(ix+1)*TILE,(iy+1)*TILE).then(fs=>{ vecAdd(s,k,fs); if(s==="a") vecOk++; })
-      .catch(e=>{ VT[s].set(k,{st:"err",t:Date.now(),e:String(e&&e.message||e)}); if(s==="a"){ vecFail++; if(!vecOk&&vecFail>=3) vecDead=true; } })
-      .finally(()=>{ vecRun--; luvSoon(); vecPump(); }); } }
+  // ZABAGED-Kacheln sind statisch und schnell: ohne Platzbegrenzung. LPIS ist live und langsam: höchstens 4 gleichzeitig, veraltete Anfragen werden abgebrochen.
+  for(let n=0;n<vecQ.length;){ const w=vecQ[n], [s,k]=w.split(":"), t=VT[s].get(k);
+    if(!t||t.st!=="wait"){ vecQ.splice(n,1); continue; }
+    if(s==="i"&&vecRunI>=4){ n++; continue; }
+    vecQ.splice(n,1); t.st="load"; vecRun++; if(s==="i") vecRunI++;
+    const ctl=new AbortController(); if(s==="i") vecCtl.set(w,ctl);
+    const [ix,iy]=k.split("_").map(Number);
+    wfsGet(s,ix*TILE,iy*TILE,(ix+1)*TILE,(iy+1)*TILE,0,ctl.signal).then(fs=>{ if(VT[s].get(k)!==t) return; vecAdd(s,k,fs); if(s==="a") vecOk++; })
+      .catch(e=>{ if(VT[s].get(k)!==t) return; VT[s].set(k,{st:"err",t:Date.now(),e:String(e&&e.message||e)}); if(s==="a"){ vecFail++; if(!vecOk&&vecFail>=3) vecDead=true; } })
+      .finally(()=>{ vecRun--; if(s==="i"){ vecRunI--; if(vecCtl.get(w)===ctl) vecCtl.delete(w); } luvSoon(); vecPump(); }); } }
 function vecState(){ const need=vecNeed(), z=map.getZoom(); let a=0,ao=0,ae=0,i=0,io=0,ie=0; for(const k of need){ const t=VT.a.get(k); a++; if(t&&t.st==="ok") ao++; if(t&&t.st==="err") ae++; if(z>=INV_Z){ const u=VT.i.get(k); i++; if(u&&(u.st==="ok"||u.st==="err")) io++; if(u&&u.st==="err") ie++; } }
   return {n:need.length,a,ao,ae,i,io,ie,complete:need.length<=40 && ao>0 && ao+ae===a}; }
 function luvShown(){ return vecWanted() && vecState().complete; }
@@ -104,12 +112,11 @@ function luvDraw(Ly){
   const show=luvShown(); c.style.display=show?"":"none"; if(!show){ luSharesSoon(); return; }
   const z=map.getZoom(), k=Math.pow(2,z), po=map.getPixelOrigin(), ox=po.x+Ly._tl.x, oy=po.y+Ly._tl.y, vb=[ox/k,oy/k,(ox+Ly._W)/k,(oy+Ly._H)/k], surf=css("--surface-0")||"#f6f5f1";
   const cut=()=>{ x.globalCompositeOperation="destination-out"; x.globalAlpha=1; x.fillStyle="#000"; x.fill("evenodd"); x.globalCompositeOperation="source-over"; };
-  // ZABAGED deckt Straßen und Gebäudeblöcke nicht ab. Für „Boden nur auf gewählter Nutzung“ wird deshalb erst jede geladene Kachel abgedeckt
+  // Alles wird auf das Kartengebiet (drei Kraje) beschnitten, damit nichts über Bayern oder Nachbarkreisen liegt.
+  // Straßen und Gebäudeblöcke wurden aus ZABAGED nicht übernommen. Für „Boden nur auf gewählter Nutzung“ wird deshalb erst das ganze Gebiet abgedeckt
   // und nur die gewählten Nutzungen werden wieder freigestellt; Lücken bleiben abgedeckt.
-  if(S.luMask){ x.globalAlpha=0.86; x.fillStyle=surf; x.beginPath();
-    for(const key of vecNeed()){ const t=VT.a.get(key); if(!t||t.st!=="ok") continue; const [ix,iy]=key.split("_").map(Number), q=toZ0([ix*TILE,iy*TILE,(ix+1)*TILE,iy*TILE,(ix+1)*TILE,(iy+1)*TILE,ix*TILE,(iy+1)*TILE]);
-      for(let j=0;j<8;j+=2){ const X=q[j]*k-ox, Y=q[j+1]*k-oy; if(j===0) x.moveTo(X,Y); else x.lineTo(X,Y); } x.closePath(); }
-    x.fill("nonzero"); }
+  x.save(); if(regRings().length){ regPath(x,k,ox,oy); x.clip("evenodd"); }
+  if(S.luMask){ x.globalAlpha=0.86; x.fillStyle=surf; x.fillRect(0,0,Ly._W,Ly._H); }
   for(const pass of ["a","i"]){ if(pass==="i"&&z<INV_Z) continue;
     for(const f of VF.values()){ if(f.src!==pass) continue; const b=f.bb; if(b[2]<vb[0]||b[0]>vb[2]||b[3]<vb[1]||b[1]>vb[3]) continue; LUVIS.push(f);
       x.beginPath();
@@ -121,7 +128,7 @@ function luvDraw(Ly){
       else if(S.luMask&&on) cut();
       if(S.luLayer&&on){ x.globalAlpha=S.luMask?0.35:(S.soil?0.62:0.95); x.fillStyle=SUB[f.sub].col; x.fill("evenodd"); }
       if(pass==="i"&&z>=15&&(S.luLayer||(S.luMask&&on))){ x.globalAlpha=0.45; x.lineWidth=0.8; x.strokeStyle="#333"; x.stroke(); } } }
-  x.globalAlpha=1; luSharesSoon(); }
+  x.restore(); x.globalAlpha=1; luSharesSoon(); }
 const luvLayer=new LuVec(); map.whenReady(()=>luvLayer.addTo(map));
 function pipZ0(f,px,py){ for(const poly of f.polys){ let ins=false; for(const r of poly){ for(let i=0,j=r.length-2;i<r.length;j=i,i+=2){ const yi=r[i+1], yj=r[j+1]; if((yi>py)!==(yj>py) && px<(r[j]-r[i])*(py-yi)/(yj-yi)+r[i]) ins=!ins; } } if(ins) return true; } return false; }
 function z0Of(ll){ const s=Math.sin(ll.lat*Math.PI/180); return [256*(0.5+ll.lng/360), 256*(0.5-Math.log((1+s)/(1-s))/(4*Math.PI))]; }

@@ -28,3 +28,8 @@ mapy.geology.cz, mze.gov.cz, ags.cuzk.gov.cz, atom.cuzk.cz, maps.isric.org, file
 - Hintergrund: ČÚZK ZTM_WM und ORTOFOTO_WM (arcgis1), CORS ok.
 - Lizenz: Bodenkarte 1:50 000 und 1:1 Mio. sind NICHT CC BY (Metadaten: „copyright“, Zugang ohne Bedingungen). Laut cgs.gov.cz/en/copyright dürfen Kartenausschnitte bzw. Bearbeitungen mit Zitierform und Änderungshinweis weitergegeben werden; sonst schriftliche Genehmigung. Nutzer hat am 2026-11-02 entschieden: veröffentlichen mit ČGS-Zitierform und Änderungshinweis (dist/soilscapes-cz).
 - Ausgeliefert: Ordner 07_Bodenkarten/Tschechien (Web-Datei und Detail-Datei mit eingebetteten Kacheln), privates Artifact c32994b2-dc75-4b3e-828e-f384a900aebb.
+
+## 2026-11-02: Prüfrunde v11.4 (Bayern) / v1.2 (Westböhmen)
+- Fehler behoben (beide Karten): Nutzungskacheln blieben nach Heraus- und Hineinzoomen auf „wait“ hängen.
+- Westböhmen: Maske auf Gebietsumriss beschnitten (D.region), LPIS mit eigenem Pool (4) und Abbruch veralteter Anfragen, ZABAGED-Kacheln ohne Platzlimit; Statistik und Nutzungsanteile aus ungeneralisierten Flächen (20.991 km² statt 20.686 km²); Merkpunkte in UTM33; Pilzfunktionen auch per Link/Import gesperrt; Texte korrigiert (Raster etwa 80 m bzw. 260 m am Boden).
+- Beide: Nachbarkarten-Link übersetzt Nutzungsauswahl, fällt ohne Überschneidung auf Übersicht zurück; Beschriftungen ohne Überlappung; Quellenzeile auf dem Handy einzeilig; Auswahllisten mit aria-label.

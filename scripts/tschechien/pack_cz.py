@@ -44,9 +44,14 @@ sm=sm.to_crs(32633); sm["km2"]=sm.area/1e6; sm=sm[sm.km2>=0.05]
 pts=sm.representative_point().to_crs(4326)
 small=[[k,round(p.y,4),round(p.x,4),round(a_,1)] for k,p,a_ in zip(sm.k,pts,sm.km2)]
 print("kleine",collections.Counter(s[0] for s in small))
+reg=gpd.read_file("kraje.geojson").to_crs(32632).union_all().simplify(80)
+region=[]
+for pg in getattr(reg,"geoms",[reg]):
+    for r in [pg.exterior]+list(pg.interiors): region.append([int(round(v)) for xy in list(r.coords)[:-1] for v in xy])
+print("Umriss Punkte",sum(len(r) for r in region)//2)
 ov=json.load(open("ov.json")); gen=json.load(open("gen.json"))
 data={"tr":gen["tr"],"bin":gen["bin"],"feat":gen["feat"],"keys":K,"units":units,"crit":pr["critnames"],"small":small,
-      "lu":{"png":wr["kl"],"b":wr["klBounds"]},"dem":{"png":wr["dem"],"b":wr["demBounds"]},"kreise":kreise,"ov":ov}
+      "lu":{"png":wr["kl"],"b":wr["klBounds"]},"dem":{"png":wr["dem"],"b":wr["demBounds"]},"kreise":kreise,"ov":ov,"region":region}
 s=json.dumps(data,ensure_ascii=False,separators=(",",":")); open("data_cz.json","w").write(s)
 print(round(len(s)/1e6,2),"MB",len(K))
 c=collections.Counter()

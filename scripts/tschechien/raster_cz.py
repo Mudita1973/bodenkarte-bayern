@@ -1,3 +1,4 @@
+import warnings; warnings.filterwarnings('ignore')
 import json, glob, numpy as np, rasterio, geopandas as gpd, pandas as pd, io, base64
 from rasterio import features
 from rasterio.warp import reproject, transform_bounds
@@ -25,8 +26,10 @@ for c in ORDER:
     print(c,len(geoms[c]),(lu==c).mean())
 # Region und Schlüssel
 keys=json.load(open("keys.json")); kix={k:i+1 for i,k in enumerate(keys)}
-b=gpd.read_file("ms/base.shp").to_crs(32633)
-K=features.rasterize(((g,kix[k]) for g,k in zip(b.geometry,b.key)),out_shape=(H,W),transform=tr,fill=0,dtype="int32")
+# ungeneralisierte Flächen (cz_poly2), nicht die vereinfachte Kartengeometrie
+u2=pd.read_parquet("cz_units2.parquet"); km={i:f"{r.leg}|{r.k}" for i,r in u2.iterrows()}
+b=gpd.read_parquet("cz_poly2.parquet").to_crs(32633)
+K=features.rasterize(((g,kix[km[uk]]) for g,uk in zip(b.geometry,b.ukey)),out_shape=(H,W),transform=tr,fill=0,dtype="int32")
 lu2=lu.copy(); lu2[K==0]=0
 m=K>0
 cnt=np.bincount(K[m].astype(np.int64)*16+lu2[m],minlength=(len(keys)+1)*16).reshape(-1,16)*R*R/1e6
