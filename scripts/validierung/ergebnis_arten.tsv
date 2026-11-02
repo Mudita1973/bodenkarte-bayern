@@ -1,0 +1,24 @@
+land	quelle	art	gruppe	n	sauer_faktor	basisch_faktor
+Bayern	LfU Waldwert	Amanita rubescens	ueberall	208	1.38	0.51
+Bayern	LfU Waldwert	Boletus edulis	sauer	153	2.02	0.24
+Bayern	LfU Waldwert	Boletus reticulatus	ueberall	26	2.31	0.48
+Bayern	LfU Waldwert	Cantharellus cibarius	sauer	52	1.81	0.48
+Bayern	LfU Waldwert	Craterellus tubaeformis	sauer	87	1.58	0.29
+Bayern	LfU Waldwert	Imleria badia	sauer	172	1.22	0.45
+Bayern	LfU Waldwert	Macrolepiota procera	ueberall	125	0.79	0.97
+Bayern	LfU Waldwert	Morchella	basisch	46	0.37	2.24
+Bayern	LfU Waldwert	Russula cyanoxantha	sauer	25	1.71	0.62
+Bayern	Thünen pH 0-30	Amanita rubescens	ueberall	194	1.26	0.73
+Bayern	Thünen pH 0-30	Boletus edulis	sauer	145	1.31	0.44
+Bayern	Thünen pH 0-30	Cantharellus cibarius	sauer	50	1.01	0.88
+Bayern	Thünen pH 0-30	Craterellus tubaeformis	sauer	85	1.47	0.4
+Bayern	Thünen pH 0-30	Imleria badia	sauer	164	1.28	0.72
+Bayern	Thünen pH 0-30	Macrolepiota procera	ueberall	113	0.95	1.13
+Bayern	Thünen pH 0-30	Morchella	basisch	37	0.22	2.51
+Westböhmen	ČGS-Bodenkarte	Amanita rubescens	ueberall	106	1.19	0.36
+Westböhmen	ČGS-Bodenkarte	Boletus edulis	sauer	96	1.43	0.4
+Westböhmen	ČGS-Bodenkarte	Boletus reticulatus	ueberall	27	0.21	1.4
+Westböhmen	ČGS-Bodenkarte	Cantharellus cibarius	sauer	43	1.56	0.88
+Westböhmen	ČGS-Bodenkarte	Gomphidius glutinosus	sauer	26	1.5	0.0
+Westböhmen	ČGS-Bodenkarte	Imleria badia	sauer	54	1.45	0.7
+Westböhmen	ČGS-Bodenkarte	Macrolepiota procera	ueberall	93	0.6	2.04

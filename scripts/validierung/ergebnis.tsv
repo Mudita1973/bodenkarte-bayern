@@ -1,0 +1,31 @@
+land	quelle	gruppe	auf	n	anteil_gruppe	anteil_alle	faktor	ki_lo	ki_hi
+Bayern	LfU Waldwert	sauer	sauer	504	38.5	23.3	1.65	1.46	1.85
+Bayern	LfU Waldwert	sauer	basisch	504	11.5	32.0	0.36	0.27	0.45
+Bayern	LfU Waldwert	ueberall	sauer	381	29.1	23.3	1.25	1.06	1.46
+Bayern	LfU Waldwert	ueberall	basisch	381	21.8	32.0	0.68	0.55	0.81
+Bayern	LfU Waldwert	basisch	sauer	78	11.5	23.3	0.49	0.22	0.81
+Bayern	LfU Waldwert	basisch	basisch	78	59.0	32.0	1.84	1.47	2.16
+Bayern	LfU Acker/Grünland	sauer	sauer	504	2.6	1.6	1.64	0.8	2.6
+Bayern	LfU Acker/Grünland	sauer	basisch	504	46.0	66.6	0.69	0.63	0.76
+Bayern	LfU Acker/Grünland	ueberall	sauer	381	0.5	1.6	0.33	0.0	0.86
+Bayern	LfU Acker/Grünland	ueberall	basisch	381	63.5	66.6	0.95	0.88	1.02
+Bayern	LfU Acker/Grünland	basisch	sauer	78	0.0	1.6	0.0	0.0	0.0
+Bayern	LfU Acker/Grünland	basisch	basisch	78	87.2	66.6	1.31	1.19	1.41
+Bayern	Gestein BAG500	sauer	sauer	513	49.7	29.3	1.7	1.55	1.85
+Bayern	Gestein BAG500	sauer	basisch	513	17.5	37.2	0.47	0.38	0.56
+Bayern	Gestein BAG500	ueberall	sauer	390	35.6	29.3	1.22	1.06	1.38
+Bayern	Gestein BAG500	ueberall	basisch	390	30.3	37.2	0.81	0.69	0.94
+Bayern	Gestein BAG500	basisch	sauer	93	15.1	29.3	0.51	0.29	0.78
+Bayern	Gestein BAG500	basisch	basisch	93	50.5	37.2	1.36	1.06	1.62
+Bayern	Thünen pH 0-30	sauer	sauer	483	65.0	49.6	1.31	1.22	1.4
+Bayern	Thünen pH 0-30	sauer	basisch	483	12.2	20.4	0.6	0.46	0.74
+Bayern	Thünen pH 0-30	ueberall	sauer	354	55.1	49.6	1.11	1.0	1.22
+Bayern	Thünen pH 0-30	ueberall	basisch	354	17.8	20.4	0.87	0.69	1.07
+Bayern	Thünen pH 0-30	basisch	sauer	63	20.6	49.6	0.42	0.22	0.62
+Bayern	Thünen pH 0-30	basisch	basisch	63	41.3	20.4	2.02	1.4	2.61
+Westböhmen	ČGS-Bodenkarte	sauer	sauer	251	50.6	35.8	1.41	1.24	1.6
+Westböhmen	ČGS-Bodenkarte	sauer	basisch	251	1.2	2.6	0.45	0.0	1.03
+Westböhmen	ČGS-Bodenkarte	ueberall	sauer	237	29.1	35.8	0.81	0.66	0.98
+Westböhmen	ČGS-Bodenkarte	ueberall	basisch	237	3.4	2.6	1.28	0.47	2.29
+Westböhmen	ČGS-Bodenkarte	basisch	sauer	14	7.1	35.8	0.2	0.0	0.61
+Westböhmen	ČGS-Bodenkarte	basisch	basisch	14	0.0	2.6	0.0	0.0	0.0

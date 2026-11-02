@@ -40,3 +40,8 @@ mapy.geology.cz, mze.gov.cz, ags.cuzk.gov.cz, atom.cuzk.cz, maps.isric.org, file
 - Gebäude: ZABAGED-Layer 99 (dlzab99.py, 2.099.794 Objekte, 714.538 im Gebiet) je Kachel gepuffert (6 m), vereinigt, zurückgenommen (-4 m) als Layer 99 „bebaute Fläche“ in lutiles; Kacheln 19,3 MB statt 12,0 MB.
 - Speicher (beide Karten, Handy): Daten aus Textelement statt JS-String, PNG/Bin nach Gebrauch frei, generalisierte Ebene erst beim Hineinzoomen und in Schritten, in der Detailansicht nach 2,5 s freigegeben; CZ-Generalisierung je Einheit und 0,27°×0,18°-Zelle gebündelt (6.286 statt 30.791 Objekte). JS-Heap Handy: Übersicht BY 155 → 23 MB, CZ 118 → 22 MB; Zoom 13 BY 162 → 45 MB, CZ 190 → 27 MB; Zoom 10 CZ 180 → 103 MB.
 - Offen: weiße Spalten zwischen ZABAGED-Flächen (je Fläche auf 15 m vereinfacht beim Download).
+
+## 2026-11-02: v11.8 / v1.4
+- Deckkraft je Ebene (Nutzung, Pilzböden, Hangrichtung, pH-Karte, Baumarten, Fundmeldungen) als Pane-Opacity, im Link als oe=; Standortknopf (watchPosition, nichts gespeichert).
+- ZABAGED neu mit maxAllowableOffset 3 m (dlzab3.py, zab3/, lutiles3_cz.py): weiße Spalten weg; Kacheln 27,2 MB.
+- Validierung (scripts/validierung): iNaturalist research grade, acc<=250 m, offen; ausgedünnt je Beobachter/Art/1-km-Zelle; Basis alle Pilzfunde. Bayern n=18.487: LfU-Waldwert sauer 1,65 (1,46-1,85), basisch 1,84 (1,47-2,16); BAG500 1,70/1,36; Thünen 0-30 1,31/2,02; LfU Acker für sauer ungeeignet. Westböhmen n=5.394: sauer 1,41 (1,24-1,60), basisch n=14 zu wenig.

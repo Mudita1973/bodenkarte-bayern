@@ -1,0 +1,138 @@
+{
+ "Cantharellus cibarius": {
+  "id": 47347,
+  "rank": "species",
+  "name": "Cantharellus cibarius",
+  "de": "Golden Chanterelle",
+  "grp": "sauer",
+  "obs": 16443
+ },
+ "Craterellus tubaeformis": {
+  "id": 350511,
+  "rank": "species",
+  "name": "Craterellus tubaeformis",
+  "de": "Yellowfoot",
+  "grp": "sauer",
+  "obs": 13286
+ },
+ "Imleria badia": {
+  "id": 510854,
+  "rank": "species",
+  "name": "Imleria badia",
+  "de": "Bay Bolete",
+  "grp": "sauer",
+  "obs": 15585
+ },
+ "Boletus edulis": {
+  "id": 48701,
+  "rank": "species",
+  "name": "Boletus edulis",
+  "de": "King Bolete",
+  "grp": "sauer",
+  "obs": 38825
+ },
+ "Russula cyanoxantha": {
+  "id": 194437,
+  "rank": "species",
+  "name": "Russula cyanoxantha",
+  "de": "Charcoal Burner",
+  "grp": "sauer",
+  "obs": 9002
+ },
+ "Gomphidius glutinosus": {
+  "id": 48424,
+  "rank": "species",
+  "name": "Gomphidius glutinosus",
+  "de": "Slimy Spike",
+  "grp": "sauer",
+  "obs": 4699
+ },
+ "Lactifluus volemus": {
+  "id": 1366740,
+  "rank": "complex",
+  "name": "Lactifluus volemus",
+  "de": null,
+  "grp": "ueberall",
+  "obs": 7195
+ },
+ "Craterellus cornucopioides": {
+  "id": 48607,
+  "rank": "species",
+  "name": "Craterellus cornucopioides",
+  "de": "Horn-of-plenty",
+  "grp": "ueberall",
+  "obs": 4347
+ },
+ "Macrolepiota procera": {
+  "id": 63401,
+  "rank": "species",
+  "name": "Macrolepiota procera",
+  "de": "Parasol",
+  "grp": "ueberall",
+  "obs": 37713
+ },
+ "Amanita rubescens": {
+  "id": 1678242,
+  "rank": "complex",
+  "name": "Amanita rubescens",
+  "de": "Blushing Amanitas",
+  "grp": "ueberall",
+  "obs": 68145
+ },
+ "Boletus reticulatus": {
+  "id": 350216,
+  "rank": "species",
+  "name": "Boletus reticulatus",
+  "de": "Summer Bolete",
+  "grp": "ueberall",
+  "obs": 7471
+ },
+ "Morchella": {
+  "id": 56830,
+  "rank": "genus",
+  "name": "Morchella",
+  "de": "true morels",
+  "grp": "basisch",
+  "obs": 65871
+ },
+ "Infundibulicybe geotropa": {
+  "id": 451026,
+  "rank": "species",
+  "name": "Infundibulicybe geotropa",
+  "de": "Trooping Funnel",
+  "grp": "basisch",
+  "obs": 5473
+ },
+ "Cantharellus pallens": {
+  "id": 626851,
+  "rank": "species",
+  "name": "Cantharellus pallens",
+  "de": null,
+  "grp": "basisch",
+  "obs": 1849
+ },
+ "Cantharellus ferruginascens": {
+  "id": 557140,
+  "rank": "species",
+  "name": "Cantharellus ferruginascens",
+  "de": "pale chanterelle",
+  "grp": "basisch",
+  "obs": 132
+ },
+ "Gomphus clavatus": {
+  "id": 54121,
+  "rank": "species",
+  "name": "Gomphus clavatus",
+  "de": "pig's ears",
+  "grp": "basisch",
+  "obs": 2858
+ },
+ "Tuber aestivum": {
+  "id": 352626,
+  "rank": "species",
+  "name": "Tuber aestivum",
+  "de": "Summer Truffle",
+  "grp": "basisch",
+  "obs": 185
+ }
+}
