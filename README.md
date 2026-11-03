@@ -55,3 +55,12 @@ Quellen und Lizenzen: ÜBK25, ÜMBK25, Bodenkennwerte und BAG500 © Bayerisches 
 
 Hinweis zu pH-Angaben dieser separaten Vergleichskarte: Aus Basensättigung abgeleitete pH-Bereiche sind Näherungen und keine amtlich gemessenen pH-Werte am ausgewählten Punkt. Die Hauptkarte zeigt davon getrennt ausdrücklich gekennzeichnete pH(H₂O)-Modellwerte aus SoilGrids mit Unsicherheitsintervall.
 
+
+## Nachbarkarten: Westböhmen (`dist/soilscapes-cz/`) und Baden-Württemberg (`dist/soilscapes-bw/`)
+
+Gleiche Oberfläche und gleiches Regelwerk wie die Soilscapes-Vergleichskarte Bayern; die Karten verlinken sich gegenseitig und übernehmen dabei Ausschnitt und Kategorien.
+
+- **Westböhmen** (https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/): Bodenkarte 1 : 50 000 der Tschechischen Geologischen Anstalt (ČGS), Nutzung aus ZABAGED und LPIS. Skripte in `scripts/tschechien/`.
+- **Baden-Württemberg** (https://mudita1973.github.io/bodenkarte-bayern/soilscapes-bw/): Bodenkarte 1 : 50 000 (BK50) des LGRB mit amtlichen Kennwerten (pH unter Wald und unter Acker/Grünland, Kalk, Bodenart, nutzbare Feldkapazität, Wasserdurchlässigkeit), Steckbrief-PDF je Kartiereinheit. Nutzung: CORINE 5 ha offline, ab Zoomstufe 13 online ATKIS Basis-DLM (INSPIRE-Bodenbedeckung, LGL) und ab 14 die Schläge des Agrarantrags (FIONA 2022). Skripte in `scripts/bawue/`.
+
+Quellen und Lizenzen Baden-Württemberg: Bodenkarte: Datenquelle: Regierungspräsidium Freiburg - LGRB, www.lgrb-bw.de, Datenlizenz Deutschland - Namensnennung - 2.0 (verändert: in Vergleichskategorien eingeteilt, Linien vereinfacht); ATKIS Basis-DLM und DOP20 © LGL, www.lgl-bw.de, dl-de/by-2-0; FIONA © Ministerium für Ländlichen Raum und Verbraucherschutz Baden-Württemberg, dl-de/by-2-0; CORINE Land Cover 5 ha 2021 und DGM200 © GeoBasis-DE / BKG 2026 (Daten verändert).

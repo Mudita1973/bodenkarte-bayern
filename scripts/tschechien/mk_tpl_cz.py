@@ -51,10 +51,10 @@ rex(r'<p class="src">Boden: ÜBK25.*?</p>',
  '<p class="src">'+SRC_ATTR+' Nutzung (ZABAGED), Höhe (DMR 4G), Bezirksgrenzen (RÚIAN), Hintergrund ZTM und Ortofoto: © ČÚZK, CC BY 4.0 (Nutzung zu 9 Gruppen zusammengefasst, Gebäude zu bebauten Flächen verschmolzen, Linien vereinfacht, Höhe vergröbert). Feldblöcke: LPIS © Ministerstvo zemědělství ČR. Ortssuche und Ersatzkarte: © OpenStreetMap-Mitwirkende (ODbL). Luftbild Esri: © Esri, Maxar, Earthstar Geographics. Kategorien: eigene Auswertung nach „Soilscapes-Klassen in deutsche Bodentypen (KA5) übertragen“.</p>')
 rep('<div id="printHead"><h2>Bodenkarte Bayern: Soilscapes-Vergleich</h2>','<div id="printHead"><h2>Bodenkarte Westböhmen: Soilscapes-Vergleich</h2>')
 
-rep('<a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/" target="_blank" rel="noopener">Nachbarkarte: Bodenkarte Westböhmen (Tschechien) →</a>',
-    '<a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/" target="_blank" rel="noopener">Nachbarkarte: Bodenkarte Bayern →</a>')
-rep('const OTHER_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/", OTHER_BB=[48.55,12.09,50.46,15.60], OTHER_C="49.50%2C13.85&z=8", OTHER_LU={gw:"gs",gm:"gs",gp:"gs",gs:"gs",wl:"wm",wn:"wm",wm:"wm",oh:""};',
-    'const OTHER_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/", OTHER_BB=[47.27,8.97,50.57,13.84], OTHER_C="48.95%2C11.40&z=7", OTHER_LU={gs:"gw.gm.gp.gs",wm:"wl.wn.wm"};')
+rep('Nachbarkarten: <a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/" target="_blank" rel="noopener">Westböhmen (Tschechien) →</a> · <a id="otherMap2" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-bw/" target="_blank" rel="noopener">Baden-Württemberg →</a> öffnen denselben Ausschnitt mit denselben Kategorien.',
+    'Nachbarkarte: <a id="otherMap" href="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/" target="_blank" rel="noopener">Bodenkarte Bayern →</a> öffnet denselben Ausschnitt mit denselben Kategorien.')
+rex(r'const OTHERS=\[\{id:"otherMap".*?\}\];',
+    'const OTHERS=[{id:"otherMap",url:"https://mudita1973.github.io/bodenkarte-bayern/soilscapes/",bb:[47.27,8.97,50.57,13.84],c:"48.95%2C11.40&z=7",lu:{gs:"gw.gm.gp.gs",wm:"wl.wn.wm"}}];')
 # ---- Konstanten ----
 rep('const PAGES_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes/";','const PAGES_URL="https://mudita1973.github.io/bodenkarte-bayern/soilscapes-cz/";')
 rep('const STORE_KEY = "bodenkarte_bayern_v3";','const STORE_KEY = "bodenkarte_westboehmen_v1";')

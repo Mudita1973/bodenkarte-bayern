@@ -1,0 +1,25 @@
+quelle	gruppe	auf	n	anteil_gruppe	anteil_alle	faktor	ki_lo	ki_hi
+BK50 Wald	sauer	sauer	332	84.9	56.0	1.52	1.44	1.59
+BK50 Wald	sauer	basisch	332	2.4	21.0	0.11	0.04	0.2
+BK50 Wald	ueberall	sauer	387	72.4	56.0	1.29	1.21	1.38
+BK50 Wald	ueberall	basisch	387	13.2	21.0	0.63	0.47	0.79
+BK50 Wald	basisch	sauer	91	27.5	56.0	0.49	0.33	0.67
+BK50 Wald	basisch	basisch	91	41.8	21.0	1.99	1.51	2.48
+BK50 Wald, nur unter pH 4	sauer	sauer	315	48.9	31.6	1.55	1.36	1.74
+BK50 Wald, nur unter pH 4	sauer	basisch	332	2.4	21.0	0.11	0.04	0.2
+BK50 Wald, nur unter pH 4	ueberall	sauer	357	32.8	31.6	1.04	0.89	1.21
+BK50 Wald, nur unter pH 4	ueberall	basisch	387	13.2	21.0	0.63	0.46	0.78
+BK50 Wald, nur unter pH 4	basisch	sauer	64	7.8	31.6	0.25	0.05	0.46
+BK50 Wald, nur unter pH 4	basisch	basisch	91	41.8	21.0	1.99	1.51	2.46
+BK50 Acker/Grünland	sauer	sauer	332	36.7	21.9	1.68	1.45	1.92
+BK50 Acker/Grünland	sauer	basisch	332	3.9	23.8	0.16	0.09	0.26
+BK50 Acker/Grünland	ueberall	sauer	387	24.0	21.9	1.1	0.91	1.29
+BK50 Acker/Grünland	ueberall	basisch	387	18.1	23.8	0.76	0.6	0.92
+BK50 Acker/Grünland	basisch	sauer	91	8.8	21.9	0.4	0.15	0.69
+BK50 Acker/Grünland	basisch	basisch	91	48.4	23.8	2.03	1.6	2.46
+Thünen pH 0-30	sauer	sauer	319	83.7	61.6	1.36	1.29	1.43
+Thünen pH 0-30	sauer	basisch	319	2.8	15.5	0.18	0.08	0.31
+Thünen pH 0-30	ueberall	sauer	357	68.9	61.6	1.12	1.04	1.2
+Thünen pH 0-30	ueberall	basisch	357	9.8	15.5	0.63	0.44	0.84
+Thünen pH 0-30	basisch	sauer	76	35.5	61.6	0.58	0.41	0.76
+Thünen pH 0-30	basisch	basisch	76	22.4	15.5	1.45	0.86	2.05
